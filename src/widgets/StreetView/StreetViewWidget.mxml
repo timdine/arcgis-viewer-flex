@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+///////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010-2011 Esri. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+///////////////////////////////////////////////////////////////////////////
+-->
+<viewer:BaseWidget xmlns:fx="http://ns.adobe.com/mxml/2009"
+                   xmlns:s="library://ns.adobe.com/flex/spark"
+                   xmlns:mx="library://ns.adobe.com/flex/mx"
+                   xmlns:viewer="com.esri.viewer.*"
+				   xmlns:esri="http://www.esri.com/2008/ags"
+                   widgetConfigLoaded="init()">
+    <fx:Script>
+        <![CDATA[
+			import com.esri.ags.Graphic;
+			import com.esri.ags.Map;
+			import com.esri.ags.SpatialReference;
+			import com.esri.ags.events.DrawEvent;
+			import com.esri.ags.events.GeometryServiceEvent;
+			import com.esri.ags.geometry.Geometry;
+			import com.esri.ags.geometry.MapPoint;
+			import com.esri.ags.layers.GraphicsLayer;
+			import com.esri.ags.symbols.PictureMarkerSymbol;
+			import com.esri.ags.tasks.supportClasses.ProjectParameters;
+			import com.esri.ags.tools.DrawTool;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.DragSource;
+			import mx.core.FlexGlobals;
+			import mx.events.DragEvent;
+			import mx.managers.DragManager;
+			
+			import spark.components.Application;
+            
+			[Bindable] private var app:String;
+			[Bindable] private var desc:String;
+			[Bindable] private var streetIcon:String;
+			[Bindable] private var mapIcon:String;
+			[Bindable] private var StreetviewgraphicsLayer:GraphicsLayer;
+			[Bindable] [Embed("assets/images/Cursor.png")] 
+			private var pointer:Class;
+			
+			private var g_Street:Graphic;
+			private var heading:String="0";
+			
+			//this function called when the widget's configuration is loaded
+            private function init():void
+            {
+				app = FlexGlobals.topLevelApplication.name;
+                if (configXML) // checking for valid content in the configuration file
+                {
+					desc = configXML.description;
+					streetIcon = configXML.icon;
+					mapIcon = configXML.mapIcon;
+					
+                }
+				
+            }
+			private function onStreetviewActivate(event:MouseEvent):void
+			{
+				var theGoogleGuy:PictureMarkerSymbol = new PictureMarkerSymbol(mapIcon);
+				selectDrawTool.markerSymbol = theGoogleGuy;
+				selectDrawTool.activate(DrawTool.MAPPOINT);
+			}
+			protected function DrawTool_drawEndHandler(event:DrawEvent):void
+			{
+				selectDrawTool.deactivate();
+				clear();
+				
+				if (event.graphic.geometry.type == Geometry.MAPPOINT)
+				{
+					var pt:MapPoint = event.graphic.geometry as MapPoint;
+					
+					ExternalInterface.call("initialize_container");
+					
+					var outSR:SpatialReference = new SpatialReference(4326);
+					const projectParameters:ProjectParameters = new ProjectParameters;
+					projectParameters.geometries = [pt as Geometry];
+					projectParameters.outSpatialReference = outSR;
+					geometryService.addEventListener(GeometryServiceEvent.PROJECT_COMPLETE,projecttoGoogle);
+					geometryService.project(projectParameters);
+					
+					
+					var theGoogleGuy:PictureMarkerSymbol = new PictureMarkerSymbol(mapIcon);
+					g_Street = new Graphic(pt,theGoogleGuy,null);
+					g_Street.useHandCursor=true;
+					g_Street.addEventListener(MouseEvent.MOUSE_MOVE,streetGuyMoveHandler);
+					g_Street.addEventListener(MouseEvent.MOUSE_OVER,onGraphicRollOver);
+					g_Street.addEventListener(MouseEvent.MOUSE_OUT,onGraphicRollOut);
+					
+					StreetviewgraphicsLayer.add(g_Street);
+					//
+					map.addEventListener(DragEvent.DRAG_ENTER,dragEnterHandler);
+					map.addEventListener(DragEvent.DRAG_DROP,dragDropHandler);
+				}
+			}
+			private function streetGuyMoveHandler(event:MouseEvent):void 
+			{                
+				var dragInitiator:Graphic=Graphic(event.currentTarget);
+				var ds:DragSource = new DragSource();
+				ds.addData(dragInitiator, "gra");               
+				//
+				var imageProxy:Image = new Image();
+				imageProxy.source = mapIcon;
+				imageProxy.height=18;
+				imageProxy.width=18;
+				imageProxy.rotation=20;
+				//
+				DragManager.doDrag(dragInitiator, ds, event,imageProxy,-17,-7,0.8);
+			}
+			private function onGraphicRollOver(event:MouseEvent):void
+			{
+				cursorManager.setCursor(pointer,2,0,0);
+			}
+			private function onGraphicRollOut(event:MouseEvent):void
+			{
+				cursorManager.removeAllCursors();
+			}
+			private function dragEnterHandler(event:DragEvent):void {
+				if (event.dragSource.hasFormat("gra"))
+				{
+					DragManager.acceptDragDrop(event.currentTarget as Map);
+				}
+			}
+			private function dragDropHandler(event:DragEvent):void {
+				var pt:MapPoint = map.toMapFromStage(event.stageX, event.stageY);
+				map.centerAt(pt);
+				
+				var outSR:SpatialReference = new SpatialReference(4326);
+				const projectParameters:ProjectParameters = new ProjectParameters;
+				projectParameters.geometries = [pt as Geometry];
+				projectParameters.outSpatialReference = outSR;
+				geometryService.addEventListener(GeometryServiceEvent.PROJECT_COMPLETE,projecttoGoogle);
+				geometryService.project(projectParameters);
+
+				g_Street.geometry = pt;
+			}
+			private function clear():void
+			{
+				StreetviewgraphicsLayer.clear();
+			}
+			private function projecttoMap(event:GeometryServiceEvent):void
+			{
+				try{
+					var pt:MapPoint = (event.result as Array)[0] as MapPoint;
+					if (pt)
+					{
+						var spt:MapPoint = g_Street.geometry as MapPoint;
+						var img:Image = new Image();
+						img.source = mapIcon;
+						var theGoogleGuy:PictureMarkerSymbol = new PictureMarkerSymbol(img.source,img.width,img.height,img.width/2,img.height/2,Number(heading));
+						g_Street.symbol = theGoogleGuy;
+						if (pt.x != spt.x && pt.y != spt.y)
+						{
+							map.centerAt(pt);
+							g_Street.geometry = pt;
+						}
+					}
+				}catch(err:Error){
+					Alert.show(err.toString());
+				}
+				geometryService.removeEventListener(GeometryServiceEvent.PROJECT_COMPLETE,projecttoMap);
+			}
+			private function projecttoGoogle(event:GeometryServiceEvent):void
+			{
+				try
+				{
+					var pt:MapPoint = (event.result as Array)[0]as MapPoint;
+					ExternalInterface.call("initialize_streetview",pt.y,pt.x,Number(heading));
+				}catch (error:Error){
+					Alert.show(error.toString());
+				}
+				geometryService.removeEventListener(GeometryServiceEvent.PROJECT_COMPLETE,projecttoGoogle);
+			}
+			private function onFault(info:Object, token:Object = null):void
+			{
+				Alert.show(info.toString());
+			}
+			public function flashInterface(lat:String,long:String,head:String):void
+			{
+				try{
+					if (lat)
+					{
+						heading=head;
+						var pt:MapPoint = new MapPoint(Number(long),Number(lat),new SpatialReference(4326));
+
+						const projectParameters:ProjectParameters = new ProjectParameters;
+						projectParameters.geometries = [pt as Geometry];
+						projectParameters.outSpatialReference = map.spatialReference;
+						geometryService.addEventListener(GeometryServiceEvent.PROJECT_COMPLETE,projecttoMap);
+						geometryService.project(projectParameters);
+
+					}		
+				}catch(err:Error){
+					Alert.show(err.toString());
+				}
+			}
+			private function widgetOpenedHandler(event:Event):void
+			{
+				flash.external.ExternalInterface.addCallback("theFlexFunction",flashInterface);	
+				
+				if (!StreetviewgraphicsLayer)
+				{
+					StreetviewgraphicsLayer=new GraphicsLayer();
+					map.addLayer(StreetviewgraphicsLayer);	
+				}
+				else{
+					StreetviewgraphicsLayer.visible=true;
+					ExternalInterface.call("restoreStreetview");
+					//clear();
+				}
+			}
+			private function widget_MinimizedHandler(event:Event):void
+			{
+				
+				StreetviewgraphicsLayer.visible=false;
+				ExternalInterface.call("minimizeStreetview");
+				setMapNavigation(null, null);
+			}
+			private function widgetClosed_MinimizedHandler(event:Event):void
+			{
+				map.removeEventListener(DragEvent.DRAG_ENTER,dragEnterHandler);
+				map.removeEventListener(DragEvent.DRAG_DROP,dragDropHandler);
+				//
+				ExternalInterface.call("removeStreetview");
+				clear();
+				setMapNavigation(null, null);
+				map.removeLayer(StreetviewgraphicsLayer);
+				StreetviewgraphicsLayer=null;
+			}
+        ]]>
+    </fx:Script>
+	<fx:Declarations>
+		<esri:DrawTool id="selectDrawTool" drawEnd="DrawTool_drawEndHandler(event)" graphicsLayer="{StreetviewgraphicsLayer}" map="{map}" />
+		<esri:GeometryService id="geometryService"
+							  concurrency="last"
+							  fault="onFault(event)"
+							  url="http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer"/>	
+		
+	</fx:Declarations>
+    <viewer:WidgetTemplate id="wTemplate"
+						   width="250" height="150"
+						   closed="widgetClosed_MinimizedHandler(event)"
+						   open="widgetOpenedHandler(event)"
+						   minimized="widget_MinimizedHandler(event)">
+		
+        <s:HGroup height="100%" width="100%" gap="2" verticalAlign="middle" horizontalAlign="center">
+			<s:Label text="{desc}" height="100%" width="100%"/>
+			<s:Image source="{streetIcon}" buttonMode="true" toolTip="Start by clicking me." click="onStreetviewActivate(event);" />			
+		</s:HGroup>
+
+	</viewer:WidgetTemplate>
+</viewer:BaseWidget>

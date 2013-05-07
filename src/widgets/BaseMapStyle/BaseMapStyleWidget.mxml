@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<viewer:BaseWidget xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:viewer="com.esri.viewer.*"
+				   creationComplete="init()"				   
+				   >
+	<fx:Script>
+		<![CDATA[
+			import com.esri.ags.layers.ArcGISTiledMapServiceLayer;
+			import com.esri.ags.layers.Layer;
+			
+			import flash.events.Event;
+			
+			import mx.controls.Alert;
+			
+			import spark.filters.ColorMatrixFilter; 
+			
+			private var baseStyle:String = "Default";
+			
+			private var matrix:Array = new Array();
+			
+			//Resources
+			[Embed(source="assets/images/i_about.png")]
+			private var iconClass:Class;
+			
+			
+			private function init():void
+			{
+				wTemplate.header.addEventListener(MouseEvent.CLICK, DisplayVersion);
+			}
+			
+			private function handleChange(event:Event):void
+			{
+				baseStyle = event.currentTarget.label;
+				handleChange2();
+			}
+			
+			
+			private function handleChange2():void
+			{
+				//baseStyle = event.currentTarget.label;
+				switch(baseStyle)
+				{
+					case "Default":
+						matrix = [
+							1.00,	0.00,	0.00,	0.00,	0.00,	
+							0.00,	1.00,	0.00,	0.00,	0.00,	
+							0.00,	0.00,	1.00,	0.00,	0.00,	
+							0.00,	0.00,	0.00,	1.00,	0.00
+						];
+						break;
+					case "Gray Scale":
+						matrix = [
+							0.21,	0.72,	0.07,	0.00,	0.00,	
+							0.21,	0.72,	0.07,	0.00,	0.00,	
+							0.21,	0.72,	0.07,	0.00,	0.00,	
+							0.00,	0.00,	0.00,	1.00,	0.00
+						];
+						break;
+					case "Desaturated":
+						matrix = [
+							0.65,	0.22,	0.22,	0.00,	0.00,	
+							0.22,	0.65,	0.22,	0.00,	0.00,	
+							0.22,	0.22,	0.65,	0.00,	0.00,	
+							0.00,	0.00,	0.00,	1.00,	0.00
+						];
+						break;
+					case "Blank":
+						matrix = [
+							0.00,	0.00,	0.00,	0.00,	0.00,	
+							0.00,	0.00,	0.00,	0.00,	0.00,	
+							0.00,	0.00,	0.00,	0.00,	0.00,	
+							0.00,	0.00,	0.00,	0.00,	0.00
+						];	
+						break;
+				}
+				for each (var layer:Layer in map.layers)
+				{
+					if (layer is ArcGISTiledMapServiceLayer)
+					{
+						var colorMatrixFilter: spark.filters.ColorMatrixFilter = new spark.filters.ColorMatrixFilter(matrix)
+						layer.filters = [colorMatrixFilter];
+					}
+				}
+			}	
+			
+			private function DisplayVersion(evt:MouseEvent):void
+			{
+				if(evt.altKey){
+					Alert.show("Base Map Style Widget Version: 3.1.1\nBuild Date: 28 Jan 2013",
+						wTemplate.widgetTitle, 4, null, null, iconClass);
+				}
+			}
+		]]>
+		
+	</fx:Script>
+	<viewer:WidgetTemplate id="wTemplate" width="200" height="170">
+		<s:VGroup>
+			<s:Label text="Select Basemap Style:"/>
+			<s:RadioButton groupName="BaseEffect" 
+						   id="Default"
+						   label="Default"
+						   width="150" selected="true"
+						   click="handleChange(event)" />
+			<s:RadioButton groupName="BaseEffect" 
+						   id="GrayScale"
+						   label="Gray Scale"
+						   width="150"
+						   click="handleChange(event)" />
+			<s:RadioButton groupName="BaseEffect" 
+						   id="Desaturated"
+						   label="Desaturated"
+						   width="150"
+						   click="handleChange(event)" />
+			<s:RadioButton groupName="BaseEffect" 
+						   id="Blank"
+						   label="Blank"
+						   width="150"
+						   click="handleChange(event)" />
+		</s:VGroup>
+	</viewer:WidgetTemplate>	
+</viewer:BaseWidget>

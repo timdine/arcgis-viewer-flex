@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<configuration>
+	<imgdefaultname>MapSnapshot</imgdefaultname>
+	<!-- for uncompiled version : please have a look at the ReadMe file if you enable the zip compression -->
+	<zipsaveenabled>true</zipsaveenabled>
+	<labels>
+		<!-- default labels are set to  
+			<snapshotlabel>Snapshot</snapshotlabel>
+			<optionslabel>Options</optionslabel>
+			<snapshottxt>Use the blue rectangle tool to select a map area and click the save button. Or just click the save button to copy the entire map.</snapshottxt>
+			<optionstxt>Choose image file options</optionstxt>
+			<savebuttonlabel>Save</savebuttonlabel>
+			<clearbuttonlabel>Reset</clearbuttonlabel>
+			<rectanglelabel>Select map area</rectanglelabel>
+			<quallabel>JPEG Quality</quallabel>
+			<imageformatlabel>Image format</imageformatlabel>
+			<ziplabel>Save as zip file with world file\n (Geolocation)</ziplabel>
+			-->
+	</labels>
+	<!-- other configuration parameters
+	<widgetautoresize>true</widgetautoresize>		
+	<widgetmaxresizewidth>600</widgetmaxresizewidth>
+	<widgetmaxresizeheight>400</widgetmaxresizeheight>
+	<prjfilesdir>widgets/Snapshot/PrjFiles/</prjfilesdir>-->		
+</configuration>

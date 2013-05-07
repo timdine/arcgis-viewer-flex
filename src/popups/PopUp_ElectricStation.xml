@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<configuration>
+    <title>{NAME}   {FACILITYID}</title>     
+    <fields>
+	<field name="NAME" alias="Name" visible="true"/>
+	<field name="FACILITYID" alias="Facility ID" visible="true"/>
+	<field name="STATIONNUMBER" alias="Station Number" visible="true"/>
+	<field name="OPERATINGAREA" alias="Operating Area" visible="true"/>
+	<field name="LABELTEXT" alias="LabelText" visible="true"/>
+	<field name="URL" alias="URL" visible="true"/>
+    </fields>
+    <showattachments>true</showattachments>  
+</configuration>
+
+<!--
+    Pop-up configuration file for:
+    http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer/0
+-->

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<configuration>
+    <title>{STORM_NAME}</title>     
+    <fields>
+	<field name="STORM_NAME" alias="Storm Name" visible="true"/>
+	<field name="WIND_SPEED_MPH" alias="Wind Speed Mph" visible="true"/>
+	<field name="WIND_GUSTS_MPH" alias="Wind Gust Mph" visible="true"/>
+	<field name="TRACK_SPEED_MPH" alias="Track Mph" visible="true"/>
+	<field name="STORM_STATUS" alias="Storm Status" visible="true"/>
+	<field name="SEVERITY" alias="Severity" visible="true"/>
+    </fields>
+    <showattachments>true</showattachments>  
+</configuration>
+
+<!--
+    Pop-up configuration file for:
+    http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer/0
+-->

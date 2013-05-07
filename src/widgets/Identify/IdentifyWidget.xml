@@ -1,0 +1,266 @@
+﻿<?xml version="1.0"?>
+<configuration>
+	<identifylayeroption>visible</identifylayeroption>
+	<identifytolerance>5</identifytolerance>
+	<defaultzoomscale>5000</defaultzoomscale>
+	<keepidentifyactive>true</keepidentifyactive>
+	<returngeometryforzoom>true</returngeometryforzoom>
+	<enablelineselect>true</enablelineselect>
+	<enableextentselect>true</enableextentselect>
+	<enablepolyselect>true</enablepolyselect>
+	<enablemouseovergraphicsinfo>false</enablemouseovergraphicsinfo>
+	<enablemouseoverrecordinfo>false</enablemouseoverrecordinfo>
+	<enablegraphicclickinfo>false</enablegraphicclickinfo>
+	<usemaptime>false</usemaptime>
+	<infoautoclosemilliseconds>2000</infoautoclosemilliseconds><!-- 2 seconds -->
+	<autoactivatedtool>mappoint</autoactivatedtool><!-- possible values are extent or polygon or mappoint or polyline or nothing -->
+	<excludebasemaps>true</excludebasemaps>
+	<disablepopuplinks>false</disablepopuplinks>
+	<disablelayerdropdown>false</disablelayerdropdown>
+	<disablealllayerschoice>false</disablealllayerschoice>
+	<labels>
+		<zoom2message>Click to Zoom to Point</zoom2message>
+		<identifylabel>Identify</identifylabel>
+		<resultslabel>Results</resultslabel>
+		<descriptionlabel>Use the identify tool to identify features on the map:</descriptionlabel>
+		<pointlabel>Identify by Point</pointlabel>
+		<linelabel>Identify by Polyline</linelabel>
+		<rectlabel>Identify by Rectangle</rectlabel>
+		<polylabel>Identify by Polygon</polylabel>
+		<clearlabel>Clear</clearlabel>
+		<loadinglabel>Loading...</loadinglabel>
+		<removeresultmessage>Remove Result</removeresultmessage>
+		<idfrom>Identify From</idfrom>
+		<noresultsfoundlabel>No Results Found</noresultsfoundlabel>
+		<resultsfoundlabel>Results Found</resultsfoundlabel>
+		<alllayers>All Layers</alllayers>
+		<layersremaining>layers remaining:</layersremaining>
+	</labels>
+	<useproxy>
+		<!-- Enter the label of the MapService from the main config.xml -->
+		<!--<proxymapservice label="Imagery" />
+		<proxymapservice label="Streets" />-->
+	</useproxy>
+	<layers onlythese="false">
+		<layer>
+			<name>AGO Organizational Layer</name>
+			<id>0</id>
+			<url>http://services.arcgis.com/EguFTd9xPXEoDtC7/ArcGIS/rest/services/Polygons/FeatureServer</url>
+			<fields>
+				<field name="FID"
+					   alias="Feature ID"/>
+				<field name="Title "
+					   alias="Title "/>
+				<field name="FullDescri"
+					   alias="Full Description"/>
+				<field name="Website"/>
+				<field name="Location"/>
+			</fields>
+			<links>
+				<link includeinresults="false"
+					  field="Website"
+					  alias="View Website"
+					  tooltip="Click to View Website">
+					<linkprefix/>
+					<linksuffix/>
+					<iconfield/>
+					<iconprefix/>
+					<iconsuffix/>
+				</link>
+			</links>
+			<zoomscale>15000</zoomscale>
+			<forcescale>true</forcescale>
+		</layer>
+		<layer>
+			<name>Zoning</name>
+			<id>2</id>
+			<url>http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_LandRecords_Louisville/MapServer</url>
+			<fields>
+				<field name="ZONING_NAME"
+					   alias="Zoning Name"/>
+				<field name="ZONING_TYPE"
+					   alias="Zoning Type"
+					   popuponly="true"/>
+			</fields>
+			<links>
+				<link includeinresults="false"
+					  field=""
+					  alias=""
+					  tooltip="">
+                    <linkprefix/>
+                    <linksuffix/>
+                    <iconfield/>
+                    <iconprefix/>
+                    <iconsuffix/>
+				</link>
+			</links>
+			<zoomscale>15000</zoomscale>
+			<forcescale>true</forcescale>
+		</layer>
+		<layer>
+			<name>Land Use</name>
+			<id>1</id>
+			<url>http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_LandRecords_Louisville/MapServer</url>
+			<fields>
+				<field name="LANDUSE_NAME"
+					   alias="Landuse Name"/>
+			</fields>
+			<links>
+				<link includeinresults="false"
+					  field=""
+					  alias=""
+					  tooltip="">
+                    <linkprefix/>
+                    <linksuffix/>
+                    <iconfield/>
+                    <iconprefix/>
+                    <iconsuffix/>
+				</link>
+			</links>
+			<zoomscale>15000</zoomscale>
+			<forcescale>true</forcescale>
+		</layer>
+		<layer>
+			<name>Traffic Cameras</name>
+			<id>2</id>
+			<url>http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_PublicSafety_Louisville/MapServer</url>
+			<fields>
+				<field name="ONLINE"
+					   alias="Camera Online"/>
+				<field name="DESCRIPTION"
+					   alias="Description"
+					   popuponly="true"/>
+				<field name="LAST_UPDATED"
+					   alias="Last Updated"
+					   popuponly="true"/>
+				<field name="URL"
+					   alias="URL"
+					   popuponly="true"/>
+			</fields>
+			<links>
+				<link includeinresults="false"
+					  field="URL"
+					  alias=""
+					  tooltip="View Traffic Image">
+                    <linkprefix/>
+                    <linksuffix/>
+                    <iconfield/>
+                    <iconprefix/>
+					<iconsuffix>http://help.arcgis.com/en/webapps/flexviewer/live/assets/images/i_camera.png</iconsuffix>
+				</link>
+			</links>
+			<zoomscale>2000</zoomscale>
+			<forcescale>true</forcescale>
+		</layer>
+		<layer>
+			<name>Police Stations</name>
+			<id>3</id>
+			<url>http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_PublicSafety_Louisville/MapServer</url>
+			<fields>
+				<field name="NAME"
+					   alias="Name"/>
+				<field name="ADDRESS"
+					   alias="Address"/>
+			</fields>
+			<links>
+				<link includeinresults="false"
+					  field=""
+					  alias=""
+					  tooltip="">
+                    <linkprefix/>
+                    <linksuffix/>
+                    <iconfield/>
+                    <iconprefix/>
+                    <iconsuffix/>
+				</link>
+			</links>
+			<zoomscale>2000</zoomscale>
+			<forcescale>true</forcescale>
+		</layer>
+		<layer>
+			<name>Emergency Sirens</name>
+			<id>0</id>
+			<url>http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_PublicSafety_Louisville/MapServer</url>
+			<fields>
+				<field name="LOCAL"
+					   alias="Local"/>
+				<field name="ADDRESS"
+					   alias="Address"/>
+			</fields>
+			<links>
+				<link includeinresults="false"
+					  field=""
+					  alias=""
+					  tooltip="">
+                    <linkprefix/>
+                    <linksuffix/>
+                    <iconfield/>
+                    <iconprefix/>
+                    <iconsuffix/>
+				</link>
+			</links>
+			<zoomscale>2000</zoomscale>
+			<forcescale>true</forcescale>
+		</layer>
+		<layer>
+			<name>Fire Stations</name>
+			<id>1</id>
+			<url>http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_PublicSafety_Louisville/MapServer</url>
+			<fields>
+				<field name="NAME"
+					   alias="Name"/>
+				<field name="ADDRESS"
+					   alias="Address"/>
+				<field name="LFD_DIST"
+					   alias="Louiseville Fire District"/>
+			</fields>
+			<links>
+				<link includeinresults="false"
+					  field=""
+					  alias=""
+					  tooltip="">
+                    <linkprefix/>
+                    <linksuffix/>
+                    <iconfield/>
+                    <iconprefix/>
+                    <iconsuffix/>
+				</link>
+			</links>
+			<zoomscale>2000</zoomscale>
+			<forcescale>true</forcescale>
+		</layer>
+		<excludelayer url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_LandRecords_Louisville/MapServer"
+					  id="0"/>
+		<!-- <excludelayer url="http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_LandRecords_Louisville/MapServer" id="2"/> -->
+	</layers>
+
+	<symbols>
+		<simplefillsymbol color="0x448ccb"
+						  alpha="0.4"
+						  style="solid">
+			<outline color="0x448ccb"
+					 alpha="0.8"
+					 width="2"/>
+		</simplefillsymbol>
+		<simplemarkersymbol style="circle"
+							size="12"
+							color="0x448ccb"
+							alpha="0.8"
+							xoffset="0"
+							yoffset="0"
+							angle="0">
+			<outline style="solid"
+					 color="0xffffff"
+					 alpha="0.8"
+					 width="1"/>
+		</simplemarkersymbol>
+		<picturemarkersymbol url="assets/images/i_info.png"
+							 height="30"
+							 width="30"
+							 xoffset="0"
+							 yoffset="0"/>
+		<simplelinesymbol color="0x448ccb"
+						  alpha="0.8"
+						  width="2"/>
+	</symbols>
+</configuration>

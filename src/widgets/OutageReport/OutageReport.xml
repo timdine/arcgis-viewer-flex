@@ -1,0 +1,5 @@
+<configuration>
+
+    <outageReportURL>http://emagisrr01/ArcGIS/rest/services/OutageServiceToolbox/GPServer/outageSummaryScriptProd</outageReportURL>
+	<outageReportRefreshRate>15</outageReportRefreshRate>
+</configuration>

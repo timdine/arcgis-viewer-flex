@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<configuration>
+    <title>{Region}   {MAPSHEETNAME}</title>     
+    <fields>
+	<field name="NAME" alias="Name" visible="true"/>
+<!--	
+	<field name="LOCATION" alias="Location" visible="true"/>
+	<field name="SUB" alias="Sub" visible="true"/>
+	<field name="DEPOT" alias="Depot" visible="true"/>
+	<field name="HOTLINK" alias="Link" visible="true"/>
+	<field name="MAPGRIDNAME" alias="Map Grid Name" visible="true"/>
+	<field name="MAPSHEETNAME" alias="Map Sheet Name" visible="true"/>
+	<field name="SUBTYPECD" alias="Subtype" visible="true"/>
+-->
+	<field name="FORECAST" alias="Forecast URL" visible="true"/>
+    </fields>
+    <showattachments>true</showattachments>  
+</configuration>
+
+<!--
+    Pop-up configuration file for:
+    http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer/0
+-->

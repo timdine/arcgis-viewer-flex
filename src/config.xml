@@ -7,9 +7,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 -->
 <configuration>
-    <title>ArcGIS Viewer for Flex</title>
-    <subtitle>a configurable web mapping application</subtitle>
-    <logo>assets/images/logo.png</logo>
+    <title></title>
+    <subtitle></subtitle>
+    <logo></logo>
     <style>
         <colors>0xFFFFFF,0x333333,0x101010,0x000000,0xFFD700</colors>
         <alpha>0.8</alpha>
@@ -17,61 +17,168 @@
     <!-- replace the following url with your own geometryservice -->
     <geometryservice url="http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer" />
 
+	<httpproxy>/Proxy/proxy.ashx</httpproxy>
+
     <!-- UI elements -->
-    <widget left="10"  top="50"    config="widgets/Navigation/NavigationWidget.xml" url="widgets/Navigation/NavigationWidget.swf"/>
+    <!--<widget left="1"  top="48"    config="widgets/RotateWidget/RotateWidget.xml" url="widgets/RotateWidget/RotateWidget.swf"/>
+    <widget left="10"  top="57"    config="widgets/Navigation_rotate/NavigationWidget.xml" url="widgets/Navigation_rotate/NavigationWidget.swf"/>-->
+    <widget left="30"  top="180"    config="widgets/Navigation/NavigationWidget.xml" url="widgets/Navigation/NavigationWidget.swf"/>
     <widget right="0" bottom="0"   config="widgets/OverviewMap/OverviewMapWidget.xml" url="widgets/OverviewMap/OverviewMapWidget.swf"/>
     <widget right="20" top="55"    config="widgets/MapSwitcher/MapSwitcherWidget.xml" url="widgets/MapSwitcher/MapSwitcherWidget.swf"/>
     <widget left="0"   top="0"     config="widgets/HeaderController/HeaderControllerWidget.xml" url="widgets/HeaderController/HeaderControllerWidget.swf"/>
+    <widget left="0"  top="0"  config="widgets/CoordinateMenu/CoordinateMenuWidget.xml" url="widgets/CoordinateMenu/CoordinateMenuWidget.swf"/>
+<widget top="130" left="10" config="widgets/StaticImage/StaticImageWidget.xml" url="widgets/StaticImage/StaticImageWidget.swf"/>
+    <widget top="50" left="45" config="widgets/StaticImage/StaticImageWidget2.xml" url="widgets/StaticImage/StaticImageWidget.swf"/>
 
-    <map wraparound180="true" initialextent="-14083000 3139000 -10879000 5458000" fullextent="-20000000 -20000000 20000000 20000000" top="40" addarcgisbasemaps="true">
+    <map wraparound180="true" initialextent="-7400000 5334000 -6660000 5980000" fullextent="-7400000 5334000 -6660000 5980000" top="40" addarcgisbasemaps="true" esrilogovisible="false">
         <operationallayers>
-            <layer label="Demographics" type="tiled" visible="false" alpha="0.5"
-                   url="http://server.arcgisonline.com/ArcGIS/rest/services/Demographics/USA_Median_Household_Income/MapServer">
-                <sublayer id="1" popupconfig="popups/PopUp_Demographics_BlockGroups.xml"/>
-                <sublayer id="2" popupconfig="popups/PopUp_Demographics_Tracts.xml"/>
-                <sublayer id="3" popupconfig="popups/PopUp_Demographics_Counties.xml"/>
-                <sublayer id="4" popupconfig="popups/PopUp_Demographics_States.xml"/>
+			<layer label="NSPI Depots / One Line Boundaries" type="dynamic" visible="false"
+					url="http://emagisrr01/ArcGIS/rest/services/NSPIBasePolygons/MapServer">
+				<sublayer id="1" popupconfig="popups/PopUp_OneLineBoundary.xml" />
+			</layer>
+			<layer label="NSPI Base Map - Service Nova Scotia" type="dynamic" visible="false" alpha="1"
+		                    url="http://emagisrr01/ArcGIS/rest/services/NSPIBasemap/MapServer"/>
+		
+			<layer label="NSPI Transmission" type="dynamic" visible="true" alpha="1"
+		                    url="http://emagisrr01/ArcGIS/rest/services/Transmission_OneGIS/MapServer" />
+			<layer label="NSPI Electric Distribution" type="dynamic" visible="true" alpha="1"
+			                url="http://emagisrr01/ArcGIS/rest/services/NSPI_ElectricDistribution/MapServer">
+				    <sublayer id="21" popupconfig="popups/PopUp_ElectricStation.xml" />
+			</layer>
+				
+			<layer label="Storm Response" type="dynamic" visible="false" alpha="0.75" imageformat="png24"
+			                url="http://emagisrr01/ArcGIS/rest/services/StormResponse/MapServer">
+				    <sublayer id="3" popupconfig="popups/PopUp_ScotiaWeatherRegions.xml" />
+			</layer>
+			
+			<layer label="Unique Layers" type="dynamic" visible="false" alpha="1" imageformat="png24"
+			                url="http://emagisrr01/ArcGIS/rest/services/UniqueLayers/MapServer">
+				<sublayer id="0" popupconfig="popups/PopUp_ConnectivityInspection.xml" />
+				<sublayer id="3" popupconfig="popups/PopUp_Traffic_Cameras.xml" />
+			</layer>
+			
+				<!--<layer label="Heritage Gas" type="dynamic" visible="false" alpha="1" useproxy="true"
+                    url="http://24.222.95.222/ArcGIS/rest/services/HeritageGasProjected/MapServer"/>-->
+			                
+			<layer label="Weather - US Doppler Radar" type="dynamic" visible="true" alpha="0.4"
+			                url="http://gis.srh.noaa.gov/ArcGIS/rest/services/RIDGERadar/MapServer" autorefresh="600" />
+				    
+			<layer label="Weather - Environment Canada Eastern Doppler Radar" type="dynamic" visible="true" alpha="0.4"
+			                url="http://apps.esri.ca/ArcGIS/rest/services/EnvironmentCanada/WeatherRADAR/MapServer" autorefresh="600" />
+			<layer label="NSPI Locations" type="dynamic" visible="false" alpha="1" imageformat="png24"
+		                    url="http://emagisrr01/ArcGIS/rest/services/NSPI_Locations10.0/MapServer">
+				    <sublayer id="0" popupconfig="popups/PopUp_Location.xml" />
+				    <sublayer id="1" popupconfig="popups/PopUp_Location.xml" />
+				    <sublayer id="2" popupconfig="popups/PopUp_Location.xml" />
+				    <sublayer id="3" popupconfig="popups/PopUp_Location.xml" />
+			</layer>
+        	<layer label="Truck Tracking" type="dynamic" visible="false" alpha="1" autorefresh="120" imageformat="png24"
+                url="http://emagisrr01/ArcGIS/rest/services/KerrGlobalCurrentTrucksProd/MapServer">
+				<sublayer id="0" popupconfig="popups/PopUp_KerrGlobal.xml" />
+				<sublayer id="1" popupconfig="popups/PopUp_KerrGlobal.xml" />
+			</layer>
+			
+            <layer label="OMS Views" type="dynamic" visible="false" alpha="1"
+                    url="http://emagisrr01/arcgis/rest/services/OutagesAndAbnormalProd_Opt/MapServer" autorefresh="120" imageformat="png24">
+	      <sublayer id="0" popupconfig="popups/PopUp_Outages.xml" />
+	      <sublayer id="1" popupconfig="popups/PopUp_AbnormalList.xml" />
             </layer>
-            <layer label="Fires" type="feature" visible="false" alpha="1.0"
-                   popupconfig="popups/PopUp_Fires.xml"
-                   url="http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Fire/Sheep/FeatureServer/0"/>
+            
         </operationallayers>
     </map>
 
     <!-- widgets organized into widget containers that manage close/open etc -->
     <!-- supported layout property options: horizontal(default)|float|vertical|fix-->
     <widgetcontainer layout="float">
+        
+    
         <widget label="Bookmarks"         left="430" top="90"
                 icon="assets/images/i_bookmark.png"
                 config="widgets/Bookmark/BookmarkWidget.xml"
                 url="widgets/Bookmark/BookmarkWidget.swf"/>
-        <widget label="Louisville Police" left="590" top="280"
-                icon="assets/images/i_police.png"
-                config="widgets/Query/QueryWidget_Louisville_PoliceStations.xml"
+        <widget label="Draw" left="60" top="400"
+                icon="assets/images/i_draw2.png"
+                config="widgets/Draw/DrawWidget.xml"
+                url="widgets/Draw/DrawWidget.swf"/>     
+                
+<widget label="Print" left="390" top="400"
+                icon="assets/images/i_print.png"
+                config="widgets/Print/PrintWidget.xml"
+                url="widgets/Print/PrintWidget.swf"/>
+                
+                                           
+<widget label="Snapshot" left="100" top="80"
+                icon="assets/images/i_camera.png"
+                config="widgets/Snapshot/SnapshotWidget.xml"
+                url="widgets/Snapshot/SnapshotWidget.swf"/>    
+<widget label="Identify" left="330" top="80" preload="open"
+                icon="assets/images/i_info.png"
+                config="widgets/Identify/IdentifyWidget.xml"
+                url="widgets/Identify/IdentifyWidget.swf"/>
+<widget label="Google Street View" left="60" top="400"
+				icon="assets/images/i_Streetview.png" preload="open"
+			    config="widgets/StreetView/StreetViewWidget.xml"
+			    url="widgets/StreetView/StreetViewWidget.swf"/>                  
+<widget label="Drive Directions" preload="open"
+    		icon="assets/images/transCanada.png" 
+		config="widgets/Route/RouteWidget.xml"
+		url="widgets/Route/RouteWidget.swf"/>
+<widget label="NS Traffic Camera"
+                icon="assets/images/blueWhiteCamera.png"
+                config="widgets/Query/QueryWidget_TrafficCameras.xml"
                 url="widgets/Query/QueryWidget.swf"/>
+       
         <widget label="Search" left="80" top="280"
                 icon="assets/images/i_search.png"
                 config="widgets/Search/SearchWidget_Louisville.xml"
                 url="widgets/Search/SearchWidget.swf"/>
-        <widget label="Earthquakes (GeoRSS)" left="410" top="280"
-                icon="assets/images/i_rss.png"
-                config="widgets/GeoRSS/GeoRSSWidget.xml"
-                url="widgets/GeoRSS/GeoRSSWidget.swf"/>
-        <widget label="Draw" left="60" top="400"
-                icon="assets/images/i_draw2.png"
-                config="widgets/Draw/DrawWidget.xml"
-                url="widgets/Draw/DrawWidget.swf"/>
-        <widget label="Print" left="390" top="400"
-                icon="assets/images/i_print.png"
-                config="widgets/Print/PrintWidget.xml"
-                url="widgets/Print/PrintWidget.swf"/>
 
-        <!--
-        <widget label="My first widget"
-                icon="assets/images/i_widget.png"
-                config="widgets/Samples/HelloWorld/HelloWorldWidget.xml"
-                url="widgets/Samples/HelloWorld/HelloWorldWidget.swf"/>
-        -->
+<widget left="390" top="400"
+	config="widgets/HeatMap/HeatMapWidget.xml"
+	icon="widgets/HeatMap/assets/images/i_heatmap_icon.png"
+	label="HeatMap"
+	url="widgets/HeatMap/HeatMapWidget.swf"/>
+        
+
+		<widget label="Outage Summary"
+            icon="assets/images/tableIcon.png"
+            config="widgets/OutageReport/OutageReport.xml"
+            url="widgets/OutageReport/OutageReport.swf"
+            preload="open"
+            bottom="20"
+		    right="20"
+		    />
+		    
+		<widget label="Map Coordinates"
+     		preload="open"
+            config="widgets/CoordinateMenu/CoordinateMenuWidget.xml"
+            icon="widgets/CoordinateMenu/images/coordinateIcon.png"
+            left="100" top="80"
+            url="widgets/CoordinateMenu/CoordinateMenuWidget_GUI.swf"/>
+            
+        <widget label="Basemap Style"
+                icon="assets/images/paintbucket.png"
+                url="widgets/BaseMapStyle/BaseMapStyleWidget.swf"/>
+
+<!--     
+		<widget label="Fish Migration" preload="open"
+                icon="assets/images/i_clock.png"
+                config="widgets/eTime/eTimeWidget_FishMigration.xml"
+                url="widgets/eTime/eTimeWidget.swf"/>-->
+                
+        <widget label="GIS Blog"
+                icon="assets/images/i_rss.png"
+                config="widgets/Hyperlink/HyperlinkWidget_GISBlog.xml"
+                url="widgets/Hyperlink/HyperlinkWidget.swf"/>
+           
+                
+		
+                
+		
+			    
+            
+                
+
     </widgetcontainer>
     
 </configuration>

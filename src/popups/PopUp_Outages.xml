@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<configuration>
+    <title>Event: {NRT_EVENT_IDX}   Customers Out: {CUST}</title>     
+    <fields>
+	<field name="LEVEL5_NAME" alias="Feeder" visible="true"/>
+	<field name="DEVICE_CODE" alias="Device" visible="true"/>
+	<field name="NRT_STREET_ADDRESS" alias="Street Address (First Caller)" visible="true"/>
+	<field name="NRT_CITY_STATE" alias="Community" visible="true"/>
+	<field name="NRT_EVENT_IDX" alias="Event" visible="true"/>
+	<field name="NRT_EVENT_STATUS" alias="Status" visible="true"/>
+	<field name="NRT_BEGIN_FMT" alias="Occured" visible="true"/>
+	<field name="NRT_EST_RESTORE_FMT" alias="OMS ETR" visible="true"/>
+	<field name="NEWETR" alias="ETR Override" visible="true"/>
+	<field name="NRT_OUTAGE_INTERRUPT_DEV" alias="IVR Cause Code" visible="true"/>
+	<field name="NRT_TROUBLE_CODE" alias="Trouble Code" visible="true"/>
+	<field name="FAILURE" alias="Protection Operated" visible="true"/>
+	<field name="SYSTEM" alias="Dist Device Failed" visible="true"/>
+	<field name="TYPE" alias="Cause" visible="true"/>
+	<field name="NRT_OPERATOR_COMMENT" alias="Dispatcher Notes" visible="true"/>
+	<field name="NRT_OPS_EXCLUDE_REASON" alias="Supplemental Notes" visible="true"/>
+	<field name="PUBLIC_REMARKS" alias="Public Remarks" visible="true"/>
+    </fields>
+    <showattachments>true</showattachments>  
+</configuration>
+
+<!--
+    Pop-up configuration file for:
+    http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer/0
+-->

@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+////////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (c) 2010 ESRI
+//
+// All rights reserved under the copyright laws of the United States.
+// You may freely redistribute and use this software, with or
+// without modification, provided you include the original copyright
+// and use restrictions.  See use restrictions in the file:
+// <install location>/License.txt
+//
+////////////////////////////////////////////////////////////////////////////////
+// SnapshotWidget for FlexWiewer 2.2 - erwan.caradec
+// 2011/02/01 #1 - V2.2.0
+// Version for the 2.2 flexViewer
+// The selection rectangle is now resizable and movable
+// The selection can be adjusted even if the widget is minimized
+// A scroller have been added for the image preview
+// ".pgw" file extention problem fixed
+//
+// 2010/10/29 #1 - V2.1.2
+// add the fileName.aux.xml file defining the spatial reference
+// for ArcMap/ArcGIS Explorer import
+// 2010/10/29 #1 - V2.1.1
+// correction des problèmes de labels
+// 2010/10/23 #1 - v2.1.0
+// Initial version
+
+
+-->
+<viewer:BaseWidget xmlns:esri="http://www.esri.com/2008/ags"
+				   xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:Search="widgets.sSearch.*"
+				   xmlns:viewer="com.esri.viewer.*"
+				   x="600" y="300"
+				   widgetConfigLoaded="init()" xmlns:ns="widgets.sSearch.*"
+				   currentState="snapshot">
+	<viewer:states>
+		<s:State name="snapshot"/>
+		<s:State name="options"/>
+	</viewer:states>
+	
+	<viewer:transitions>
+		<s:Transition autoReverse="true" toState="*">			
+			<s:Fade targets="{[snapshot, options]}"/>
+		</s:Transition>
+	</viewer:transitions>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.esri.ags.Graphic;
+			import com.esri.ags.Map;
+			import com.esri.ags.events.DrawEvent;
+			import com.esri.ags.events.EditEvent;
+			import com.esri.ags.geometry.Extent;
+			import com.esri.ags.geometry.Geometry;
+			import com.esri.ags.geometry.MapPoint;
+			import com.esri.ags.layers.GraphicsLayer;
+			import com.esri.ags.symbols.SimpleFillSymbol;
+			import com.esri.ags.symbols.SimpleLineSymbol;
+			import com.esri.ags.symbols.Symbol;
+			import com.esri.ags.tools.DrawTool;
+			import com.esri.viewer.AppEvent;
+			
+			import deng.fzip.FZip;
+			
+			import mx.core.UIComponent;
+			import mx.graphics.ImageSnapshot;
+			import mx.graphics.codec.JPEGEncoder;
+			import mx.graphics.codec.PNGEncoder;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			
+			private const ICON_URL:String = "assets/images/";
+			// vars
+			private var worldFileContent:ByteArray;
+			private var drawSymbol:Symbol;;
+			[Bindable]
+			private var imgDefaultName:String;
+			[Bindable]
+			private var zipSaveEnabled:String;
+			[Bindable]
+			private var widgetAutoResize:String;
+			[Bindable]
+			private var widgetMaxResizeWidth:Number;
+			[Bindable]
+			private var widgetMaxResizeHeight:Number;
+			[Bindable]
+			private var prjFilesDir:String;
+			[Bindable]
+			private var auxFileContent:ByteArray;
+			
+			// new 2.2.0
+			private var lastDrawnGraphic:Graphic;
+			[Bindable]
+			private var graphicsLayer:GraphicsLayer;
+			private var finishDrawing:Boolean;
+			private var selectedDrawingIcon:Image;
+			private var lastActiveEdit:String = "moveEditVertices";
+			private var txtLabelDisplayed:Boolean = true;
+			private var widgetMinimized:Boolean = false;
+			
+			// Labels
+			[Bindable]
+			private var snapshotLabel:String;
+			[Bindable]
+			private var optionsLabel:String;
+			[Bindable]
+			private var optionsTxt:String;
+			[Bindable]
+			private var snapshotTxt:String;
+			[Bindable]
+			private var rectangleLabel:String;
+			[Bindable]
+			private var savebuttonLabel:String;
+			[Bindable]
+			private var clearbuttonLabel:String;
+			[Bindable]
+			private var textLabel:String;
+			[Bindable]
+			private var qualLabel:String;
+			[Bindable]
+			private var imageFormatLabel:String;
+			[Bindable]
+			private var zipLabel:String;
+
+			private function init():void
+			{
+				graphicsLayer = new GraphicsLayer();
+				graphicsLayer.name = "Draw Snapshot";
+				map.addLayer(graphicsLayer);
+				editTool.addEventListener(EditEvent.GRAPHICS_MOVE_STOP,refreshPreview);
+				editTool.addEventListener(EditEvent.GRAPHIC_SCALE_STOP,refreshPreview);
+				
+				if (configXML)
+				{
+					//labels
+					snapshotLabel = configXML.labels.snapshotlabel || "Snapshot";
+					optionsLabel = configXML.labels.optionslabel || "Options";
+					snapshotTxt = configXML.labels.snapshottxt || "Use the blue rectangle tool to select a map area and click the save button. Or just click the save button to copy the entire map.";
+					optionsTxt = configXML.labels.optionstxt || "Choose image file options";
+					savebuttonLabel = configXML.labels.savebuttonlabel || "Save";
+					clearbuttonLabel = configXML.labels.clearbuttonlabel || "Reset";
+					rectangleLabel = configXML.labels.rectanglelabel || "Select map area";
+					qualLabel = configXML.labels.quallabel || "JPEG Quality";
+					imageFormatLabel = configXML.labels.imageformatlabel || "Image format"
+					zipLabel = configXML.labels.ziplabel || "Save as zip file with world file\n (Geolocation)"
+					
+					imgDefaultName = configXML.imgdefaultname || "MapSnapshot";
+					zipSaveEnabled = configXML.zipsaveenabled || "false";
+					widgetAutoResize = configXML.widgetautoresize || "true";
+					widgetMaxResizeWidth = configXML.widgetmaxresizewidth || 600;
+					widgetMaxResizeHeight = configXML.widgetmaxresizeheight || 400;
+					prjFilesDir = configXML.prjfilesdir || "widgets/Snapshot/PrjFiles/";
+					prjFileLoad(map.spatialReference.wkid.toString());
+				}
+				wTemplate.addTitlebarButton(ICON_URL + "i_draw_rect.png", snapshotLabel, showStateSnapshot);
+				wTemplate.addTitlebarButton(ICON_URL + "i_options.png", optionsLabel, showStateOptions);
+			}
+			
+			private function activateSnapshotTool(value:String):void
+			{
+				clear();
+				editTool.deactivate();
+				lastActiveEdit = "moveEditVertices";
+				finishDrawing = false;
+				var status:String;
+				switch (value)
+				{
+					case DrawTool.EXTENT:
+					{
+						status = rectangleLabel;
+						drawSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 0x3FAFDC, 0.5, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, 0x3FAFDC, 1, 1));
+						break;
+					}
+				}
+				setMapAction(value, status, drawSymbol, snapshotDrawEnd);
+			}			
+			
+			private function snapshotDrawEnd(event:DrawEvent):void
+			{
+				// deactivate the draw tool
+				if (txtLabelDisplayed == true)
+				{
+					snapshot.removeElement(snapshotTxtLabel);
+					txtLabelDisplayed = false;
+				}
+				finishDrawing = true;
+				event.target.deactivate();
+				var geom:Geometry = event.graphic.geometry;
+				lastDrawnGraphic = new Graphic(geom);
+				//lastDrawnGraphic.autoMoveToTop = false;				
+				lastDrawnGraphic.addEventListener(MouseEvent.CLICK, graphicClickHandler);
+				lastDrawnGraphic.symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 0x3FAFDC, 0.5, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, 0x3FAFDC, 1, 1));
+				graphicsLayer.add(lastDrawnGraphic);
+				//
+				graphicsLayer.visible = false;
+				var ext:Extent = event.graphic.geometry as Extent;
+				imgPreview.source = captureMap(ext);
+				graphicsLayer.visible = true;
+			}
+			
+			private function captureMap(ext:Extent):Bitmap
+			{
+				// configure map
+				var mapSnapshot:Map = map;
+				mapSnapshot.logoVisible=false; 
+				mapSnapshot.scaleBarVisible=true;
+				mapSnapshot.zoomSliderVisible = false;  
+				var currentMapColor:Object = mapSnapshot.getStyle("backgroundColor");
+				mapSnapshot.setStyle("backgroundColor", "#CCCCCC"); 
+				mapSnapshot.validateNow();
+				
+				// set rectangle capture
+				var extTopLeft:MapPoint = new MapPoint(ext.xmin,ext.ymin,map.spatialReference);
+				var extBottomRight:MapPoint = new MapPoint(ext.xmax,ext.ymax,map.spatialReference)
+				var rectTopLeft:Point = map.toScreen(extTopLeft);
+				var rectBottomRight:Point = map.toScreen(extBottomRight);
+				var rectClip:Rectangle = new Rectangle(rectTopLeft.x,rectBottomRight.y,rectBottomRight.x-rectTopLeft.x,rectTopLeft.y-rectBottomRight.y);
+
+				// Resize widget
+				if (widgetAutoResize != "false" && widgetMinimized == false) {resizeWidget(rectClip.width+60,rectClip.height+110);}
+				
+				// take the snapShot
+				var cbdMatrix:Matrix=null;
+				var cbdColorTransform:ColorTransform=null;
+				var cbdBlendMode:String=null;
+				var cbdRectangle:Rectangle=rectClip;
+				var cbdSmoothing:Boolean=false;
+				var mapBitmapData:BitmapData = ImageSnapshot.captureBitmapData(mapSnapshot,cbdMatrix,cbdColorTransform,cbdBlendMode,cbdRectangle,cbdSmoothing);
+				var mapBitmap:Bitmap = new Bitmap(mapBitmapData);
+				var retBitmapData:BitmapData = new BitmapData(cbdRectangle.width,cbdRectangle.height);
+				retBitmapData.copyPixels(mapBitmapData,cbdRectangle,new Point(0,0));
+				var retBitmap:Bitmap = new Bitmap(retBitmapData);
+
+				// Worldfile creation
+				worldFileContent = createWorldFileContent(ext,cbdRectangle);
+				return retBitmap;
+			}
+			
+			private function saveSnapshot(imgType:String):void
+			{
+				var imgName:String = imgDefaultName+"."+imgType;
+				var imgData:ByteArray;
+				var img:Bitmap;
+				
+				if (!imgPreview["source"]) // Save entire map
+				{
+					imgPreview.source = captureMap(map.extent);
+				} else {
+					//img = imgPreview.source as Bitmap;
+				}
+				img = imgPreview.source as Bitmap;
+				switch (imgType)
+				{
+					case "jpg":
+						var jpegEnc:JPEGEncoder = new JPEGEncoder(qualSlider.value);
+						imgData = jpegEnc.encode(img.bitmapData); 
+						break;
+					case "png":
+						var pngEnc:PNGEncoder = new PNGEncoder();
+						imgData = pngEnc.encode(img.bitmapData); 
+						break;
+				}
+				
+				if (zipFileCB.selected == true)
+				{
+					saveZipFile(imgName,imgData);
+				} else {
+					saveFile(imgName,imgData);
+				}
+				
+			}
+			private function saveFile(name:String,data:ByteArray):void
+			{
+				const fr:FileReference = new FileReference();
+				fr.save(data,name);
+			}
+			private function saveZipFile(name:String,data:ByteArray):void
+			{
+				// creates a zip file with image and world file
+				// <!> needs FZIP library <!>
+				var zip:FZip = new FZip("utf-8");
+				zip.addFile(name,data);
+				var imgType:String = imgTypeGrp.selectedValue as String;
+				var geoExt:String = "." + imgType.substr(0,1) + "gw";
+				zip.addFile(imgDefaultName+geoExt,worldFileContent,false);
+				if (auxFileContent)
+				{zip.addFile(name+".aux.xml",auxFileContent,false);}
+				var ba:ByteArray = new ByteArray();
+				zip.serialize(ba)
+				ba.position = 0;
+				const fr:FileReference = new FileReference();
+				fr.save(ba,imgDefaultName+".zip");
+			}
+			private function createWorldFileContent(ext:Extent,rec:Rectangle):ByteArray
+			{
+				var byteArray:ByteArray = new ByteArray();
+				var endOfLine:String = "\r\n"
+				// X axis units per pixel
+				var line1:String = (ext.width / rec.width).toString();
+				// rotation
+				var line2:String = "0";
+				// rotation
+				var line3:String = "0";
+				// -Y axis units per pixel
+				var line4:String = (-1 * ext.height / rec.height).toString();
+				// NW X coordinate of the sheet corner
+				var line5:String = ext.xmin.toString();
+				// NW Y coordinate of the sheet corner
+				var line6:String = ext.ymax.toString();
+				// write worldFile content in UTF
+				var worldFileString:String = line1 + endOfLine + line2 + endOfLine + line3 + endOfLine + line4 + endOfLine + line5 + endOfLine + line6;
+				//worldFileContent.writeUTF(worldFileString);
+				byteArray.writeUTFBytes(worldFileString);
+				return byteArray;
+			}
+			//aux file load
+			private function prjFileLoad(wkid:String):void
+			{
+				if (prjFilesDir)
+				{
+					var prjFileService:HTTPService = new HTTPService();
+					prjFileService.url = prjFilesDir + wkid + ".prj";
+					prjFileService.resultFormat = "text";
+					prjFileService.addEventListener(ResultEvent.RESULT, prjFileResult);
+					prjFileService.addEventListener(FaultEvent.FAULT, prjFileFault);
+					prjFileService.send();
+				}
+			}			
+			private function prjFileResult(event:ResultEvent):void
+			{
+				auxFileContent = new ByteArray();
+				auxFileContent.writeUTFBytes(new XML("<PAMDataset><SRS>" + event.result + "</SRS></PAMDataset>"));
+			}
+			private function prjFileFault(event:mx.rpc.events.FaultEvent):void
+			{
+				trace(event);
+			}
+
+			private function clear():void
+			{
+				if (txtLabelDisplayed == false)
+				{
+					snapshot.addElement(snapshotTxtLabel);
+					txtLabelDisplayed = true;
+				}
+				imgPreview.source = null;
+				qualSlider.value = 50;
+				jpgRadioBtn.selected = true;
+				// Resize widget
+				resizeWidget(wTemplate.minWidth,wTemplate.minHeight);
+				graphicsLayer.clear();
+				editTool.deactivate();
+			}
+			
+			private function resizeWidget(w:uint,h:uint):void{
+				if (w<wTemplate.minWidth) {
+					resizeWdgt.widthTo = wTemplate.minWidth;
+				} else {
+					if (w>widgetMaxResizeWidth) {resizeWdgt.widthTo = widgetMaxResizeWidth}
+					else {resizeWdgt.widthTo = w;}
+				}
+				if (h<wTemplate.minHeight) {
+					resizeWdgt.heightTo = wTemplate.minHeight;
+				} else {
+					if (h>widgetMaxResizeHeight) {resizeWdgt.heightTo = widgetMaxResizeHeight}
+					else {resizeWdgt.heightTo = h;}
+				}
+				resizeWdgt.play([wTemplate]);
+			}
+
+			private function showStateSnapshot():void
+			{
+				this.currentState = "snapshot";
+			}
+			private function showStateOptions():void
+			{
+				this.currentState = "options";
+			}
+			private function graphicClickHandler(event:MouseEvent):void
+			{
+				var editGraphic:Graphic = Graphic(event.target);
+				if (editGraphic.geometry is Extent)
+				{
+					editTool.activate(EditTool.MOVE | EditTool.SCALE, [ editGraphic ]);
+				}
+				else
+				{
+					editTool.activate(EditTool.EDIT_VERTICES | EditTool.MOVE, [ editGraphic ]);
+				}
+			}
+			private function refreshPreview(event:EditEvent):void
+			{
+				var gra:Graphic;
+				if (!event.graphic)
+				{
+					gra = event.graphics[0];
+				} else {
+					gra = event.graphic;
+				}
+				var ext:Extent = gra.geometry as Extent;
+				gra.alpha = 0;
+				editTool.deactivate();
+				imgPreview.source = captureMap(ext);
+				gra.alpha = 1;
+				editTool.activate(EditTool.MOVE | EditTool.SCALE, [ gra ]);
+			}
+			private function widgetClosedHandler(event:Event):void
+			{
+				graphicsLayer.visible = false;
+			}
+			private function widgetMinimizedHandler(event:Event):void
+			{
+				widgetMinimized = true;
+			}			
+			private function widgetOpenedHandler(event:Event):void
+			{
+				if (graphicsLayer)
+				{
+					graphicsLayer.visible = true;
+				}
+				widgetMinimized = false;
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:RadioButtonGroup id="imgTypeGrp"/>
+		<s:Resize id="resizeWdgt" duration="300" />
+		<esri:EditTool id="editTool" map="{map}"/>
+	</fx:Declarations>
+	<viewer:WidgetTemplate id="wTemplate"
+						   width="250" height="180"
+						   minHeight="180"
+						   minWidth="250"
+						   closed="widgetClosedHandler(event)"
+						   open="widgetOpenedHandler(event)"
+						   minimized="widgetMinimizedHandler(event)"
+						   >
+		<s:Group id="snapshot"
+				 width="100%" height="100%"
+				 visible="false"
+				 visible.snapshot="true">
+			<s:layout>
+				<s:VerticalLayout gap="6" horizontalAlign="center" />
+			</s:layout>
+			<s:HGroup width="100%" verticalAlign="middle">
+				<mx:Image width="40" height="40"
+						  buttonMode="true"
+						  click="{activateSnapshotTool(DrawTool.EXTENT)}"
+						  source="assets/images/i_draw_rect.png"
+						  toolTip="{rectangleLabel}"
+						  useHandCursor="true"/>
+				<s:Button id="saveButton" label="{savebuttonLabel}" click="saveSnapshot(imgTypeGrp.selectedValue as String)" />
+				<s:Button id="clearButton" label="{clearbuttonLabel}" click="clear()" />
+			</s:HGroup>
+			<s:Scroller id="previewScroller" width="100%" height="100%">
+				<s:Group>
+					<mx:Image id="imgPreview" />
+				</s:Group>
+			</s:Scroller>
+			<s:Label id="snapshotTxtLabel"
+					 width="100%"
+					 text="{snapshotTxt}"
+					 textAlign="center"/>
+		</s:Group>
+		<s:Group id="options"
+				 width="100%" height="100%"
+				 visible="false"
+				 visible.options="true">
+			<s:layout>
+				<s:VerticalLayout gap="10" />
+			</s:layout>
+			<s:HGroup verticalAlign="middle">
+				<s:Label text="{imageFormatLabel+' :'}"/>
+				<s:VGroup>
+					<s:RadioButton id="jpgRadioBtn" value="jpg" label="jpeg" selected="true" groupName="imgTypeGrp"/>
+					<s:RadioButton id="pngRadioBtn" value="png" label="png" groupName="imgTypeGrp"/>
+				</s:VGroup>
+				<s:VGroup horizontalAlign="center" visible="{jpgRadioBtn.selected}" width="100%">
+					<s:Label text="{qualLabel}"/>
+					<s:HGroup>
+						<s:Label text="-"/>
+						<s:HSlider id="qualSlider" minimum="0" maximum="100" snapInterval="10" width="30" value="50"/>
+						<s:Label text="+"/>
+					</s:HGroup>
+				</s:VGroup>
+			</s:HGroup>
+			<s:HGroup verticalAlign="middle" visible="{zipSaveEnabled=='true'}">
+				<s:Label text="{zipLabel+' :'}"/>
+				<s:CheckBox id="zipFileCB" selected="false" />
+			</s:HGroup>
+			<s:Label id="optionsTxtLabel"
+					 width="100%"
+					 text="{optionsTxt}"
+					 textAlign="center"/>
+		</s:Group>
+	</viewer:WidgetTemplate>
+</viewer:BaseWidget>

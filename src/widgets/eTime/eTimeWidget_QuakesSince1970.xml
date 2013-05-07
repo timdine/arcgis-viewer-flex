@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<configuration>
+	<autotogglelayervisibility>true</autotogglelayervisibility>
+	<startatoldesttime>true</startatoldesttime>
+    <resetslideronlayerchange>true</resetslideronlayerchange>
+	<layers>
+		<layer label="Earthquakes since 1970" name="Earthquakes">
+		    <dateformat>MMMM, YYYY</dateformat>
+		    <loop>false</loop>
+		    <singlethumbastimeinstant>false</singlethumbastimeinstant>
+		    <thumbcount>1</thumbcount>
+		    <thumbmovingrate>1000</thumbmovingrate>
+		    <timeextent setfromlayer="Earthquakes"/>
+		</layer>
+	</layers>
+	<labels>
+		<timelayerlabel>Select Layer: </timelayerlabel>
+	</labels>
+</configuration>
+
+<!--
+    See Time Slider widget tag reference at
+    http://links.esri.com/timesliderwidget
+-->

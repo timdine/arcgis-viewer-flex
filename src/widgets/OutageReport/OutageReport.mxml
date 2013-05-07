@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     ////////////////////////////////////////////////////////////////////////////////
+     //
+     // Copyright (c) 2010 ESRI
+     //
+     // All rights reserved under the copyright laws of the United States.
+     // You may freely redistribute and use this software, with or
+     // without modification, provided you include the original copyright
+     // and use restrictions.  See use restrictions in the file:
+     // <install location>/License.txt
+     //
+     ////////////////////////////////////////////////////////////////////////////////
+-->
+<viewer:BaseWidget xmlns:fx="http://ns.adobe.com/mxml/2009"
+                   xmlns:s="library://ns.adobe.com/flex/spark"
+                   xmlns:mx="library://ns.adobe.com/flex/mx"
+                   xmlns:esri="http://www.esri.com/2008/ags"
+                   xmlns:viewer="com.esri.viewer.*"
+                   widgetConfigLoaded="init()"
+				   >
+    <fx:Script>
+        <![CDATA[
+			import com.esri.ags.events.GeoprocessorEvent;
+			import com.esri.ags.tasks.supportClasses.ParameterValue;
+			import com.esri.viewer.AppEvent;
+			import com.esri.viewer.ViewerContainer;
+			
+			import mx.collections.ArrayCollection;
+            //this function called when the widget's configuration is loaded
+			
+			internal var theID:uint;
+			
+			private var outageReportURL:String;
+			private var outageRefreshTime:String;
+			
+            private function init():void
+            {
+				outageRefreshTime = "15";
+                if (configXML) // checking for valid content in the configuration file
+                {
+					gp.url = configXML.outageReportURL;
+					outageRefreshTime = configXML.outageReportRefreshRate;
+					//lastUpdate.text = configXML.outageReportURL;
+                }
+				
+				var results:ArrayCollection = new ArrayCollection;
+				results.addItem({region:"Western",numEvents:"",netCustOut:""});
+				results.addItem({region:"Central",numEvents:"",netCustOut:""});
+				results.addItem({region:"Eastern",numEvents:"",netCustOut:""});
+				results.addItem({region:"Fuzzy",numEvents:"",netCustOut:""});
+				results.addItem({region:"Total",numEvents:"",netCustOut:""});
+				
+				outageDG.dataProvider = results;
+				
+				updateStats();
+				theID = setInterval(updateStats, int(outageRefreshTime) * 1000);
+
+				AppEvent.addListener(AppEvent.WIDGET_RUN,updateStats);
+				//ViewerContainer.addEventListener(AppEvent.WIDGET_RUN, updateStats);
+				
+				
+            }
+			/*
+			private function updateStats():void
+			{
+				var params:Object = {};
+				//gp.submitJob(params)
+				gp.execute(params);
+			}
+			*/
+			
+			private function removeTimer():void
+			{
+				clearInterval(theID);
+			}
+			
+			private function updateStats(thevar:Object=""):void
+			{
+				var params:Object = {};
+				//gp.submitJob(params)
+				gp.execute(params);
+				
+				
+				var dateNow:Date = new Date(); 
+				lastUpdate.text = "Last Updated: " + dateNow.toLocaleString()
+			}
+			
+			private function onGPExecuteComplete(event:GeoprocessorEvent):void
+			{
+				var CentralOutageEventNumber:ParameterValue = event.executeResult.results[0];
+				var EasternOutageEventNumber:ParameterValue = event.executeResult.results[1];
+				var WesternOutageEventNumber:ParameterValue = event.executeResult.results[2];
+				var TotalOutageEventCount:ParameterValue = event.executeResult.results[3];
+				
+				var CentralCustomerCount:ParameterValue = event.executeResult.results[4];
+				var EasternCustomerCount:ParameterValue = event.executeResult.results[5];
+				var WesternCustomerCount:ParameterValue = event.executeResult.results[6];
+				var TotalCustomerCount:ParameterValue = event.executeResult.results[7];
+				
+				var CentralNonOutageEventNumber:ParameterValue = event.executeResult.results[8];
+				var EasternNonOutageEventNumber:ParameterValue = event.executeResult.results[9];
+				var WesternNonOutageEventNumber:ParameterValue = event.executeResult.results[10];
+				var TotalNonOutageEventCount:ParameterValue = event.executeResult.results[11];
+				
+				var FuzzyOutageEventNumber:ParameterValue = event.executeResult.results[12];
+				var FuzzyNonOutageEventNumber:ParameterValue = event.executeResult.results[13];
+				var FuzzyCustomerCount:ParameterValue = event.executeResult.results[14];
+				
+				var results:ArrayCollection = new ArrayCollection();
+				
+				results.addItem({region:"Western",numOutageEvents:WesternOutageEventNumber.value,numNonOutageEvents:WesternNonOutageEventNumber.value,netCustOut:WesternCustomerCount.value});
+				results.addItem({region:"Central",numOutageEvents:CentralOutageEventNumber.value,numNonOutageEvents:CentralNonOutageEventNumber.value,netCustOut:CentralCustomerCount.value});
+				results.addItem({region:"Eastern",numOutageEvents:EasternOutageEventNumber.value,numNonOutageEvents:EasternNonOutageEventNumber.value,netCustOut:EasternCustomerCount.value});
+				results.addItem({region:"Fuzzy",numOutageEvents:FuzzyOutageEventNumber.value,numNonOutageEvents:FuzzyNonOutageEventNumber.value,netCustOut:FuzzyCustomerCount.value});
+				results.addItem({region:"Total",numOutageEvents:TotalOutageEventCount.value,numNonOutageEvents:TotalNonOutageEventCount.value,netCustOut:TotalCustomerCount.value});
+				
+				outageDG.dataProvider = results;
+			}
+        ]]>
+    </fx:Script>
+	
+	<fx:Declarations>
+		<esri:Geoprocessor id="gp"
+						   concurrency="last"
+						   executeComplete="onGPExecuteComplete(event)"
+						   outSpatialReference="{map.spatialReference}"
+						   showBusyCursor="false"
+						   useAMF="false"
+						   disableClientCaching="true"
+						   />
+
+	</fx:Declarations>
+    <viewer:WidgetTemplate id="outageReport"
+                           width="325" height="230">
+        <viewer:layout>
+            <s:VerticalLayout horizontalAlign="center" verticalAlign="middle"/>
+		</viewer:layout>
+        <mx:DataGrid id="outageDG" rowCount="5">
+            <mx:columns>
+                <mx:DataGridColumn headerText="Territory" dataField="region" width="70"/>
+				<mx:DataGridColumn headerText="Non-Outage" dataField="numNonOutageEvents" width="70"/>
+                <mx:DataGridColumn headerText="Outages" dataField="numOutageEvents" width="70"/>
+                <mx:DataGridColumn headerText="Cust Out" dataField="netCustOut" width="70"/>
+            </mx:columns>
+        </mx:DataGrid>
+		<mx:Label id="lastUpdate" text="Last Updated: ------ --, ---- --:--:--">
+			
+		</mx:Label>
+    </viewer:WidgetTemplate>
+</viewer:BaseWidget>

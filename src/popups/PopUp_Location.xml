@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<configuration>
+    <title>{LABEL_TEXT}</title>     
+    <fields>
+	<field name="NUMBER_" alias="Number" visible="true"/>
+	<field name="NAME" alias="Name" visible="true"/>
+	<field name="SUBTYPECD" alias="Type" visible="true"/>
+	<field name="CIVIC_ADDRESS" alias="Civic Address" visible="true"/>
+	<field name="MAILING_ADDRESS" alias="Mailing Address" visible="true"/>
+	<field name="POSTAL_CODE" alias="Postal Code" visible="true"/>
+	<field name="PHONE" alias="Phone Numbers" visible="true"/>
+	<field name="UNITS" alias="Units" visible="true"/>
+	<field name="SOURCE" alias="Source" visible="true"/>
+	<field name="TOTAL_MW" alias="Total MW" visible="true"/>
+	<field name="COMMENTS" alias="Comments" visible="true"/>
+	<field name="BUSINESS_UNITS" alias="Business Units" visible="true"/>
+	<field name="EMPLOYEES" alias="Employees" visible="true"/>
+	<field name="DESCRIPTION" alias="Description" visible="true"/>
+    </fields>
+    <showattachments>true</showattachments>  
+</configuration>
+
+<!--
+    Pop-up configuration file for:
+    http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer/0
+-->

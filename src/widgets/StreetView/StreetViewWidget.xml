@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<configuration>
+	<description>Click the icon to the right to begin. Once you have clicked the icon, then click on a street on the map to activate Google Street View.</description>
+	<icon>assets/images/i_streetview.png</icon>
+	<mapIcon>assets/images/radar.png</mapIcon>
+	<googleAnalytics code="" identifier="/streetview" />
+</configuration>

@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<configuration>
+    <title>{MEMBER_NAME}</title>     
+    <fields>
+	<field name="CREW_ID" alias="Crew ID" visible="true"/>
+	<field name="CONTACT" alias="Contact" visible="true"/>
+	<field name="PAGER_NUM" alias="Contact Number" visible="true"/>
+	<field name="SLICENSEPLATE" alias="Radio Number" visible="true"/>
+	<field name="CREW_SUPERVISOR" alias="Supervisor" visible="true"/>
+	<field name="DTDATETIME" alias="Report Time" visible="true" />
+	<field name="EXTERNAL_KEY" alias="Description" visible="true"/>
+	<field name="FSPEED" alias="Speed" visible="true"/>
+	<field name="MOTIONSTATUS" alias="Motion Status" visible="true"/>
+	<field name="IVEHICLEID" alias="Device ID" />
+	<field name="MEMBER_NAME" alias="Member Name" visible="true"/>
+	<field name="EMPLOYEES" alias="Employees" visible="true"/>
+    </fields>
+    <showattachments>true</showattachments>  
+</configuration>
+
+<!--
+    Pop-up configuration file for:
+    http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer/0
+-->

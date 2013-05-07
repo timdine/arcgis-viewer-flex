@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<configuration>
+    <title>{FEEDERSECTIONID}</title>     
+    <description>
+	<![CDATA[
+Image: <a href="http://cops.emera.com/GIS/sitedrawings/{HYPERLINK}" /> Image </a>
+Feeder Section ID:  {FEEDERSECTIONID}
+Address:  {ADDRESS}
+Comments:  {COMMENTS}
+Creation User:  {CREATIONUSER}
+Date Created:  {DATECREATED}
+Date Completed:  {DATECOMPLETED}
+Type:  {SUBTYPE}]]>
+    </description>
+<!--
+    <fields>
+	<field name="FEEDERSECTIONID" alias="Feedersection ID" visible="true"/>
+	<field name="ADDRESS" alias="Address" visible="true"/>
+	<field name="COMMENTS" alias="Comments" visible="true"/>
+	<field name="HYPERLINK" alias="Hyperlink" visible="true"/>
+	<field name="CREATIONUSER" alias="Creation User" visible="true"/>
+	<field name="DATECREATED" alias="Date Created" visible="true"/>
+	<field name="DATECOMPLETED" alias="Date Completed" visible="true"/>
+	<field name="SUBTYPE" alias="Subtype" visible="true"/>
+    </fields>-->
+    <showattachments>true</showattachments>  
+</configuration>
+
+<!--
+    Pop-up configuration file for:
+    http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer/0
+-->

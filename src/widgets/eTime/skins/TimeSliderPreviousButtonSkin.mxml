@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (c) 2010 ESRI
+
+     All rights reserved under the copyright laws of the United States
+     and applicable international laws, treaties, and conventions.
+
+     You may freely redistribute and use this sample code, with or
+     without modification, provided you include the original copyright
+     notice and use restrictions.
+
+     See use restrictions in use_restrictions.txt.
+-->
+<!---
+     The default skin class for the previous button of a TimeSlider component.
+     @private
+-->
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+             xmlns:s="library://ns.adobe.com/flex/spark"
+             alpha.disabled="0.5">
+
+    <fx:Metadata>
+        [HostComponent("spark.components.Button")]
+    </fx:Metadata>
+
+    <fx:Script>
+        /* Define the skin elements that should not be colorized. */
+        static private const exclusions:Array = [ "previousSymbol" ];
+
+        override public function get colorizeExclusions():Array
+        {
+            return exclusions;
+        }
+
+        override protected function initializationComplete():void
+        {
+            useChromeColor = true;
+            super.initializationComplete();
+        }
+    </fx:Script>
+
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over" stateGroups="overStates" />
+		<s:State name="down" stateGroups="downStates" />
+		<s:State name="disabled" stateGroups="disabledStates" />
+	</s:states>
+	
+	<!-- layer 1: fill -->
+	<s:Rect left="1" right="1" top="1" bottom="1" radiusX="8" radiusY="8">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0x585858"
+								 color.overStates="0x676767"
+								 color.downStates="0x2C2C2C"
+								 alpha="0.55" />
+				<s:GradientEntry color="0x1E1E1E"
+								 color.overStates="0x363636" 
+								 color.downStates="0x585858"
+								 alpha="0.55" />
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<!-- layer 2: One pixel stroke inside border -->
+	<s:Rect left="1" right="1" top="1" bottom="1" radiusX="8" radiusY="8">
+		<s:stroke>
+			<s:LinearGradientStroke weight="1" rotation="90">
+				<s:GradientEntry color="0xFFFFFF" alpha="0.12" />
+				<s:GradientEntry color="0xFFFFFF" alpha="0.09" />
+			</s:LinearGradientStroke>
+		</s:stroke>
+	</s:Rect>
+	
+	<!-- layer 3: border - put on top of the fill so it doesn't disappear when scale is less than 1 -->
+	<s:Rect left="0" right="0" top="0" bottom="0" width="38" height="24" radiusX="8" radiusY="8">
+		<s:stroke>
+			<s:SolidColorStroke color="0x222222" alpha="0.66" />
+		</s:stroke>
+	</s:Rect>
+
+    <!-- previous symbol -->
+	<s:Group horizontalCenter="-3" verticalCenter="0" id="previousSymbol">
+		<!-- triangle -->
+		<s:Path data="M 8 0 L 8 13 L 1 7 L 8 0 Z" winding="evenOdd">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF" alpha="1"/>
+			</s:fill>
+		</s:Path>
+		
+		<!-- triangle drop shadow on bottom/right -->
+		<s:Line xFrom="8" xTo="1" yFrom="13" yTo="7">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" alpha="0.33" />
+			</s:stroke>
+		</s:Line>
+		
+		<!-- line on left of triangle -->
+		<s:Line x="8" yFrom="0" yTo="13">
+			<s:stroke>
+				<s:SolidColorStroke color="0x000000" alpha="0.33" />
+			</s:stroke>
+		</s:Line>
+		
+		<!-- big line on right -->
+		<s:Rect right="-4" top="0" height="13" width="3">
+			<s:fill>
+				<s:SolidColor color="0xFFFFFF" alpha="1"/>
+			</s:fill>
+		</s:Rect>
+		
+		<!-- drop shadows -->
+		<s:Line right="-4" width="3" y="13">
+			<s:stroke>
+				<s:SolidColorStroke color="0x404040" />
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+</s:SparkSkin>

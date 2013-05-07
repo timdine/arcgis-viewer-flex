@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<configuration>
+    <title>{OBJECT}</title>     
+    <fields>
+	<field name="F_FEEDER_NAME" alias="Feeder Name" visible="true" />
+	<field name="ATT_NAME" alias="Name" visible="false"/>
+	<field name="OBJECT" alias="Device" visible="true"/>
+	<field name="TIME" alias="Time" visible="true"/>
+	<field name="TEXT" alias="Text" visible="true"/>
+	<field name="ATT_LOCATION" alias="Location" visible="true"/>
+	<field name="DAYS" alias="Days" visible="true"/>
+	<field name="CREATOR" alias="Creator" visible="true"/>
+	<field name="ATT_LAST_OPERATION" alias="Last Operation" visible="true"/>
+    </fields>
+    <showattachments>true</showattachments>  
+</configuration>
+
+<!--
+    Pop-up configuration file for:
+    http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer/0
+-->

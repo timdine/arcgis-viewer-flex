@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////
+//
+// Copyright © 2008 - 2009 ESRI
+//
+// All rights reserved under the copyright laws of the United States.
+// You may freely redistribute and use this software, with or
+// without modification, provided you include the original copyright
+// and use restrictions.  See use restrictions in the file:
+// <install location>/FlexViewer/License.txt
+//
+////////////////////////////////////////////////////////////////////////////////
+-->
+<!--
+<configuration>
+	<layer>http://emagisrr01/ArcGIS/rest/services/UniqueLayers/MapServer/3</layer>
+	<titlefield>Id</titlefield>
+    <linkprefix></linkprefix>
+    <linkfield>CAMERAURL</linkfield>
+    <fields all="false">
+        <field name="LOCATION"/>
+        <field name="CAMERAURL"/>
+    </fields>
+    <filterfield>
+  	    <name></name>
+  	    <alias></alias>
+    </filterfield>
+	<refreshrate>10000</refreshrate>
+    <zoomscale>10000</zoomscale>
+    <query>1=1</query>
+	<info>widgets/InfoTemplates/InfoPopupWidget.swf</info>
+
+</configuration>
+-->
+
+<?xml version="1.0" ?>
+<configuration label="Nova Scotia Webcams">
+    <layer>http://emagisrr01/ArcGIS/rest/services/UniqueLayers/MapServer/3</layer>
+    <titlefield>Id</titlefield>
+    <linkfield>CAMERAURL</linkfield>
+    <fields all="false">
+        <field name="LOCATION"/>
+        <field name="CAMERAURL"/>
+    </fields>
+    <filterfield>
+        <name></name>
+        <alias></alias>
+    </filterfield>
+    <refreshrate>10000</refreshrate>
+    <zoomscale>10000</zoomscale>
+    <query>1=1</query>
+	<symbols>
+        <picturemarkersymbol url="assets/images/blueWhiteCamera.png" height="45" width="45" xoffset="0" yoffset="0" />
+    </symbols>
+    <clustering mingraphiccount="2" sizeinpixels="70">
+    </clustering>
+</configuration>

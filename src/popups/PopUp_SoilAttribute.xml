@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<configuration>
+    <title>Soil Information</title> 
+    <!--description>
+    <!CDATA[
+Soil Name: {SOILNAME}
+Kind: {SOILNAME}
+Slope: {SLOPE}
+Profile: {PROFILE}
+Area(m): {SHAPE.AREA}]]>
+    </description-->
+    <fields>
+	<field name="SOILNAME" alias="Soil Name" visible="true"/>
+	<field name="KIND" alias="Kind" visible="true"/>
+	<field name="SLOPE" alias="Slope" visible="true"/>
+	<field name="PROFILE" alias="Profile" visible="true"/>
+    <field name="WATERTBL" alias="Watertable Characteristics" visible="true"/>
+    <field name="DRAINAGE" alias="Soil Drainage Class" visible="true"/>
+    <field name="ORDER2" alias="Soil Order (2nd edition)" visible="true"/>
+    <field name="ORDER3" alias="Soil Order (3rd edition)" visible="true"/>
+    <field name="PHCA" alias="pH in Calcium Chloride" visible="true"/>
+    <field name="PH2" alias="pH as per project report" visible="true"/>
+    <field name="KSAT" alias="Saturated Hydraulic Conductivity" visible="true"/>
+    <field name="EC" alias="Electrical Conductivity" visible="true"/>
+    <field name="SOIL_ID" alias="Soil Name Identifier" visible="true"/>
+    </fields>
+</configuration>
+
+<!--
+    Pop-up configuration file for:
+    http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer/0
+-->

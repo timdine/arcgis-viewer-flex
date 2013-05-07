@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<configuration>
+	<autotogglelayervisibility>true</autotogglelayervisibility>
+	<startatoldesttime>false</startatoldesttime>
+    <resetslideronlayerchange>true</resetslideronlayerchange>
+	<layers>
+		<layer label="Year Of Transition" name="Year Of Transition">
+		    <dateformat>YYYY</dateformat>
+		    <loop>true</loop>
+		    <singlethumbastimeinstant>true</singlethumbastimeinstant>
+		    <thumbcount>1</thumbcount>
+		    <thumbmovingrate>1500</thumbmovingrate>
+		    <timeextent setfromlayer="Year Of Transition"/>
+		    <timeextent>
+				<starttime>2010/01/01 05:00:00 UTC</starttime>
+				<endtime>2015/06/31 05:00:00 UTC</endtime>
+			</timeextent>
+		    <timestops>
+		        <timestopsinterval>1</timestopsinterval>
+		        <timestopsunits>years</timestopsunits>
+		    </timestops>
+		</layer>
+		<layer label="Daily Chinook Migration" name="Chinook">
+			<dateformat>MMMM,DD YYYY</dateformat>
+		    <loop>false</loop>
+		    <singlethumbastimeinstant>true</singlethumbastimeinstant>
+		    <thumbcount>1</thumbcount>
+		    <thumbmovingrate>350</thumbmovingrate>
+		    <timeextent setfromlayer="Chinook"/>
+		    <thumbposition>
+				<startthumb>2011/04/23 00:00:00 UTC</startthumb>
+			</thumbposition>
+		</layer>
+		<layer label="Daily Steelhead Migration" name="Steelhead">
+			<dateformat>MMMM,DD YYYY</dateformat>
+		    <loop>false</loop>
+		    <singlethumbastimeinstant>true</singlethumbastimeinstant>
+		    <thumbcount>1</thumbcount>
+		    <thumbmovingrate>350</thumbmovingrate>
+		    <timeextent setfromlayer="Steelhead"/>
+		</layer>
+		<layer label="Daily Sockeye Migration" name="Sockeye">
+			<dateformat>MMMM,DD YYYY</dateformat>
+		    <loop>false</loop>
+		    <singlethumbastimeinstant>true</singlethumbastimeinstant>
+		    <thumbcount>1</thumbcount>
+		    <thumbmovingrate>350</thumbmovingrate>
+		    <timeextent setfromlayer="Sockeye"/>
+		</layer>
+		<layer label="Daily Shad Migration" name="Shad">
+			<dateformat>MMMM,DD YYYY</dateformat>
+		    <loop>false</loop>
+		    <singlethumbastimeinstant>true</singlethumbastimeinstant>
+		    <thumbcount>2</thumbcount>
+		    <thumbmovingrate>350</thumbmovingrate>
+		    <timeextent setfromlayer="Shad"/>
+		    <thumbposition>
+				<!-- <startthumb>2011/04/23 00:00:00 UTC</startthumb>
+				<endthumb>2011/05/31 00:00:00 UTC</endthumb> -->
+			</thumbposition>
+		</layer>
+	</layers>
+	<labels>
+		<timelayerlabel>Select Layer: </timelayerlabel>
+	</labels>
+</configuration>
+
+<!--
+    See Time Slider widget tag reference at
+    http://links.esri.com/timesliderwidget
+-->
