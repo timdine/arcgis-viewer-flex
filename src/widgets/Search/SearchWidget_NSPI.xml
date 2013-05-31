@@ -1,0 +1,649 @@
+<?xml version="1.0" ?>
+<configuration label="Louisville Parcels and Police">
+    <layers>
+	    
+		<layer>
+			<name>Open Work Orders</name>
+		    <url>http://EMAGISRR01/ArcGIS/rest/services/WorkManagementSystem/MapServer/0</url>
+			<expression>WONUM LIKE '%[value]%'</expression>
+			<textsearchlabel>Search by Open Work Order Number  [ Example: 114324 ]:</textsearchlabel>
+			<graphicalsearchlabel>Use one of the graphical search tools to select Open Work Orders</graphicalsearchlabel>
+		    <titlefield>WONUM</titlefield>
+		    <linkfield></linkfield>
+		    <fields all="false">
+		        <field name="WONUM"/>
+		        <field name="PARENT"/>
+		        <field name="NS_WO_LAT"/>
+		        <field name="NS_WO_LONG"/>
+				<field name="STATUS"/>
+				<field name="STATUSDATE"/>
+				<field name="WORKTYPE"/>
+				<field name="DESCRIPTION"/>
+				<field name="LOCATION"/>
+				<field name="REPORTEDBY"/>
+				<field name="WORK_DEPOT"/>
+				<field name="FEEDER"/>
+				<field name="PLUSDTASKTYPE"/>
+				<field name="NS_CSO_ORIGINATE_DATE"/>
+				<field name="NS_CSONUMBER"/>
+				<field name="NS_CUSTADDRESS"/>
+				<field name="NS_CUSTCITY"/>
+				<field name="NS_CUSTNAME"/>
+				<field name="NS_CUSTPOSTAL"/>
+				<field name="NS_PREMISENUM"/>
+				<field name="ACTFINISH"/>
+				<field name="NS_MJONUMBER"/>
+		    </fields>
+		</layer>
+	    
+		<layer>
+			<name>Closed Work Orders</name>
+			<url>http://EMAGISRR01/ArcGIS/rest/services/WorkManagementSystem/MapServer/1</url>
+			<expression>WONUM LIKE '%[value]%'</expression>
+			<textsearchlabel>Search by Work Order Number  [ Example: 114323 ]:</textsearchlabel>
+			<graphicalsearchlabel>Use one of the graphical search tools to select Closed Work Orders</graphicalsearchlabel>
+			<fields>
+		        <field name="WONUM"/>
+		        <field name="PARENT"/>
+		        <field name="NS_WO_LAT"/>
+		        <field name="NS_WO_LONG"/>
+				<field name="STATUS"/>
+				<field name="STATUSDATE"/>
+				<field name="WORKTYPE"/>
+				<field name="DESCRIPTION"/>
+				<field name="LOCATION"/>
+				<field name="REPORTEDBY"/>
+				<field name="WORK_DEPOT"/>
+				<field name="FEEDER"/>
+				<field name="PLUSDTASKTYPE"/>
+				<field name="NS_CSO_ORIGINATE_DATE"/>
+				<field name="NS_CSONUMBER"/>
+				<field name="NS_CUSTADDRESS"/>
+				<field name="NS_CUSTCITY"/>
+				<field name="NS_CUSTNAME"/>
+				<field name="NS_CUSTPOSTAL"/>
+				<field name="NS_PREMISENUM"/>
+				<field name="ACTFINISH"/>
+				<field name="NS_MJONUMBER"/>
+		    </fields>
+			<titlefield>WONUM</titlefield>
+			<linkfield></linkfield>
+		</layer>
+	    
+		<layer>
+			<name>AS BUILT Developer Drawing</name>
+			<url>http://EMAGISRR01/ArcGIS/rest/services/WorkManagementSystem/MapServer/4</url>
+			<expression>DRAWINGNAME LIKE '%[value]%'</expression>
+			<textsearchlabel>Search by Drawing Name  [ Example: Caribou ]:</textsearchlabel>
+			<graphicalsearchlabel>Use one of the graphical search tools to select Developer Drawings</graphicalsearchlabel>
+			<fields>
+	            <field name="DRAWINGNAME"/>
+	            <field name="HYPERLINK"/>
+	            <field name="COMMENTS"/>
+	        </fields>
+			<titlefield>DRAWINGNAME</titlefield>
+			<linkfield></linkfield>
+		</layer>
+		
+		<layer>
+            <name>Property</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/NSPIBasemap/MapServer/3</url>
+            <expression>PID = '[value]'</expression>
+            <textsearchlabel>PID Search:</textsearchlabel>
+            <titlefield>PID</titlefield>
+            <linkfield></linkfield>
+            <fields all="false">
+                <field name="PID"/>
+                <field name="ROAD_WAT"/>
+                <field name="UPDAT_DATE"/>
+                <field name="SHAPE.AREA"/>
+            </fields>
+        </layer>
+        
+		<layer>
+            <name>General Service Area</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/NSPIBasePolygons/MapServer/0</url>
+            <expression>GSA_NAME = '[value]'</expression>
+            <textsearchlabel>Search by General Service Area Name:</textsearchlabel>
+            <titlefield>GSA_NAME</titlefield>
+            <linkfield></linkfield>
+            <fields all="false">
+                <field name="GSA_NAME"/>
+            </fields>
+        </layer>
+
+
+        <layer>
+            <name>Distribution Feeder (Feeder Number)</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/UniqueLayers/MapServer/8</url>
+            <expression>FEEDERNUM = '[value]'</expression>
+            <textsearchlabel>Search by Feeder Number:</textsearchlabel>
+            <titlefield>FEEDERNUM</titlefield>
+            <linkfield></linkfield>
+            <fields all="false">
+                <field name="FEEDERNUM"/>
+                <field name="FEEDERSECTIONID"/>
+                <field name="WORKDEPOT"/>
+                <field name="OMS_FEEDERSECTIONID"/>
+                <field name="SOURCE"/>
+                <field name="CLASSIFICATION"/>
+                <field name="CUSTOMERS"/>
+            </fields>
+        </layer>
+        
+        <layer>
+            <name>Distribution Feeder (Feeder Section ID)</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/UniqueLayers/MapServer/8</url>
+            <expression>FEEDERSECTIONID = '[value]'</expression>
+            <textsearchlabel>Search by Feeder Section ID:</textsearchlabel>
+            <titlefield>FEEDERSECTIONID</titlefield>
+            <linkfield></linkfield>
+            <fields all="false">
+                <field name="FEEDERNUM"/>
+                <field name="FEEDERSECTIONID"/>
+                <field name="WORKDEPOT"/>
+                <field name="OMS_FEEDERSECTIONID"/>
+                <field name="SOURCE"/>
+                <field name="CLASSIFICATION"/>
+                <field name="CUSTOMERS"/>
+            </fields>
+        </layer>
+        
+        <layer>
+            <name>Distribution Feeder (Feeder ID)</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/NSPI_ElectricDistribution/MapServer/15</url>
+            <expression>FEEDERID = '[value]' OR FEEDERID2 = '[value]' </expression>
+            <textsearchlabel>Search by Feeder ID (Example 20H TX-T2):</textsearchlabel>
+            <titlefield>FEEDERID</titlefield>
+            <linkfield></linkfield>
+            <fields all="false">
+                <field name="FEEDERID"/>
+                <field name="FEEDERID2"/>
+            </fields>
+        </layer>
+        
+        <layer>
+            <name>One line boundary tile</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/NSPIBasePolygons/MapServer/1</url>
+            <expression>TILEID = '[value]'</expression>
+            <textsearchlabel>Search by One Line Boundary ID (Tile ID):</textsearchlabel>
+            <titlefield>TILEID</titlefield>
+            <linkprefix></linkprefix>
+            <linkfield>URL</linkfield>
+            <fields all="false">
+                <field name="TILEID"/>
+                <field name="LOCATION"/>
+                <field name="SUB"/>
+                <field name="DEPOT"/>
+                <field name="URL"/>
+                <field name="MAPGRIDNAME"/>
+                <field name="MAPSHEETNAME"/>
+                <field name="SUBTYPECD"/>
+            </fields>
+        </layer>
+        
+        <layer>
+            <name>Account Number</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/customerLocation/MapServer/0</url>
+            <urlParameter>accountNumber</urlParameter>
+            <expression>ACCOUNTNUMBER = '[value]'</expression>
+            <textsearchlabel>Account Number Search:</textsearchlabel>
+            <titlefield>ACCOUNTNUMBER</titlefield>
+            <linkfield></linkfield>
+            <fields all="false">
+                <field name="FEEDERID"/>
+                <field name="FEEDERID2"/>
+                <field name="FEEDERNUM"/>
+                <field name="FEEDERSECTIONID"/>
+                <field name="PREMISEID"/>
+                <field name="ACCOUNTNUMBER"/>
+                <field name="LASTNAME"/>
+                <field name="MIDDLEINITIAL"/>
+                <field name="FIRSTNAME"/>
+                <field name="CONTACTPHONE"/>
+                <field name="BUSINESSPHONE"/>
+                <field name="STREETNUMBER"/>
+                <field name="FRACTION"/>
+                <field name="PREFIX"/>
+                <field name="STREET"/>
+                <field name="SUFFIX"/>
+                <field name="DIRECTION"/>
+                <field name="APARTMENT"/>
+                <field name="CITY"/>
+                <field name="PROVINCE"/>
+                <field name="POSTALCODE"/>
+                <field name="ROUTE"/>
+                <field name="METERNUMBER"/>
+                <field name="SERVICEADDRESS"/>
+            </fields>
+        </layer>
+        
+        <layer>
+            <name>Phone Number</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/customerLocation/MapServer/0</url>
+            <urlParameter>CallerNumber</urlParameter>
+            <expression>CONTACTPHONE = '[value]' or BUSINESSPHONE = '[value]'</expression>
+            <textsearchlabel>Phone Number Search:</textsearchlabel>
+            <titlefield>LASTNAME</titlefield>
+            <linkfield></linkfield>
+            <fields all="false">
+                <field name="FEEDERID"/>
+                <field name="FEEDERID2"/>
+                <field name="FEEDERNUM"/>
+                <field name="FEEDERSECTIONID"/>
+                <field name="PREMISEID"/>
+                <field name="ACCOUNTNUMBER"/>
+                <field name="LASTNAME"/>
+                <field name="MIDDLEINITIAL"/>
+                <field name="FIRSTNAME"/>
+                <field name="CONTACTPHONE"/>
+                <field name="BUSINESSPHONE"/>
+                <field name="STREETNUMBER"/>
+                <field name="FRACTION"/>
+                <field name="PREFIX"/>
+                <field name="STREET"/>
+                <field name="SUFFIX"/>
+                <field name="DIRECTION"/>
+                <field name="APARTMENT"/>
+                <field name="CITY"/>
+                <field name="PROVINCE"/>
+                <field name="POSTALCODE"/>
+                <field name="ROUTE"/>
+                <field name="METERNUMBER"/>
+                <field name="SERVICEADDRESS"/>
+            </fields>
+        </layer>
+        
+        <layer>
+            <name>Customer Account Number</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/customerLocation/MapServer/0</url>
+            <expression>ACCOUNTNUMBER = '[value]'</expression>
+            <textsearchlabel>Search by Customer Account Number:</textsearchlabel>
+            <titlefield>ACCOUNTNUMBER</titlefield>
+            <linkfield></linkfield>
+            <fields all="false">
+                <field name="FEEDERID"/>
+                <field name="FEEDERID2"/>
+                <field name="FEEDERNUM"/>
+                <field name="FEEDERSECTIONID"/>
+                <field name="FACILITYID"/>
+                <field name="PREMISEID"/>
+                <field name="ACCOUNTNUMBER"/>
+                <field name="LASTNAME"/>
+                <field name="MIDDLEINITIAL"/>
+                <field name="FIRSTNAME"/>
+                <field name="CONTACTPHONE"/>
+                <field name="BUSINESSPHONE"/>
+                <field name="STREETNUMBER"/>
+                <field name="FRACTION"/>
+                <field name="PREFIX"/>
+                <field name="STREET"/>
+                <field name="SUFFIX"/>
+                <field name="DIRECTION"/>
+                <field name="APARTMENT"/>
+                <field name="CITY"/>
+                <field name="PROVINCE"/>
+                <field name="POSTALCODE"/>
+                <field name="ROUTE"/>
+                <field name="METERNUMBER"/>
+                <field name="SERVICEADDRESS"/>
+            </fields>
+        </layer>
+        <layer>
+            <name>Customer Premise ID</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/customerLocation/MapServer/0</url>
+            <expression>PREMISEID = '[value]'</expression>
+            <textsearchlabel>Search by Customer Premise ID (The number must include the proper number of leading spaces):</textsearchlabel>
+            <titlefield>PREMISEID</titlefield>
+            <linkfield></linkfield>
+            <fields all="false">
+                <field name="FEEDERID"/>
+                <field name="FEEDERID2"/>
+                <field name="FEEDERNUM"/>
+                <field name="FEEDERSECTIONID"/>
+                <field name="FACILITYID"/>
+                <field name="PREMISEID"/>
+                <field name="ACCOUNTNUMBER"/>
+                <field name="LASTNAME"/>
+                <field name="MIDDLEINITIAL"/>
+                <field name="FIRSTNAME"/>
+                <field name="CONTACTPHONE"/>
+                <field name="BUSINESSPHONE"/>
+                <field name="STREETNUMBER"/>
+                <field name="FRACTION"/>
+                <field name="PREFIX"/>
+                <field name="STREET"/>
+                <field name="SUFFIX"/>
+                <field name="DIRECTION"/>
+                <field name="APARTMENT"/>
+                <field name="CITY"/>
+                <field name="PROVINCE"/>
+                <field name="POSTALCODE"/>
+                <field name="ROUTE"/>
+                <field name="METERNUMBER"/>
+                <field name="SERVICEADDRESS"/>
+            </fields>
+        </layer>
+        <layer>
+            <name>Meter Number</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/customerLocation/MapServer/0</url>
+            <expression>METERNUMBER LIKE '%[value]'</expression>
+            <textsearchlabel>Search by Meter Number:</textsearchlabel>
+            <titlefield>METERNUMBER</titlefield>
+            <linkfield></linkfield>
+            <fields all="false">
+                <field name="FEEDERID"/>
+                <field name="FEEDERID2"/>
+                <field name="FEEDERNUM"/>
+                <field name="FEEDERSECTIONID"/>
+                <field name="FACILITYID"/>
+                <field name="PREMISEID"/>
+                <field name="ACCOUNTNUMBER"/>
+                <field name="LASTNAME"/>
+                <field name="MIDDLEINITIAL"/>
+                <field name="FIRSTNAME"/>
+                <field name="CONTACTPHONE"/>
+                <field name="BUSINESSPHONE"/>
+                <field name="STREETNUMBER"/>
+                <field name="FRACTION"/>
+                <field name="PREFIX"/>
+                <field name="STREET"/>
+                <field name="SUFFIX"/>
+                <field name="DIRECTION"/>
+                <field name="APARTMENT"/>
+                <field name="CITY"/>
+                <field name="PROVINCE"/>
+                <field name="POSTALCODE"/>
+                <field name="ROUTE"/>
+                <field name="METERNUMBER"/>
+                <field name="SERVICEADDRESS"/>
+            </fields>
+        </layer>
+        
+        <layer>
+            <name>Customer Name</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/customerLocation/MapServer/0</url>
+            <expression>LASTNAME LIKE substr(upper('[value]'),0,instr(upper('[value]'),',')-1) and (FIRSTNAME LIKE substr(upper('[value]'),instr(upper('[value]'),',')+1,length('[value]')) or FIRSTNAME is null)</expression>
+            <textsearchlabel>Search by Customer Name (DOE,JOHN). You can use % as a wild card character in your search (DOE,JO%):</textsearchlabel>
+            <titlefield>ACCOUNTNUMBER</titlefield>
+            <linkfield></linkfield>
+            <fields all="false">
+                <field name="FEEDERID"/>
+                <field name="FEEDERID2"/>
+                <field name="FEEDERNUM"/>
+                <field name="FEEDERSECTIONID"/>
+                <field name="FACILITYID"/>
+                <field name="PREMISEID"/>
+                <field name="ACCOUNTNUMBER"/>
+                <field name="LASTNAME"/>
+                <field name="MIDDLEINITIAL"/>
+                <field name="FIRSTNAME"/>
+                <field name="CONTACTPHONE"/>
+                <field name="BUSINESSPHONE"/>
+                <field name="STREETNUMBER"/>
+                <field name="FRACTION"/>
+                <field name="PREFIX"/>
+                <field name="STREET"/>
+                <field name="SUFFIX"/>
+                <field name="DIRECTION"/>
+                <field name="APARTMENT"/>
+                <field name="CITY"/>
+                <field name="PROVINCE"/>
+                <field name="POSTALCODE"/>
+                <field name="ROUTE"/>
+                <field name="METERNUMBER"/>
+                <field name="SERVICEADDRESS"/>
+            </fields>
+        </layer>
+
+        <layer>
+            <name>Substation</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/NSPI_ElectricDistribution/MapServer/21</url>
+			<expression>FACILITYID LIKE '%[value]%'</expression>
+			<textsearchlabel>Search by Substation  [ Example: 137H ]:</textsearchlabel>
+			<graphicalsearchlabel>Use one of the graphical search tools to select Substations</graphicalsearchlabel>
+            <titlefield>LABELTEXT</titlefield>
+            <linkfield></linkfield>
+            <fields all="false">
+                <field name="NAME"/>
+                <field name="SUBTYPECD"/>
+                <field name="FACILITYID"/>
+	      <field name="LABELTEXT"/>
+                <field name="OWNER"/>
+            </fields>
+        </layer>
+        
+        <layer>
+			<name>Transformer</name>
+			<url>http://emagisrr01/ArcGIS/rest/services/NSPI_ElectricDistribution/MapServer/6</url>
+			<expression>FACILITYID LIKE '%[value]%'</expression>
+			<textsearchlabel>Search by FACILITYID  [ Example: ZA4B83933 ]:</textsearchlabel>
+			<graphicalsearchlabel>Use one of the graphical search tools to select Transformers</graphicalsearchlabel>
+			<fields>
+                <field name="FACILITYID"/>
+                <field name="FEEDERSECTIONID"/>
+            </fields>
+			<titlefield>FACILITYID</titlefield>
+			<linkfield></linkfield>
+		</layer>
+		
+		<layer>
+   			<name>Fuse</name>
+   			<url>http://emagisrr01/ArcGIS/rest/services/NSPI_ElectricDistribution/MapServer/0</url>
+   			<expression>FACILITYID LIKE '%[value]%'</expression>
+   			<textsearchlabel>Search by Facility ID  [ Example: ZJ4A14621 ]:</textsearchlabel>
+   			<graphicalsearchlabel>Use one of the graphical search tools to select Fuses</graphicalsearchlabel>
+   			<fields>
+                <field name="SUBTYPECD"/>
+                <field name="FACILITYID"/>
+                <field name="PHASEDESIGNATION"/>
+                <field name="NORMALPOSITIONBANK"/>
+                <field name="NORMALPOSITION_A"/>
+                <field name="NORMALPOSITION_B"/>
+                <field name="NORMALPOSITION_C"/>
+                <field name="PRESENTPOSITIONA"/>
+                <field name="PRESENTPOSITIONB"/>
+                <field name="PRESENTPOSITIONC"/>
+                <field name="OPERATINGVOLTAGE"/>
+                <field name="FEEDERID"/>
+                <field name="WORKDEPOT"/>
+                <field name="MAXCONTINUOUSCURRENT"/>
+                <field name="MAXINTERRUPTINGCURRENT"/>
+                <field name="MAXOPERATINGVOLTAGE"/>
+                <field name="DEVICELOCATION"/>
+                <field name="FEEDERSECTIONID"/>
+            </fields>
+   			<titlefield>FACILITYID</titlefield>
+   			<linkfield></linkfield>
+  		</layer>
+
+		<layer>
+   			<name>Switch</name>
+   			<url>http://emagisrr01/ArcGIS/rest/services/NSPI_ElectricDistribution/MapServer/1</url>
+   			<expression>FACILITYID LIKE '%[value]%'</expression>
+   			<textsearchlabel>Search by Facility ID  [ Example: ZJ4A17624 ]:</textsearchlabel>
+   			<graphicalsearchlabel>Use one of the graphical search tools to select Switches</graphicalsearchlabel>
+            <fields>
+                <field name="SUBTYPECD"/>
+                <field name="FACILITYID"/>
+                <field name="PHASEDESIGNATION"/>
+                <field name="NORMALPOSITIONBANK"/>
+                <field name="NORMALPOSITION_A"/>
+                <field name="NORMALPOSITION_B"/>
+                <field name="NORMALPOSITION_C"/>
+                <field name="PRESENTPOSITIONA"/>
+                <field name="PRESENTPOSITIONB"/>
+                <field name="PRESENTPOSITIONC"/>
+                <field name="OPERATINGVOLTAGE"/>
+                <field name="FEEDERID"/>
+                <field name="WORKDEPOT"/>
+                <field name="MAXCONTINUOUSCURRENT"/>
+                <field name="MAXINTERRUPTINGCURRENT"/>
+                <field name="MAXOPERATINGVOLTAGE"/>
+                <field name="DEVICELOCATION"/>
+                <field name="FEEDERSECTIONID"/>
+            </fields>
+   			<titlefield>FACILITYID</titlefield>
+   			<linkfield></linkfield>
+  		</layer>
+
+		<layer>
+   			<name>VoltageRegulator</name>
+   			<url>http://emagisrr01/ArcGIS/rest/services/NSPI_ElectricDistribution/MapServer/9</url>
+   			<expression>FACILITYID LIKE '%[value]%'</expression>
+   			<textsearchlabel>Search by FacilityID [ Example: E3A01841 ]:</textsearchlabel>
+   			<graphicalsearchlabel>Use one of the graphical search tools to select VoltageRegulators</graphicalsearchlabel>
+            <fields>
+                <field name="FACILITYID"/>
+                <field name="SUBTYPECD"/>
+                <field name="OPERATINGVOLTAGE"/>
+                <field name="PHASEDESIGNATION"/>
+                <field name="RATEDKVA"/>
+                <field name="FEEDERNUM"/>
+                <field name="FEEDERSECTIONID"/>
+            </fields>
+   			<titlefield>FACILITYID</titlefield>
+   			<linkfield></linkfield>
+  		</layer>
+
+		<layer>
+   			<name>MiscNetworkFeature</name>
+   			<url>http://emagisrr01/ArcGIS/rest/services/NSPI_ElectricDistribution/MapServer/10</url>
+   			<expression>FACILITYID LIKE '%[value]%'</expression>
+   			<textsearchlabel>Search by FacilityID [ Example: ZD4A00943 ]:</textsearchlabel>
+   			<graphicalsearchlabel>Use one of the graphical search tools to select MiscNetworkFeatures</graphicalsearchlabel>
+            <fields>
+                <field name="FACILITYID"/>
+                <field name="SUBTYPECD"/>
+                <field name="OPERATINGVOLTAGE"/>
+                <field name="PHASEDESIGNATION"/>
+                <field name="FEEDERNUM"/>
+                <field name="FEEDERSECTIONID"/>
+            </fields>
+   			<titlefield>FACILITYID</titlefield>
+   			<linkfield></linkfield>
+  		</layer>
+
+		<layer>
+   			<name>DynamicProtectiveDevice</name>
+   			<url>http://emagisrr01/ArcGIS/rest/services/NSPI_ElectricDistribution/MapServer/12</url>
+   			<expression>FACILITYID LIKE '%[value]%'</expression>
+   			<textsearchlabel>Search by FacilityID  [ Example: R4A05433 ]:</textsearchlabel>
+   			<graphicalsearchlabel>Use one of the graphical search tools to select Dynamic Protective Devices</graphicalsearchlabel>
+            <fields>
+                <field name="FACILITYID"/>
+                <field name="SUBTYPECD"/>
+                <field name="FEEDERSECTIONID"/>
+                <field name="OPERATINGVOLTAGE"/>
+                <field name="LABELTEXT"/>
+                <field name="PHASEDESIGNATION"/>
+                <field name="NORMALPOSITIONBANK"/>
+                <field name="NORMALPOSITION_A"/>
+                <field name="NORMALPOSITION_B"/>
+                <field name="NORMALPOSITION_C"/>
+                <field name="PRESENTPOSITIONA"/>
+                <field name="PRESENTPOSITIONB"/>
+                <field name="PRESENTPOSITIONC"/>
+	      <field name="SCADAMONITORID"/>
+            </fields>
+   			<titlefield>FACILITYID</titlefield>
+   			<linkfield></linkfield>
+  		</layer>
+
+		<layer>
+   			<name>PFCorrectingEquipment</name>
+   			<url>http://emagisrr01/ArcGIS/rest/services/NSPI_ElectricDistribution/MapServer/11</url>
+   			<expression>FACILITYID LIKE '%[value]%'</expression>
+   			<textsearchlabel>Search by FacilityID  [ Example: P4A01481 ]:</textsearchlabel>
+   			<graphicalsearchlabel>Use one of the graphical search tools to select PFCorrecting Equipment</graphicalsearchlabel>
+            <fields>
+                <field name="FACILITYID"/>
+                <field name="SUBTYPECD"/>
+                <field name="FEEDERSECTIONID"/>
+                <field name="OPERATINGVOLTAGE"/>
+                <field name="LABELTEXT"/>
+                <field name="TOTALKVAR"/>
+            </fields>
+   			<titlefield>FACILITYID</titlefield>
+   			<linkfield></linkfield>
+  		</layer> 
+
+		<layer>
+   			<name>SupportStructure</name>
+   			<url>http://emagisrr01/ArcGIS/rest/services/NSPI_ElectricDistribution/MapServer/14</url>
+   			<expression>FACILITYID LIKE '%[value]%'</expression>
+   			<textsearchlabel>Search by facilityID  [ Example: ZHB17903 ]:</textsearchlabel>
+   			<graphicalsearchlabel>Use one of the graphical search tools to select Support Structures</graphicalsearchlabel>
+            <fields>
+                <field name="FACILITYID"/>
+                <field name="SUBTYPECD"/>
+                <field name="OWNER"/>
+                <field name="HEIGHT"/>
+                <field name="STYLE"/>
+                <field name="TREATMENTTYPE"/>
+            </fields>
+   			<titlefield>FACILITYID</titlefield>
+   			<linkfield></linkfield>
+  		</layer>
+     
+		<layer>
+   			<name>Transmission Line</name>
+   			<url>http://emagisrr01/ArcGIS/rest/services/Transmission_OneGIS/MapServer/15</url>
+   			<expression>LABELTEXT LIKE '%[value]%'</expression>
+   			<textsearchlabel>Search by Line Number  [ Example: L-8004 ]:</textsearchlabel>
+   			<graphicalsearchlabel>Use one of the graphical search tools to select Transmission Lines</graphicalsearchlabel>
+			    <fields>
+				<field name="LABELTEXT"/>
+			    </fields>
+   			<titlefield>LABELTEXT</titlefield>
+   			<linkfield></linkfield>
+  		</layer>
+        
+        <layer>
+            <name>Phone Number</name>
+            <url>http://emagisrr01/ArcGIS/rest/services/customerLocation/MapServer/0</url>
+            <urlParameter>phoneNumber</urlParameter>
+            <expression>CONTACTPHONE = '[value]' or BUSINESSPHONE = '[value]'</expression>
+            <textsearchlabel>Phone Number Search:</textsearchlabel>
+            <titlefield>LASTNAME</titlefield>
+            <linkfield></linkfield>
+            <fields all="false">
+                <field name="FEEDERID"/>
+                <field name="FEEDERID2"/>
+                <field name="FEEDERNUM"/>
+                <field name="FEEDERSECTIONID"/>
+                <field name="PREMISEID"/>
+                <field name="ACCOUNTNUMBER"/>
+                <field name="LASTNAME"/>
+                <field name="MIDDLEINITIAL"/>
+                <field name="FIRSTNAME"/>
+                <field name="CONTACTPHONE"/>
+                <field name="BUSINESSPHONE"/>
+                <field name="STREETNUMBER"/>
+                <field name="FRACTION"/>
+                <field name="PREFIX"/>
+                <field name="STREET"/>
+                <field name="SUFFIX"/>
+                <field name="DIRECTION"/>
+                <field name="APARTMENT"/>
+                <field name="CITY"/>
+                <field name="PROVINCE"/>
+                <field name="POSTALCODE"/>
+                <field name="ROUTE"/>
+                <field name="METERNUMBER"/>
+                <field name="SERVICEADDRESS"/>
+            </fields>
+        </layer>
+        
+        
+        
+
+    </layers>
+    <zoomscale>7500</zoomscale>
+    <initialview>text</initialview>
+</configuration>
+
+<!--
+    See Search widget tag reference at
+    http://links.esri.com/searchwidget
+-->

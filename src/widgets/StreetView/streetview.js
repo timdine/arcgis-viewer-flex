@@ -21,11 +21,12 @@ function initialize_container()
 	divTag.style.position = "absolute";
 	divTag.style.bottom = "0px";
 	divTag.style.right = "0px";
-	divTag.style.left = "0px"
+	divTag.style.left = "0px";
+	divTag.innerHTML = '<div style="position: absolute; top: 20px; right: -20px; width: 100px; height: 36px; text-align: center; color: #000; z-index: 2; line-height: 36px;"><img width="20px" height="20px" src="assets/images/minimize-button.png" onclick="restoreStreetview();" /><img width="20px" height="20px" src="assets/images/maximize-button.png" onclick="maximizeStreetView();" /></div>';
 	document.body.appendChild(divTag);
 	addEvent(window, "resize", windowResized ); 
-
 }
+
 function initialize_streetview(long,lat,head)
 {
 	try{
@@ -35,7 +36,7 @@ function initialize_streetview(long,lat,head)
 	    	pov: {
 	      	heading:head,
 	      	pitch:0,
-	      	zoom:1
+	      	zoom:1,
 	    	}};
 	    
 	    if (document.getElementById("pano"))
@@ -90,6 +91,10 @@ function restoreStreetview()
 			var obj= getSWF("agsview3");
 			obj.height = getPageHeight() - streetviewHeight;
 			theDiv.style.display = "block";
+			
+			theDiv.style.height = streetviewHeight + "px";
+			google.maps.event.trigger(panorama, 'resize');
+
 		}
 	}catch(err){
 	}
@@ -109,6 +114,27 @@ function minimizeStreetview()
 		alert(err);
 	}
 }
+
+function maximizeStreetView()
+{
+	try
+	{
+		var theDiv = document.getElementById("pano");
+		if(theDiv!=null)
+		{
+			var obj= getSWF("agsview3");
+			obj.height = "1";
+			
+			theDiv.style.display = "block";
+			theDiv.style.height = "100%";
+			google.maps.event.trigger(panorama, 'resize');
+		}	
+	}catch(err){
+		alert(err);
+	}
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 ////																		////
 ////				default page events										////
@@ -162,6 +188,8 @@ function windowResized()
 					var obj= getSWF("agsview3");
 					obj.height = getPageHeight() - streetviewHeight;
 					//panorama.checkResize();
+					theDiv.style.height = streetviewHeight + "px";
+					google.maps.event.trigger(panorama, 'resize');
 				}
 			}
 		}	

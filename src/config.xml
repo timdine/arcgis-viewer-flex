@@ -15,8 +15,8 @@
         <alpha>0.8</alpha>
     </style>
     <!-- replace the following url with your own geometryservice -->
-    <geometryservice url="http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer" />
-
+    <geometryservice url="http://emagisdev3:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer" />
+	<!--<bing key="Ao4wr9lMUzJiSYHPj5ymb5ajbAyl2kExYK-mXMi3rXR2G2RjffknskqtnMQJkKry"/>-->
 	<httpproxy>/Proxy/proxy.ashx</httpproxy>
 
     <!-- UI elements -->
@@ -31,7 +31,101 @@
     <widget top="50" left="45" config="widgets/StaticImage/StaticImageWidget2.xml" url="widgets/StaticImage/StaticImageWidget.swf"/>
 
     <map wraparound180="true" initialextent="-7400000 5334000 -6660000 5980000" fullextent="-7400000 5334000 -6660000 5980000" top="40" addarcgisbasemaps="true" esrilogovisible="false">
+    	<basemaps>
+    		<!--<layer label="Blank" type="dynamic" visible="false" url="" />    -->
+    		<!--<layer label="Bing Roads" type="bing" style="roads" visible="true" 
+	                 />   
+			<layer label="Bing Aerial" type="bing" style="aerial" visible="false" 
+	                 />  
+			<layer label="Bing Aerial with Labels" type="bing" style="aerialWithLabels" visible="false" 
+	                 />  -->
+			 
+			 <!--
+	        <layer label="MapquestWebTiled" type="webtiled" visible="true" 
+	                 alpha="1.0" 
+	                 url="http://{subDomain}.mqcdn.com/tiles/1.0.0/vx/map/{level}/{col}/{row}.jpg"
+	                 subdomains="mtile01"/>    		
+		<layer label="Toner (maps.stamen.com)" type="webtiled" visible="false" 
+	                 alpha="1.0" 
+	                 url="http://{subDomain}.stamen.com/toner/{level}/{col}/{row}.png"
+	                 subdomains="tile"/>   
+		<layer label="Terrain (maps.stamen.com)" type="webtiled" visible="false" 
+	                 alpha="1.0" 
+					url="http://{subDomain}.stamen.com/terrain/{level}/{col}/{row}.png"
+	                 subdomains="tile"/>   
+		<layer label="Watercolor (maps.stamen.com)" type="webtiled" visible="false" 
+	                 alpha="1.0" 
+	                 url="http://{subDomain}.stamen.com/watercolor/{level}/{col}/{row}.png"
+	                 subdomains="tile"/>   
+ 
+	                 
+		<layer label="Nokia Map" type="webtiled" visible="false" 
+	                 alpha="1.0" 
+	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/newest/normal.day/{level}/{col}/{row}/256/png8"
+	                 subdomains="1,2,3,4"/>  
+	                 
+		<layer label="Google Map" type="webtiled" visible="false" 
+	                 alpha="1.0" 
+	                 url="http://{subDomain}.google.com/vt/lyrs=m@216000000&hl=en&src=app&x={col}&y={row}&z={level}"
+	                 subdomains="mt0,mt1"/>  
+			 
+		<layer label="Google Terrain" type="webtiled" visible="false" 
+	                 alpha="1.0" 
+	                 url="http://{subDomain}.google.com/vt/lyrs=t@216000000&hl=en&src=app&x={col}&y={row}&z={level}"
+	                 subdomains="mt0,mt1"/>  
+			 -->
+			 
+			 
+	         <!--        
+			<layer label="Google Satellite" type="webtiled" visible="false" 
+	                 alpha="1.0" 
+	                 url="http://{subdomain}.google.ca/kh/v=130&src=app&x={col}&y={row}&z={level}"
+	                 subdomains="khm1"/>   http://{subDomain}.google.com/vt/lyrs=h@216000000&hl=en&src=app&x={col}&y={row}&z={level} 
+	                 -->
+		<!--<layer label="Burning (maps.stamen.com)" type="webtiled" visible="false" 
+	                 alpha="1.0" 
+	                 url="http://{subDomain}.stamen.com/burning/{level}/{col}/{row}.png"
+	                 subdomains="tile"/>-->  
+
+	                 
+	                 
+	                 
+	                 
+
+	                 
+	                 
+		<!--<layer label="CanVec Version 7 (1:50000) Basemap" type="tiled" visible="false" alpha="1"
+			url="http://emagisrr01/ArcGIS/rest/services/CanVec7/MapServer"/>-->
+    	</basemaps>
         <operationallayers>
+
+			<!--
+			<layer label="Streetlights" type="feature" visible="true" alpha="1"
+			                url="http://emagisfm01:6080/arcgis/rest/services/TestStreetlightEdit/FeatureServer/0">
+			</layer>
+			
+			<layer label="Editable Features" type="feature" visible="true"
+			info="widgets/InfoTemplates/SimpleInfoWinWidget.swf"
+infoconfig="widgets/InfoTemplates/IWT_IncidentAreas.xml"
+url="http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer/2"/> 
+			-->
+				<!--<layer label="Heritage Gas" type="dynamic" visible="false" alpha="1" useproxy="true"
+                    url="http://24.222.95.222/ArcGIS/rest/services/HeritageGasProjected/MapServer"/>-->
+
+			<layer label="ConnectivityInspections" type="feature" visible="true" alpha="1"
+			                url="http://emagisdev3:6080/arcgis/rest/services/ConnectivityInspections/FeatureServer/0">
+			</layer>
+
+			<layer label="Streetlights" type="feature" visible="true" alpha="1"
+			                url="http://emagisfm01:6080/arcgis/rest/services/TestStreetlightEdit/FeatureServer/0">
+			</layer>
+
+<!--
+        <layer label="Google Streetview Coverage" type="webtiled" visible="false" 
+	                 alpha="1.0" 
+	                 url="http://{subDomain}.google.com/mapslt?lyrs=lmc:photos_outside_streetview_145,svv&x={col}&y={row}&z={level}&w=256&h=256&gl=ca&hl=en&style=40"
+	                 subdomains="mt2,mt1,mt3,mt0"/>
+        
 			<layer label="NSPI Depots / One Line Boundaries" type="dynamic" visible="false"
 					url="http://emagisrr01/ArcGIS/rest/services/NSPIBasePolygons/MapServer">
 				<sublayer id="1" popupconfig="popups/PopUp_OneLineBoundary.xml" />
@@ -41,10 +135,16 @@
 		
 			<layer label="NSPI Transmission" type="dynamic" visible="true" alpha="1"
 		                    url="http://emagisrr01/ArcGIS/rest/services/Transmission_OneGIS/MapServer" />
+			
 			<layer label="NSPI Electric Distribution" type="dynamic" visible="true" alpha="1"
 			                url="http://emagisrr01/ArcGIS/rest/services/NSPI_ElectricDistribution/MapServer">
 				    <sublayer id="21" popupconfig="popups/PopUp_ElectricStation.xml" />
 			</layer>
+
+
+
+
+
 				
 			<layer label="Storm Response" type="dynamic" visible="false" alpha="0.75" imageformat="png24"
 			                url="http://emagisrr01/ArcGIS/rest/services/StormResponse/MapServer">
@@ -57,8 +157,7 @@
 				<sublayer id="3" popupconfig="popups/PopUp_Traffic_Cameras.xml" />
 			</layer>
 			
-				<!--<layer label="Heritage Gas" type="dynamic" visible="false" alpha="1" useproxy="true"
-                    url="http://24.222.95.222/ArcGIS/rest/services/HeritageGasProjected/MapServer"/>-->
+
 			                
 			<layer label="Weather - US Doppler Radar" type="dynamic" visible="true" alpha="0.4"
 			                url="http://gis.srh.noaa.gov/ArcGIS/rest/services/RIDGERadar/MapServer" autorefresh="600" />
@@ -83,7 +182,7 @@
 	      <sublayer id="0" popupconfig="popups/PopUp_Outages.xml" />
 	      <sublayer id="1" popupconfig="popups/PopUp_AbnormalList.xml" />
             </layer>
-            
+            -->
         </operationallayers>
     </map>
 
@@ -96,65 +195,75 @@
                 icon="assets/images/i_bookmark.png"
                 config="widgets/Bookmark/BookmarkWidget.xml"
                 url="widgets/Bookmark/BookmarkWidget.swf"/>
+                
         <widget label="Draw" left="60" top="400"
                 icon="assets/images/i_draw2.png"
                 config="widgets/Draw/DrawWidget.xml"
                 url="widgets/Draw/DrawWidget.swf"/>     
                 
-<widget label="Print" left="390" top="400"
+		<widget label="Print" left="390" top="400"
                 icon="assets/images/i_print.png"
                 config="widgets/Print/PrintWidget.xml"
                 url="widgets/Print/PrintWidget.swf"/>
                 
                                            
-<widget label="Snapshot" left="100" top="80"
+		<widget label="Snapshot" left="100" top="80"
                 icon="assets/images/i_camera.png"
                 config="widgets/Snapshot/SnapshotWidget.xml"
-                url="widgets/Snapshot/SnapshotWidget.swf"/>    
-<widget label="Identify" left="330" top="80" preload="open"
+                url="widgets/Snapshot/SnapshotWidget.swf"/>  
+                  
+		<widget label="Identify" left="330" top="80"
                 icon="assets/images/i_info.png"
                 config="widgets/Identify/IdentifyWidget.xml"
                 url="widgets/Identify/IdentifyWidget.swf"/>
-<widget label="Google Street View" left="60" top="400"
-				icon="assets/images/i_Streetview.png" preload="open"
+                
+		<widget label="Edit" left="330" top="80"
+                icon="assets/images/i_info.png"
+                config="widgets/Edit/EditWidget.xml"
+                url="widgets/Edit/EditWidget.swf"/>
+                
+		<widget label="Google Street View" left="60" top="400"
+				icon="assets/images/i_Streetview.png"
 			    config="widgets/StreetView/StreetViewWidget.xml"
-			    url="widgets/StreetView/StreetViewWidget.swf"/>                  
-<widget label="Drive Directions" preload="open"
-    		icon="assets/images/transCanada.png" 
-		config="widgets/Route/RouteWidget.xml"
-		url="widgets/Route/RouteWidget.swf"/>
-<widget label="NS Traffic Camera"
+			    url="widgets/StreetView/StreetViewWidget.swf"/>  
+			                    
+		<widget label="Drive Directions"
+	    		icon="assets/images/transCanada.png" 
+				config="widgets/Route/RouteWidget.xml"
+				url="widgets/Route/RouteWidget.swf"/>
+			
+		<widget label="NS Traffic Camera"
                 icon="assets/images/blueWhiteCamera.png"
                 config="widgets/Query/QueryWidget_TrafficCameras.xml"
                 url="widgets/Query/QueryWidget.swf"/>
        
-        <widget label="Search" left="80" top="280"
+        <widget label="Search" left="80" top="280"  preload="open"
                 icon="assets/images/i_search.png"
-                config="widgets/Search/SearchWidget_Louisville.xml"
-                url="widgets/Search/SearchWidget.swf"/>
+                config="widgets/Search/SearchWidget_NSPI.xml"
+                url="widgets/Search/SearchWidget.swf"
+                closeifnoparameter="true" />
 
-<widget left="390" top="400"
-	config="widgets/HeatMap/HeatMapWidget.xml"
-	icon="widgets/HeatMap/assets/images/i_heatmap_icon.png"
-	label="HeatMap"
-	url="widgets/HeatMap/HeatMapWidget.swf"/>
+		<!--<widget left="390" top="400"
+				config="widgets/HeatMap/HeatMapWidget.xml"
+				icon="widgets/HeatMap/assets/images/i_heatmap_icon.png"
+				label="HeatMap"
+				url="widgets/HeatMap/HeatMapWidget.swf"/>-->
         
 
 		<widget label="Outage Summary"
-            icon="assets/images/tableIcon.png"
-            config="widgets/OutageReport/OutageReport.xml"
-            url="widgets/OutageReport/OutageReport.swf"
-            preload="open"
-            bottom="20"
-		    right="20"
-		    />
+	            icon="assets/images/tableIcon.png"
+	            config="widgets/OutageReport/OutageReport.xml"
+	            url="widgets/OutageReport/OutageReport.swf"
+	            preload="open"
+	            bottom="20"
+			    right="20"
+			    />
 		    
 		<widget label="Map Coordinates"
-     		preload="open"
-            config="widgets/CoordinateMenu/CoordinateMenuWidget.xml"
-            icon="widgets/CoordinateMenu/images/coordinateIcon.png"
-            left="100" top="80"
-            url="widgets/CoordinateMenu/CoordinateMenuWidget_GUI.swf"/>
+	            config="widgets/CoordinateMenu/CoordinateMenuWidget.xml"
+	            icon="widgets/CoordinateMenu/images/coordinateIcon.png"
+	            left="100" top="80"
+	            url="widgets/CoordinateMenu/CoordinateMenuWidget_GUI.swf"/>
             
         <widget label="Basemap Style"
                 icon="assets/images/paintbucket.png"

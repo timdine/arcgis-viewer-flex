@@ -75,6 +75,30 @@
 							0.00,	0.00,	0.00,	0.00,	0.00
 						];	
 						break;
+					case "Midnight Blue":
+						matrix = [
+							0.00,	0.00,	0.10,	0.00,	0.00,	
+							0.00,	0.35,	0.00,	0.00,	0.00,	
+							0.75,	0.00,	0.00,	0.00,	0.00,	
+							0.00,	0.00,	0.00,	1.00,	0.00
+						];	
+						break;
+					case "False Colour":
+						matrix = [
+							0.00,	0.00,	1.00,	0.00,	0.00,	
+							1.00,	0.00,	0.00,	0.00,	0.00,	
+							0.00,	1.00,	0.00,	0.00,	0.00,	
+							0.00,	0.00,	0.00,	1.00,	0.00
+						];	
+						break;
+					case "Dark":
+						matrix = [
+							0.20,	0.00,	0.00,	0.00,	0.00,	
+							0.00,	0.20,	0.00,	0.00,	0.00,	
+							0.00,	0.00,	0.20,	0.00,	0.00,	
+							0.00,	0.00,	0.00,	1.00,	0.00
+						];	
+						break;
 				}
 				for each (var layer:Layer in map.layers)
 				{
@@ -96,7 +120,7 @@
 		]]>
 		
 	</fx:Script>
-	<viewer:WidgetTemplate id="wTemplate" width="200" height="170">
+	<viewer:WidgetTemplate id="wTemplate" width="200" height="300">
 		<s:VGroup>
 			<s:Label text="Select Basemap Style:"/>
 			<s:RadioButton groupName="BaseEffect" 
@@ -117,6 +141,21 @@
 			<s:RadioButton groupName="BaseEffect" 
 						   id="Blank"
 						   label="Blank"
+						   width="150"
+						   click="handleChange(event)" />
+			<s:RadioButton groupName="BaseEffect" 
+						   id="MidnightBlue"
+						   label="Midnight Blue"
+						   width="150"
+						   click="handleChange(event)" />
+			<s:RadioButton groupName="BaseEffect" 
+						   id="FalseColor"
+						   label="False Colour"
+						   width="150"
+						   click="handleChange(event)" />
+			<s:RadioButton groupName="BaseEffect" 
+						   id="Dark"
+						   label="Dark"
 						   width="150"
 						   click="handleChange(event)" />
 		</s:VGroup>

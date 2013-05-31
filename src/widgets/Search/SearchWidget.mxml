@@ -51,6 +51,7 @@
             import com.esri.ags.geometry.Extent;
             import com.esri.ags.geometry.Geometry;
             import com.esri.ags.geometry.MapPoint;
+			import com.esri.ags.geometry.Multipoint;//searchWithParameter
             import com.esri.ags.geometry.Polygon;
             import com.esri.ags.layers.FeatureLayer;
             import com.esri.ags.layers.supportClasses.FeatureCollection;
@@ -69,6 +70,8 @@
             import com.esri.ags.tools.DrawTool;
             import com.esri.ags.utils.GeometryUtil;
             import com.esri.viewer.AppEvent;
+			import com.esri.viewer.ViewerContainer; //searchWithParameter
+			import com.esri.viewer.WidgetStates;//searchWithParameter
             import com.esri.viewer.utils.ClustererParser;
             import com.esri.viewer.utils.ErrorMessageUtil;
             import com.esri.viewer.utils.LabelUtil;
@@ -104,6 +107,7 @@
             private var selectionLabel:String;
             private var selectedDrawingIcon:FocusableImage;
             private var textsearchLabel:String;
+			private var timer:Timer;
             private var zoomScale:Number = 50000;
 
             [Bindable]
@@ -132,6 +136,9 @@
             private var submitLabel:String;
             [Bindable]
             private var msgVisible:Boolean = false;
+			
+			[Bindable]
+			private var closeIfNoParameter:Boolean; //Added for parameter search
 
             private var drawSymbol:Symbol;
             private var resultMarkerSymbol:Symbol;
@@ -143,6 +150,8 @@
 
             private var popUpRenderer:PopUpRenderer = new PopUpRenderer();
             private var resultFeatureLayer:FeatureLayer;
+			
+			private var urlParameters:Array;
 
             private function basewidget_initializeHandler():void
             {
@@ -165,6 +174,8 @@
                     geometryService.url = GeometryServiceSingleton.instance.url;
                     geometryService.token = GeometryServiceSingleton.instance.token;
                     geometryService.proxyURL = GeometryServiceSingleton.instance.proxyURL;
+					
+					closeIfNoParameter = configXML.closeifnoparameter || false;
 
                     graphicalsearchLabel = configXML.labels.graphicalsearchlabel || getDefaultString("graphicalTitleBarTooltip");
                     textsearchLabel = configXML.labels.textsearchlabel || getDefaultString("textTitleBarTooltip");
@@ -189,10 +200,16 @@
 
                     configSearchGraphical = [];
                     configSearchText = [];
+					
+					urlParameters = [];
+					
                     var lyrList:XMLList = configXML..layer;
                     for (var i:int = 0; i < lyrList.length(); i++)
                     {
                         var lyrURL:String = lyrList[i].url;
+						
+						var lyrURLParameter:String = lyrList[i].urlParameter;
+						
                         var lyrLabel:String = lyrList[i].name;
                         var lyrGraphicalLabel:String = lyrList[i].graphicalsearchlabel || getDefaultString("graphicalsearchLabel");
                         var lyrTextLabel:String = lyrList[i].textsearchlabel || getDefaultString("textsearchLabel");
@@ -259,6 +276,7 @@
                         {
                             configSearchText.push(searchLayer);
                         }
+						urlParameters.push(lyrURLParameter);
                     }
 
                     const resultMarkerSymbolURL:String = configXML.symbols.picturemarkersymbol.@url || widgetIcon;
@@ -413,6 +431,143 @@
                     clearGroup.visible = false;
                     txtLabelGraphical.text = nolayerLabel;
                 }
+				
+				var result:URLVariables = new URLVariables();
+				var theAccountNumber:String;
+				var urlsubstring:String = ExternalInterface.call("window.location.search.substring", 1); //ExternalInterface.call("window.document.URL.toString",1);//ExternalInterface.call("window.location.search.substring", 1); //"accountNumber=1158284"; 
+				if (urlsubstring && urlsubstring.length > 0 && urlsubstring != "debug=true")
+					//if (1==1)
+				{
+					result.decode(urlsubstring);
+					var theParameterValue:String = "";
+					var theParameterName:String = "";
+					for each (var parameterName:String in urlParameters){
+						if (result[parameterName]){
+							theParameterValue = result[parameterName];
+							theParameterName = parameterName;
+						}
+					}
+					if (theParameterValue == "")
+					{
+						var data:Object = 
+							{
+								id: this.widgetId,
+									state: WidgetStates.WIDGET_CLOSED
+							};
+						ViewerContainer.dispatchEvent(new AppEvent(AppEvent.WIDGET_CHANGE_STATE, data,null));
+						
+					}
+					
+					
+					var timer:Timer;
+					if (!theParameterValue == "")
+					{
+						timer = new Timer(1500, 1);
+						timer.addEventListener(TimerEvent.TIMER_COMPLETE, utimerComplete);
+						timer.start();
+						function utimerComplete( event:TimerEvent ):void
+						{
+							timer.removeEventListener(TimerEvent.TIMER_COMPLETE, utimerComplete);
+							map.infoWindow.hide();
+							var j:Number = urlParameters.indexOf(theParameterName); //cboLayerText.selectedIndex;
+							//var theLayerURL:String = configSearchText[j].url;
+							queryLayer = configSearchText[j].layer; //new FeatureLayer("http://oms-nt8:8081/ArcGISDev/rest/services/customerLoc/MapServer/0",null,null); // new FeatureLayer(theLayerURL,null,null); //
+							queryExpr = configSearchText[j].expr;
+							queryFields = configSearchText[j].fields;
+							queryTitleField = configSearchText[j].titlefield;
+							queryLinkField = configSearchText[j].linkfield;
+							//var queryTask:QueryTask = new QueryTask(queryLayer.url);
+							var query:Query = new Query();
+							var pExpr:String = theParameterValue.toUpperCase();
+							var expr:String = queryExpr.split("[value]").join(pExpr); //.replace("[value]", pExpr);
+							query.where = expr;
+							query.returnGeometry = true;
+							query.outSpatialReference = map.spatialReference;
+							//queryTask.useAMF = false;
+							//queryTask.execute(query, new AsyncResponder(onResult, onFault, queryFields));
+							
+							queryLayer.queryFeatures(query, new AsyncResponder(onResult, onFault, queryFields));
+							showMessage(loadingLabel, true);
+							showStateResults();
+							
+							function onResult(featureSet:FeatureSet, token:XMLList = null):void
+							{
+								try
+								{
+									searchResultAC = createSearchResults(featureSet, token);
+									addSharedData(widgetTitle, searchResultAC);
+									showMessage(selectionLabel + " " + featureSet.features.length, false);
+									
+									switch (featureSet.geometryType)
+									{
+										case Geometry.MAPPOINT:
+										{
+											var multiPoint:Multipoint = new Multipoint();
+											for each (var gra:Graphic in  featureSet.features) {
+												multiPoint.addPoint(MapPoint(gra.geometry));
+											}
+											if (multiPoint.points.length > 1){
+												map.extent = multiPoint.extent.expand(4.5);
+												
+											}
+											else{
+												if (map.scale > zoomScale)
+													map.scale = zoomScale;
+												map.centerAt(multiPoint.points[0]);
+											}
+											break;
+											
+										}
+										case Geometry.POLYLINE:
+										{
+											break;
+										}
+										case Geometry.POLYGON:
+										{
+											var unionExtent:Extent;
+											var firstGra:Graphic = featureSet.features[0];
+											unionExtent = Polygon(firstGra.geometry).extent;
+											
+											for each (var selectGra:Graphic in featureSet.features){
+												unionExtent = unionExtent.union(Polygon(selectGra.geometry).extent);
+											}
+											map.extent = unionExtent.expand(1.5);
+											break;
+										}
+									}
+									
+								}
+								catch (error:Error)
+								{
+									showMessage(error.message, false);
+								}
+							}
+							function onFault(info:Object, token:Object = null):void
+							{
+								showMessage(info.toString(), false);
+								
+							}
+						}
+						
+						
+					}
+				}
+				else
+				{
+					if (closeIfNoParameter == true)
+					{
+						//wTemplate.widgetState = WidgetStates.WIDGET_CLOSED;
+						//ViewerContainer.dispatchEvent(new AppEvent(AppEvent.WIDGET_CHANGE_STATE, this.widgetId));
+						
+						var data:Object = 
+							{
+								id: this.widgetId,
+									state: WidgetStates.WIDGET_CLOSED
+							};
+						ViewerContainer.dispatchEvent(new AppEvent(AppEvent.WIDGET_CHANGE_STATE, data,null));
+						
+					}
+				}
             }
 
             private function resultFeatureLayer_hideHandler(event:FlexEvent):void

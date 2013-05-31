@@ -448,6 +448,11 @@
                         index++;
                         getAllFeatureLayers(index, featureLayers);
                     }
+					else if (layer.loadFault is null)
+					{
+						index++;
+						getAllFeatureLayers(index, featureLayers);
+					}
                     else
                     {
                         // listen for load

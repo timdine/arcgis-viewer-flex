@@ -60,6 +60,7 @@
     <module application="src/index.mxml" destPath="widgets/Route/RouteWidget.swf" optimize="true" sourcePath="src/widgets/Route/RouteWidget.mxml"/>
     <module application="src/index.mxml" destPath="widgets/HeatMap/HeatMapWidget.swf" optimize="true" sourcePath="[source path] src/widgets/HeatMap/HeatMapWidget.mxml"/>
     <module application="src/index.mxml" destPath="widgets/Navigation/NavigationWidget.swf" optimize="true" sourcePath="src/widgets/Navigation/NavigationWidget.mxml"/>
+    <module application="src/index.mxml" destPath="widgets/InfoTemplates/SimpleInfoWinWidget.swf" optimize="true" sourcePath="src/widgets/InfoTemplates/SimpleInfoWinWidget.mxml"/>
   </modules>
   <buildCSSFiles/>
 </actionScriptProperties>
