@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <configuration label="World Geocoding">
-    <locator>http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer</locator>
+    <locator>http://emagisrr01/arcgis/rest/services/CivicPoint_Locator/GeocodeServer</locator>
 </configuration>
 
 <!--

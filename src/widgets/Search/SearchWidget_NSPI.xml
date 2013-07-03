@@ -124,7 +124,7 @@
                 <field name="FEEDERNUM"/>
                 <field name="FEEDERSECTIONID"/>
                 <field name="WORKDEPOT"/>
-                <field name="OMS_FEEDERSECTIONID"/>
+                <field name="OMS_FEEDERSECTION"/>
                 <field name="SOURCE"/>
                 <field name="CLASSIFICATION"/>
                 <field name="CUSTOMERS"/>
@@ -142,7 +142,7 @@
                 <field name="FEEDERNUM"/>
                 <field name="FEEDERSECTIONID"/>
                 <field name="WORKDEPOT"/>
-                <field name="OMS_FEEDERSECTIONID"/>
+                <field name="OMS_FEEDERSECTION"/>
                 <field name="SOURCE"/>
                 <field name="CLASSIFICATION"/>
                 <field name="CUSTOMERS"/>
@@ -441,9 +441,9 @@
                 <field name="NORMALPOSITION_A"/>
                 <field name="NORMALPOSITION_B"/>
                 <field name="NORMALPOSITION_C"/>
-                <field name="PRESENTPOSITIONA"/>
-                <field name="PRESENTPOSITIONB"/>
-                <field name="PRESENTPOSITIONC"/>
+                <field name="PRESENTPOSITION_A"/>
+                <field name="PRESENTPOSITION_B"/>
+                <field name="PRESENTPOSITION_C"/>
                 <field name="OPERATINGVOLTAGE"/>
                 <field name="FEEDERID"/>
                 <field name="WORKDEPOT"/>
@@ -478,7 +478,6 @@
                 <field name="FEEDERID"/>
                 <field name="WORKDEPOT"/>
                 <field name="MAXCONTINUOUSCURRENT"/>
-                <field name="MAXINTERRUPTINGCURRENT"/>
                 <field name="MAXOPERATINGVOLTAGE"/>
                 <field name="DEVICELOCATION"/>
                 <field name="FEEDERSECTIONID"/>

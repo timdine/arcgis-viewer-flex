@@ -1,6 +1,14 @@
 <?xml version="1.0"?>
 <configuration>
-    <geocoder/>
+    <geocoder>
+    	<url>http://emagisrr01/arcgis/rest/services/CivicPoint_Locator/GeocodeServer</url>
+    	<autocomplete>true</autocomplete>
+    	<locatoroptions>
+    		<sourcecountry></sourcecountry>
+    		<suffix></suffix>
+    		<singlelineaddressfield>Single Line Input</singlelineaddressfield>
+    	</locatoroptions>
+    </geocoder>
 
     <links>
         <link>

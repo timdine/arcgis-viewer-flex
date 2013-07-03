@@ -10,12 +10,16 @@
 		<![CDATA[
 			import com.esri.ags.layers.ArcGISTiledMapServiceLayer;
 			import com.esri.ags.layers.Layer;
+			import com.esri.ags.layers.WebTiledLayer;
 			
 			import flash.events.Event;
 			
+			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			
-			import spark.filters.ColorMatrixFilter; 
+			import spark.filters.ColorMatrixFilter;
+			
+			import widgets.MapSwitcher.Basemap; 
 			
 			private var baseStyle:String = "Default";
 			
@@ -102,13 +106,34 @@
 				}
 				for each (var layer:Layer in map.layers)
 				{
-					if (layer is ArcGISTiledMapServiceLayer)
+					if ((layer is ArcGISTiledMapServiceLayer) || (layer is WebTiledLayer))
 					{
-						var colorMatrixFilter: spark.filters.ColorMatrixFilter = new spark.filters.ColorMatrixFilter(matrix)
-						layer.filters = [colorMatrixFilter];
+						var basemaps:ArrayCollection = new ArrayCollection();
+						basemaps = getBasemapLayers();
+						
+						if (basemaps.contains(layer.name))
+						{
+							var colorMatrixFilter: spark.filters.ColorMatrixFilter = new spark.filters.ColorMatrixFilter(matrix);
+							layer.filters = [colorMatrixFilter];
+						}
 					}
 				}
 			}	
+			
+			private function getBasemapLayers():ArrayCollection
+			{
+				var result:ArrayCollection = new ArrayCollection();
+				
+				if (configData && configData.basemaps)
+				{
+					for (var i:int = 0; i < configData.basemaps.length; i++)
+					{
+						result.addItem(configData.basemaps[i].label);
+					}
+				}
+				
+				return result;
+			}
 			
 			private function DisplayVersion(evt:MouseEvent):void
 			{
