@@ -21,7 +21,7 @@
 
     <!-- UI elements -->
     <!--<widget left="1"  top="48"    config="widgets/RotateWidget/RotateWidget.xml" url="widgets/RotateWidget/RotateWidget.swf"/>
-    <widget left="10"  top="57"    config="widgets/Navigation_rotate/NavigationWidget.xml" url="widgets/Navigation_rotate/NavigationWidget.swf"/>-->
+    <widget left="20"  top="57"    config="widgets/Navigation_rotate/NavigationWidget.xml" url="widgets/Navigation_rotate/NavigationWidget.swf"/>-->
     
 	<widget config="widgets/GoogleAnalytics/GoogleAnalyticsWidget.xml" url="widgets/GoogleAnalytics/GoogleAnalyticsWidget.swf"/>
     
@@ -34,6 +34,36 @@
     <widget top="50" left="45" config="widgets/StaticImage/StaticImageWidget2.xml" url="widgets/StaticImage/StaticImageWidget.swf"/>
 
     <map wraparound180="true" initialextent="-7400000 5334000 -6660000 5980000" fullextent="-7400000 5334000 -6660000 5980000" top="40" addarcgisbasemaps="true" esrilogovisible="false">
+    
+    <lods>
+
+ 		<lod resolution="156543.033928" scale="591657527.591555"/>
+ 		<lod resolution="78271.5169639999" scale="295828763.795777"/>
+ 		<lod resolution="39135.7584820001" scale="147914381.897889"/>
+ 		<lod resolution="19567.8792409999" scale="73957190.948944"/>
+ 		<lod resolution="9783.93962049996" scale="36978595.474472"/>
+ 		<lod resolution="4891.96981024998" scale="18489297.737236"/>
+ 		<lod resolution="2445.98490512499" scale="9244648.868618"/>
+ 		<lod resolution="1222.99245256249" scale="4622324.434309"/>
+ 		<lod resolution="611.49622628138" scale="2311162.217155 "/>
+ 		<lod resolution="305.748113140558" scale="1155581.108577"/>
+ 		<lod resolution="152.874056570411" scale="577790.554289"/>
+ 		<lod resolution="76.4370282850732" scale="288895.277144"/>
+ 		<lod resolution="38.2185141425366" scale="144447.638572"/>
+ 		<lod resolution="19.1092570712683" scale="72223.819286"/>
+ 		<lod resolution="9.55462853563415" scale="36111.909643"/>
+ 		<lod resolution="4.77731426794937" scale="18055.954822"/>
+ 		<lod resolution="2.38865713397468" scale="9027.977411"/>
+        <lod resolution="1.19432856685505" scale="4513.988705"/>
+        <lod resolution="0.59716428355982" scale="2256.994353"/>
+        <lod resolution="0.29858214164762" scale="1128.497176"/>
+        <lod resolution="0.14929107082381" scale="564.248588"/>
+        <lod resolution="0.07464553541190" scale="282.124294"/>
+        <lod resolution="0.03732276770595" scale="141.062147"/>
+
+    </lods>
+    
+    
     	<basemaps>
     		<!--<layer label="Blank" type="dynamic" visible="false" url="" />    -->
     		<!--<layer label="Bing Roads" type="bing" style="roads" visible="true" 
@@ -41,87 +71,90 @@
 			<layer label="Bing Aerial" type="bing" style="aerial" visible="false" 
 	                 />  
 			<layer label="Bing Aerial with Labels" type="bing" style="aerialWithLabels" visible="false" 
-	                 />  -->
+	                 />-->
 			 
 			 <layer label="Nokia Normal" type="webtiled" visible="true" 
 	                 alpha="1.0" 
 	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/14ca0f23ba/normal.day/{level}/{col}/{row}/256/png8?lg=ENG&token=R9fIRsxwRXAFpV3i8DjTwQ&requestid=ema18021_FlexViewer&app_id=YTZCWnGuw5yX7leO5Ndc"
-	                 subdomains="1,2,3,4"/>   
+	                 subdomains="1,2,3,4"
+	                 icon="assets/images/BasemapNokiaNormalThumb.JPG"/>   
 	                 
 			 <layer label="Nokia Hybrid" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/14ca0f23ba/hybrid.day/{level}/{col}/{row}/256/png8?lg=ENG&token=R9fIRsxwRXAFpV3i8DjTwQ&requestid=ema18021_FlexViewer&app_id=YTZCWnGuw5yX7leO5Ndc"
-	                 subdomains="1,2,3,4"/>   
+	                 subdomains="1,2,3,4"
+	                 icon="assets/images/BasemapNokiaHybridThumb.JPG"/>   
 	                 
 			 <layer label="Nokia Satellite" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/14ca0f23ba/satellite.day/{level}/{col}/{row}/256/png8?lg=ENG&token=R9fIRsxwRXAFpV3i8DjTwQ&requestid=ema18021_FlexViewer&app_id=YTZCWnGuw5yX7leO5Ndc"
-	                 subdomains="1,2,3,4"/> 
+	                 subdomains="1,2,3,4"
+	                 icon="assets/images/BasemapNokiaSatelliteThumb.JPG"/>
 	                 
 			 <layer label="Nokia Terrain" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/14ca0f23ba/terrain.day/{level}/{col}/{row}/256/png8?lg=ENG&token=R9fIRsxwRXAFpV3i8DjTwQ&requestid=ema18021_FlexViewer&app_id=YTZCWnGuw5yX7leO5Ndc"
-	                 subdomains="1,2,3,4"/>   
-	                 
+	                 subdomains="1,2,3,4"
+	                 icon="assets/images/BasemapNokiaTerrainThumb.JPG"/>   
 
-			 
 			 <!--http://2.maps.nlp.nokia.com/maptile/2.1/maptile/14ca0f23ba/normal.day/15/10609/11832/256/png8?lg=ENG&token=R9fIRsxwRXAFpV3i8DjTwQ&requestid=ema18021_FlexViewer&app_id=YTZCWnGuw5yX7leO5Ndc -->
-			 
-			 
+
 	        <layer label="Mapquest WebTiled" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 	                 url="http://{subDomain}.mqcdn.com/tiles/1.0.0/vx/map/{level}/{col}/{row}.jpg"
-	                 subdomains="mtile01"/>    	
-	                 
+	                 subdomains="mtile01"
+	                 icon="assets/images/BasemapMapquestThumb.jpg"/>
+
 			<!--<layer label="MapQuest OSM" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 	                 url="http://{subdomain}.mqcdn.com/tiles/1.0.0/osm/{level}/{col}/{row}.jpg"
 	                 subdomains="otile1,otile2,otile3,otile4"/>    -->
 	                 
-	        <layer label="MapQuest Satellite" type="webtiled" visible="false" 
+	        <!--<layer label="MapQuest Satellite" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 	                 url="http://{subdomain}.mqcdn.com/tiles/1.0.0/vy/sat/{level}/{col}/{row}.png"	                 
-	                 subdomains="mtile01"/>    
+	                 subdomains="mtile01"/>    -->
 	                 
-			<layer label="MapQuest Hybrid" type="webtiled" visible="false" 
+			<!--<layer label="MapQuest Hybrid" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 	                 url="http://{subDomain}.mqcdn.com/tiles/1.0.0/hyb/{level}/{col}/{row}.jpg"
-	                 subdomains="otile1,otile2,otile3,otile4"/>    
-	                 
-	                 
-	                 
-	                 	
+	                 subdomains="otile1,otile2,otile3,otile4"/>    -->
+
 		<layer label="Toner (maps.stamen.com)" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 	                 url="http://{subDomain}.stamen.com/toner/{level}/{col}/{row}.png"
-	                 subdomains="tile"/>   
+	                 subdomains="tile"
+	                 icon="assets/images/BasemapStamenTonerThumb.jpg"/>   
 		<layer label="Terrain (maps.stamen.com)" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 					url="http://{subDomain}.stamen.com/terrain/{level}/{col}/{row}.png"
-	                 subdomains="tile"/>   
+	                 subdomains="tile"
+	                 icon="assets/images/BasemapStamenTerrainThumb.jpg"/>   
 		<layer label="Watercolor (maps.stamen.com)" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 	                 url="http://{subDomain}.stamen.com/watercolor/{level}/{col}/{row}.png"
-	                 subdomains="tile"/>   
+	                 subdomains="tile"
+					icon="assets/images/BasemapStamenWatercolorThumb.jpg"/>
+	                 />   
 
-	                 
 		<layer label="Google Map" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 	                 url="http://{subDomain}.google.com/vt/lyrs=m@216000000&hl=en&src=app&x={col}&y={row}&z={level}"
-	                 subdomains="mt0,mt1"/>  
+	                 subdomains="mt0,mt1"
+	                 icon="assets/images/BasemapGoogleMapsThumb.jpg"/>  
 			 
-		<layer label="Google Terrain" type="webtiled" visible="false" 
+		<!--<layer label="Google Terrain" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 	                 url="http://{subDomain}.google.com/vt/lyrs=t@216000000&hl=en&src=app&x={col}&y={row}&z={level}"
-	                 subdomains="mt0,mt1"/>  
+	                 subdomains="mt0,mt1"/>  -->
 			 
 			 
 			 
 	                 
-			<layer label="Google Satellite" type="webtiled" visible="false" 
+			<!--<layer label="Google Satellite" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 	                 url="http://{subdomain}.google.ca/kh/v=130&src=app&x={col}&y={row}&z={level}"
-	                 subdomains="khm1"/>   http://{subDomain}.google.com/vt/lyrs=h@216000000&hl=en&src=app&x={col}&y={row}&z={level} 
+	                 subdomains="khm1"/>   http://{subDomain}.google.com/vt/lyrs=h@216000000&hl=en&src=app&x={col}&y={row}&z={level} -->
 	                 
 		<!--<layer label="Burning (maps.stamen.com)" type="webtiled" visible="false" 
 	                 alpha="1.0" 
@@ -138,67 +171,34 @@
 		<layer label="Pirates" type="webtiled" visible="false" useproxy="false"
 	                 alpha="1.0" 
 	                 url="http://{subDomain}.tiles.mapbox.com/v3/aj.Sketchy2/{level}/{col}/{row}.png"
-	                 subdomains="a,b,c,d"/>  
+	                 subdomains="a,b,c,d"
+	                 icon="assets/images/BasemapPiratesThumb.jpg"/>  
 	                 
 		<layer label="Mapbox Streets" type="webtiled" visible="false" useproxy="false"
 	                 alpha="1.0" 
 	                 url="http://{subDomain}.tiles.mapbox.com/v3/examples.map-vyofok3q/{level}/{col}/{row}.png"
-	                 subdomains="a,b,c,d"/>  
+	                 subdomains="a,b,c,d"
+	                 icon="assets/images/BasemapMapboxStreetsThumb.jpg"/>  
 	                 
 	                 
-		<!--<layer label="CanVec Version 7 (1:50000) Basemap" type="tiled" visible="false" alpha="1"
-			url="http://emagisrr01/ArcGIS/rest/services/CanVec7/MapServer"/>-->
+		<!--<layer label="CanVec Version 7 (1:50000) Basemap" type="dynamic" visible="false" alpha="1"
+			url="http://emagisrr01/ArcGIS/rest/services/CanVec7/MapServer"
+			/>-->
     	</basemaps>
+    	
+
+
+    	
         <operationallayers>
+
+			<layer label="NSPI Imagery" type="dynamic" visible="false" alpha="1" imageformat="png24"
+                    url="http://emagisrr01/ArcGIS/rest/services/NSPI_Imagery/MapServer"/>
 
 			<!--<layer type="wmts" useproxy="true" servicemode="KVP" tilematrixsetid="EPSG4326_250m" layerid="world" imageformat="jpg" style="_null"
                    url="http://map1.vis.earthdata.nasa.gov/wmts-geo/wmts.cgi"
                    visible="true"/>-->
-                   
-		<layer label="AccuWeather" type="webtiled" visible="false" useproxy="false" autorefresh="600"
-	                 alpha="1.0" disableclientcaching="true" 
-	                 url="http://maptiles.accuweather.com/accuweather/tiles/worldSat/6952f96d9/1155/{level}/{col}_{row}.png"
-	                 subdomains=""/>  
-                   
-		<layer label="Open Weather Map Precipitation" type="webtiled" visible="false" useproxy="true" autorefresh="600"
-	                 alpha="0.7" disableclientcaching="true" 
-	                 url="http://undefined.tile.openweathermap.org/map/precipitation/{level}/{col}/{row}.png"
-	                 subdomains=""/>  
-	                 
-		<layer label="Open Weather Map Pressure" type="webtiled" visible="false" useproxy="true" autorefresh="600"
-	                 alpha="0.8" disableclientcaching="true" 
-	                 url="http://undefined.tile.openweathermap.org/map/pressure_cntr/{level}/{col}/{row}.png"
-	                 subdomains=""/>  
-	                 
-		<layer label="Open Weather Map Clouds" type="webtiled" visible="false" useproxy="true" autorefresh="600"
-	                 alpha="0.7" disableclientcaching="true" 
-	                 url="http://undefined.tile.openweathermap.org/map/clouds/{level}/{col}/{row}.png"
-	                 subdomains=""/>  
-
-
-		<layer label="NOAA Global Surface Wind Observations" type="dynamic" visible="true" alpha="1"
-		                    url="http://publicsafetytemplates.esri.com/ArcGIS/rest/services/EMCOP/PublicSafetyFeedSample/MapServer"/>
-
-
-
-
-		<layer label="Weather Underground Radar" type="webtiled" visible="true" useproxy="false" autorefresh="600"
-	                 alpha="0.75" disableclientcaching="true" 
-	                 url="http://radartiles-ak.wxug.com/tiles/{level}/{col}/{row}.png"
-	                 subdomains=""/>  
-
-<!--<layer label="Weather Underground Satellite" useproxy="true" type="wms" url="http://wublast.wunderground.com/cgi-bin/WUBLAST" version="1.1.1" visible="false" wkid="900913" />	 -->                
-	                
-	                 
-
-	                 
-                   
-                   
 
 			<!--<layer label="NRCAN Toporama" useproxy="true" type="wms" url="http://wms.ess-ws.nrcan.gc.ca/wms/toporama_en" version="1.1.1" visible="false" wkid="900913" />-->
-
-			<layer label="NSPI Imagery" type="dynamic" visible="false" alpha="1"
-		                    url="http://emagisrr01/ArcGIS/rest/services/NSPI_Imagery/MapServer"/>
 
 			<layer label="HRM Web Map Service" type="dynamic" visible="false" alpha="1" useproxy="true"
                     url="http://maps.halifax.ca/ArcGIS/rest/services/HRM_WMS/MapServer"/>
@@ -207,42 +207,38 @@
                     url="http://maps.halifax.ca/ArcGIS/rest/services/HRM_CrimeMap/MapServer"/> 
                     
 			<layer label="Digby" type="dynamic" visible="false" alpha="1" useproxy="true"
-                    url="http://www.avliu.ca/arcgiswebadaptor/rest/services/DIGBY/MapServer"/> 
+                    url="http://www.avliu.ca/arcgiswebadaptor/rest/services/DIGBY/MapServer"/>
                     
             <layer label="Annapolis District Planning Commission Aerial" type="dynamic" visible="false" alpha="1" useproxy="true"
                     url="http://www.avliu.ca/arcgiswebadaptor/rest/services/NEW_TILED_AERIAL/MapServer"/> 
                     
             <layer label="Annapolis District Planning Commission Vectors" type="dynamic" visible="false" alpha="1" useproxy="true"
-                    url="http://www.avliu.ca/arcgiswebadaptor/rest/services/NEW_WORKING/MapServer"/> 
+                    url="http://www.avliu.ca/arcgiswebadaptor/rest/services/NEW_WORKING/MapServer"/>
                     
-   <layer label="CHS Bathymetric Grid" type="wms" visible="false" alpha="1"
-       url="http://bluefin.mar.dfo-mpo.gc.ca/wmsconnector/com.esri.wsit.WMSServlet/bathy_atlantic"
-       visiblelayers="bathy_atlantic"
-       imageFormat="png"
-       skipgetcapabilities="true"
-       version="1.1.1"/>
+			<!--<layer label="CHS Bathymetric Grid" type="wms" visible="false" alpha="1"
+			       url="http://bluefin.mar.dfo-mpo.gc.ca/wmsconnector/com.esri.wsit.WMSServlet/bathy_atlantic"
+			       visiblelayers="bathy_atlantic"
+			       imageFormat="png"
+			       skipgetcapabilities="true"
+			       version="1.1.1"/>-->
        
-          <layer label="Truro" type="wms" visible="false" alpha="1"
-       url="http://gis11.nsgc.gov.ns.ca/cgi-bin/mapserv.exe?map=d:\ms441oci\maps\TRURO_WMS.map"
-       imageFormat="png"
-       skipgetcapabilities="true"
-       version="1.1.0"/>
-
-
-                    
-			<layer label="Heritage Gas" type="dynamic" visible="false" alpha="1" useproxy="true"
-                    url="http://24.222.95.222/ArcGIS/rest/services/HeritageGasProjected/MapServer"/>
+			<!--<layer label="Truro" type="wms" visible="false" alpha="1"
+			       url="http://gis11.nsgc.gov.ns.ca/cgi-bin/mapserv.exe?map=d:\ms441oci\maps\TRURO_WMS.map"
+			       imageFormat="png"
+			       skipgetcapabilities="true"
+			       version="1.1.0"/>-->
 
 			<!--<layer label="ConnectivityInspections" type="feature" visible="true" alpha="1"
 			                url="http://emagisdev3:6080/arcgis/rest/services/ConnectivityInspections/FeatureServer/0">
 			</layer>-->
 
+			<!--
 			<layer label="Streetlights" type="feature" visible="false" alpha="1"
 			                url="http://emagisfm01:6080/arcgis/rest/services/TestStreetlightEdit/FeatureServer/0">
-			</layer>
+			</layer>-->
 
 
-        <layer label="Google Streetview Coverage" type="webtiled" visible="false" 
+        	<layer label="Google Streetview Coverage" type="webtiled" visible="false" 
 	                 alpha="1.0" 
 	                 url="http://{subDomain}.google.com/mapslt?lyrs=lmc:photos_outside_streetview_145,svv&x={col}&y={row}&z={level}&w=256&h=256&gl=ca&hl=en&style=40"
 	                 subdomains="mt2,mt1,mt3,mt0"/>
@@ -251,30 +247,38 @@
 					url="http://emagisrr01/ArcGIS/rest/services/NSPIBasePolygons/MapServer">
 				<sublayer id="1" popupconfig="popups/PopUp_OneLineBoundary.xml" />
 			</layer>
+
+			<layer label="NSDNR Restricted/Limited Use Land" type="dynamic" visible="false" alpha="0.75"
+                    url="http://emagisrr01/ArcGIS/rest/services/NSDNRRLUL/MapServer"/>
+
 			<layer label="NSPI Base Map - Service Nova Scotia" type="dynamic" visible="false" alpha="1"
 		                    url="http://emagisrr01/ArcGIS/rest/services/NSPIBasemap/MapServer"/>
+		                    
+			<layer label="Heritage Gas" type="dynamic" visible="false" alpha="1" useproxy="true"
+                    url="http://24.222.95.222/ArcGIS/rest/services/HeritageGasProjected/MapServer"/>
 		
 			<layer label="NSPI Transmission" type="dynamic" visible="true" alpha="1"
 		                    url="http://emagisrr01/ArcGIS/rest/services/Transmission_OneGIS/MapServer" />
 			
-			<layer label="NSPI Electric Distribution" type="dynamic" visible="false" alpha="1"
+			<layer label="NSPI Electric Distribution" type="dynamic" visible="true" alpha="1"
 			                url="http://emagisrr01/ArcGIS/rest/services/NSPI_ElectricDistribution/MapServer">
 				    <sublayer id="21" popupconfig="popups/PopUp_ElectricStation.xml" />
 			</layer>
-
+			
+<!-- Layer for editing testing
 			<layer label="NSPI Electric Distribution" type="dynamic" visible="true" alpha="1"
 			                url="http://emagisfm01/arcgis/rest/services/NSPI_ElectricDistribution/MapServer">
 			</layer>
+-->
 
-			<layer label="SS Edit Test" type="dynamic" visible="true" alpha="1"
-			                url="http://emagisfm01/arcgis/rest/services/ConnectivityInspectionsEditTest/FeatureServer/0">
+			<layer label="Work Management System" type="dynamic" visible="false" alpha="0.75" imageformat="png24"
+                    url="http://emagisrr01/ArcGIS/rest/services/WorkManagementSystem/MapServer">
+		    	<sublayer id="4" popupconfig="popups/PopUp_DeveloperDrawingRaster.xml" />
 			</layer>
-
-
 				
 			<layer label="Storm Response" type="dynamic" visible="false" alpha="0.75" imageformat="png24"
-			                url="http://emagisrr01/ArcGIS/rest/services/StormResponse/MapServer">
-				    <sublayer id="3" popupconfig="popups/PopUp_ScotiaWeatherRegions.xml" />
+							url="http://emagisrr01/ArcGIS/rest/services/StormResponse/MapServer">
+				<sublayer id="3" popupconfig="popups/PopUp_ScotiaWeatherRegions.xml" />
 			</layer>
 			
 			<layer label="Unique Layers" type="dynamic" visible="false" alpha="1" imageformat="png24"
@@ -283,8 +287,36 @@
 				<sublayer id="3" popupconfig="popups/PopUp_Traffic_Cameras.xml" />
 			</layer>
 			
+			<layer label="NOAA Global Surface Wind Observations" type="dynamic" visible="false" alpha="1"
+		                    url="http://publicsafetytemplates.esri.com/ArcGIS/rest/services/EMCOP/PublicSafetyFeedSample/MapServer"/>
 
-			                
+			<layer label="Weather Underground Radar" type="webtiled" visible="false" useproxy="false" autorefresh="600"
+	                 alpha="0.75" disableclientcaching="true" 
+	                 url="http://radartiles-ak.wxug.com/tiles/{level}/{col}/{row}.png"
+	                 subdomains=""/>  
+
+			<!--<layer label="Weather Underground Satellite" useproxy="true" type="wms" url="http://wublast.wunderground.com/cgi-bin/WUBLAST" version="1.1.1" visible="false" wkid="900913" />	 -->                
+
+			<layer label="AccuWeather" type="webtiled" visible="false" useproxy="false" autorefresh="600"
+	                 alpha="1.0" disableclientcaching="true" 
+	                 url="http://maptiles.accuweather.com/accuweather/tiles/worldSat/6952f96d9/1155/{level}/{col}_{row}.png"
+	                 subdomains=""/>  
+                   
+			<layer label="Open Weather Map Precipitation" type="webtiled" visible="false" useproxy="true" autorefresh="600"
+	                 alpha="0.7" disableclientcaching="true" 
+	                 url="http://undefined.tile.openweathermap.org/map/precipitation/{level}/{col}/{row}.png"
+	                 subdomains=""/>  
+	                 
+			<layer label="Open Weather Map Pressure" type="webtiled" visible="false" useproxy="true" autorefresh="600"
+	                 alpha="0.8" disableclientcaching="true" 
+	                 url="http://undefined.tile.openweathermap.org/map/pressure_cntr/{level}/{col}/{row}.png"
+	                 subdomains=""/>  
+	                 
+			<layer label="Open Weather Map Clouds" type="webtiled" visible="false" useproxy="true" autorefresh="600"
+	                 alpha="0.7" disableclientcaching="true" 
+	                 url="http://undefined.tile.openweathermap.org/map/clouds/{level}/{col}/{row}.png"
+	                 subdomains=""/>  
+           
 			<layer label="Weather - US Doppler Radar" type="dynamic" visible="false" alpha="0.4"
 			                url="http://gis.srh.noaa.gov/ArcGIS/rest/services/RIDGERadar/MapServer" autorefresh="600" disableclientcaching="true" />
 				    
@@ -298,6 +330,16 @@
 				    <sublayer id="2" popupconfig="popups/PopUp_Location.xml" />
 				    <sublayer id="3" popupconfig="popups/PopUp_Location.xml" />
 			</layer>
+
+			<layer label="Forestry Projects" type="dynamic" visible="false" alpha="1"
+                    url="http://emagisrr01/ArcGIS/rest/services/Forestry_Projects/MapServer"/>
+		    
+			<!--<layer label="Forestry Maximo" type="dynamic" visible="false" alpha="1"
+                    url="http://emaapp19/ArcGIS/rest/services/Forestry_Maximo/MapServer"/>-->
+
+			<layer label="NSPI Environment" type="dynamic" visible="false" alpha="1"
+                    url="http://emagisrr01/ArcGIS/rest/services/OneGIS_Environment/MapServer"/>
+			
         	<layer label="Truck Tracking" type="dynamic" visible="false" alpha="1" autorefresh="120" imageformat="png24"
                 url="http://emagisrr01/ArcGIS/rest/services/KerrGlobalCurrentTrucksProd/MapServer">
 				<sublayer id="0" popupconfig="popups/PopUp_KerrGlobal.xml" />
@@ -306,8 +348,8 @@
 			
             <layer label="OMS Views" type="dynamic" visible="false" alpha="1"
                     url="http://emagisrr01/arcgis/rest/services/OutagesAndAbnormalProd_Opt/MapServer" autorefresh="120" imageformat="png24">
-	      <sublayer id="0" popupconfig="popups/PopUp_Outages.xml" />
-	      <sublayer id="1" popupconfig="popups/PopUp_AbnormalList.xml" />
+				<sublayer id="0" popupconfig="popups/PopUp_Outages.xml" />
+				<sublayer id="1" popupconfig="popups/PopUp_AbnormalList.xml" />
             </layer>
             
         </operationallayers>
@@ -317,9 +359,6 @@
     <!-- supported layout property options: horizontal(default)|float|vertical|fix-->
     <widgetcontainer layout="float">
         
-        
-
-    
         <widget label="Bookmarks"         left="430" top="90"
                 icon="assets/images/i_bookmark.png"
                 config="widgets/Bookmark/BookmarkWidget.xml"
@@ -336,20 +375,21 @@
                 url="widgets/Print/PrintWidget.swf"/>
                 
                                            
+		<!--
 		<widget label="Snapshot" left="100" top="80"
                 icon="assets/images/i_camera.png"
                 config="widgets/Snapshot/SnapshotWidget.xml"
-                url="widgets/Snapshot/SnapshotWidget.swf"/>  
+                url="widgets/Snapshot/SnapshotWidget.swf"/>  -->
                   
 		<widget label="Identify" left="330" top="80"
                 icon="assets/images/i_info.png"
                 config="widgets/Identify/IdentifyWidget.xml"
                 url="widgets/Identify/IdentifyWidget.swf"/>
                 
-        <widget label="Edit" left="330" top="80"
+        <!--<widget label="Edit" left="330" top="80"
                 icon="assets/images/i_edit.png"
                 config="widgets/Edit/EditWidget.xml"
-                url="widgets/Edit/EditWidget.swf"/>
+                url="widgets/Edit/EditWidget.swf"/>-->
                 
 		<widget label="Google Street View" left="60" top="400"
 				icon="assets/images/i_Streetview.png"
@@ -408,17 +448,12 @@
                 icon="assets/images/i_rss.png"
                 config="widgets/Hyperlink/HyperlinkWidget_GISBlog.xml"
                 url="widgets/Hyperlink/HyperlinkWidget.swf"/>
-           
+        
+        <!--   
 		<widget label="Chart Test"
                 icon="assets/images/i_piechart.png"
                 config="widgets/Chart/ChartWidget.xml"
-                url="widgets/Chart/ChartWidget.swf"/>
-		
-                
-		
-			    
-            
-                
+                url="widgets/Chart/ChartWidget.swf"/>-->
 
     </widgetcontainer>
     

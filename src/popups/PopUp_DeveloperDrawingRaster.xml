@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<configuration>
+    <title>{Region}   {DRAWINGNAME}</title>     
+    <fields>
+	<field name="DRAWINGNAME" alias="Drawing Name" visible="true"/>
+	<field name="COMMENTS" alias="Comments" visible="true"/>
+<!--	
+	<field name="DRAWINGNAME" alias="Drawing Name" visible="true"/>
+	<field name="HYPERLINK" alias="Link" visible="true"/>
+
+-->
+	<field name="HYPERLINK" alias="Developer Drawing URL" visible="true"/>
+    </fields>
+    <showattachments>true</showattachments>  
+</configuration>
+
+<!--
+    Pop-up configuration file for:
+    http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/HomelandSecurity/operations/FeatureServer/0
+-->

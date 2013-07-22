@@ -1,12 +1,16 @@
 <?xml version="1.0" ?>
 <configuration>
-    <title>{LOCATION}</title>     
+    <title>{LOCATION}</title>
+    <description />     
     <fields>
-	<field name="LOCATION" alias="Location" visible="true"/>
-	<field name="CAMERATYPE" alias="Camera Type" visible="true"/>
-	<field name="CAMERAURL" alias="URL" visible="true"/>
+		<field name="LOCATION" alias="Location" visible="true"/>
+		<field name="CAMERATYPE" alias="Camera Type" visible="true"/>
+		<!--<field name="CAMERAURL" alias="URL" visible="true"/>-->
     </fields>
-    <showattachments>true</showattachments>  
+    <medias>
+    	<media type="imagesource" imagelink="CAMERAURL" />
+    </medias>
+    <!--<showattachments>true</showattachments>-->  
 </configuration>
 
 <!--

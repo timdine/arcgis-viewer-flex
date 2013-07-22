@@ -47,7 +47,7 @@
         <name></name>
         <alias></alias>
     </filterfield>
-    <refreshrate>10000</refreshrate>
+    <refreshrate>20000</refreshrate>
     <zoomscale>10000</zoomscale>
     <query>1=1</query>
 	<symbols>
