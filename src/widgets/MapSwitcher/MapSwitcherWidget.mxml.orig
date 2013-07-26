@@ -262,8 +262,13 @@
 
             private function updateContainerPosition(anchorComponent:UIComponent, container:UIComponent):void
             {
+<<<<<<< HEAD
+                var mapBounds:Rectangle = map.getVisibleRect();
+                var anchorRect:Rectangle = anchorComponent.getBounds(FlexGlobals.topLevelApplication as UIComponent);
+=======
                 var mapBounds:Rectangle = map.getBounds(this);
                 var anchorRect:Rectangle = anchorComponent.getBounds(this);
+>>>>>>> origin/master
                 var containerRect:Rectangle = new Rectangle(0, 0, container.width, container.height);
 
                 var isLTR:Boolean = (layoutDirection == LayoutDirection.LTR);

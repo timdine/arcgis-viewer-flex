@@ -17,6 +17,568 @@
 ///////////////////////////////////////////////////////////////////////////
 -->
 <viewer:BaseWidget xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:Search="widgets.Search.*"
+				   xmlns:viewer="com.esri.viewer.*"
+				   xmlns:esri="http://www.esri.com/2008/ags"
+				   xmlns:components="com.esri.viewer.components.*"
+				   x="600" y="300"
+				   initialize="basewidget_initializeHandler()"
+				   widgetConfigLoaded="basewidget_widgetConfigLoaded()">
+	
+	<viewer:states>
+		<s:State name="graphicalInput"/>
+		<s:State name="textInput"/>
+		<s:State name="resultsList"/>
+	</viewer:states>
+	
+	<viewer:transitions>
+		<s:Transition autoReverse="true" toState="*">
+			<s:Fade id="fade"/>
+		</s:Transition>
+	</viewer:transitions>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.esri.ags.FeatureSet;
+			import com.esri.ags.Graphic;
+			import com.esri.ags.Map;
+			import com.esri.ags.clusterers.IClusterer;
+			import com.esri.ags.events.DrawEvent;
+			import com.esri.ags.events.GeometryServiceEvent;
+			import com.esri.ags.events.LayerEvent;
+			import com.esri.ags.geometry.Extent;
+			import com.esri.ags.geometry.Geometry;
+			import com.esri.ags.geometry.MapPoint;
+			import com.esri.ags.geometry.Polygon;
+			import com.esri.ags.layers.FeatureLayer;
+			import com.esri.ags.layers.supportClasses.FeatureCollection;
+			import com.esri.ags.layers.supportClasses.LayerDetails;
+			import com.esri.ags.portal.PopUpRenderer;
+			import com.esri.ags.portal.supportClasses.PopUpInfo;
+			import com.esri.ags.portal.supportClasses.PopUpMediaInfo;
+			import com.esri.ags.renderers.SimpleRenderer;
+			import com.esri.ags.symbols.PictureMarkerSymbol;
+			import com.esri.ags.symbols.SimpleFillSymbol;
+			import com.esri.ags.symbols.SimpleLineSymbol;
+			import com.esri.ags.symbols.SimpleMarkerSymbol;
+			import com.esri.ags.symbols.Symbol;
+			import com.esri.ags.tasks.GeometryServiceSingleton;
+			import com.esri.ags.tasks.supportClasses.Query;
+			import com.esri.ags.tools.DrawTool;
+			import com.esri.ags.utils.GeometryUtil;
+			import com.esri.viewer.AppEvent;
+			import com.esri.viewer.utils.ClustererParser;
+			import com.esri.viewer.utils.ErrorMessageUtil;
+			import com.esri.viewer.utils.LabelUtil;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.events.FlexEvent;
+			import mx.rpc.AsyncResponder;
+			import mx.rpc.events.FaultEvent;
+			
+			import spark.components.supportClasses.ItemRenderer;
+			
+			import widgets.supportClasses.FeatureSetUtil;
+			import widgets.supportClasses.ResultAttributes;
+			import widgets.supportClasses.ResultItem;
+			
+			private const ICON_URL:String = "assets/images/";
+			
+			private var configSearchGraphical:Array;
+			private var configSearchText:Array;
+			private var finishDrawing:Boolean;
+			private var graphicalsearchLabel:String;
+			private var loadingLabel:String;
+			private var nolayerLabel:String;
+			private var queryLayer:FeatureLayer;
+			private var queryGeom:Geometry;
+			private var queryExpr:String;
+			private var queryFields:XMLList;
+			private var queryTitleField:String;
+			private var queryLinkField:String;
+			private var queryLinkAlias:String;
+			private var resultsLabel:String;
+			private var selectionLabel:String;
+			private var selectedDrawingIcon:FocusableImage;
+			private var textsearchLabel:String;
+			private var zoomScale:Number = 50000;
+			
+			[Bindable]
+			private var clearLabel:String;
+			[Bindable]
+			private var layerLabel:String;
+			[Bindable]
+			private var lineLabel:String;
+			[Bindable]
+			private var freehandLineLabel:String;
+			[Bindable]
+			private var noResultLabel:String;
+			[Bindable]
+			private var pointLabel:String;
+			[Bindable]
+			private var polygonLabel:String;
+			[Bindable]
+			private var freehandPolygonLabel:String;
+			[Bindable]
+			private var rectangleLabel:String;
+			[Bindable]
+			private var circleLabel:String;
+			[Bindable]
+			private var searchResultAC:ArrayCollection;
+			[Bindable]
+			private var submitLabel:String;
+			[Bindable]
+			private var msgVisible:Boolean = false;
+			
+			private var drawSymbol:Symbol;
+			private var resultMarkerSymbol:Symbol;
+			private var resultLineSymbol:Symbol;
+			private var resultFillSymbol:Symbol;
+			private var shareResults:Boolean;
+			
+			private var pointSearchTolerance:Number = 6;
+			
+			private var popUpRenderer:PopUpRenderer = new PopUpRenderer();
+			private var resultFeatureLayer:FeatureLayer;
+			
+			private function basewidget_initializeHandler():void
+			{
+				if (isPartOfPanel) // if widget is part of "left", "right" or "bottom" panel
+				{
+					this.percentWidth = this.percentHeight = 100;
+					wTemplate.percentWidth = wTemplate.percentHeight = 100;
+				}
+				else
+				{
+					wTemplate.width = 430;
+					wTemplate.height = 240;
+				}
+			}
+			
+			private function basewidget_widgetConfigLoaded():void
+			{
+				if (configXML)
+				{
+					geometryService.url = GeometryServiceSingleton.instance.url;
+					geometryService.token = GeometryServiceSingleton.instance.token;
+					geometryService.proxyURL = GeometryServiceSingleton.instance.proxyURL;
+					
+					graphicalsearchLabel = configXML.labels.graphicalsearchlabel || getDefaultString("graphicalTitleBarTooltip");
+					textsearchLabel = configXML.labels.textsearchlabel || getDefaultString("textTitleBarTooltip");
+					resultsLabel = configXML.labels.resultslabel || getDefaultString("resultsLabel");
+					layerLabel = configXML.labels.layerlabel || getDefaultString("layerLabel");
+					nolayerLabel = configXML.labels.nolayerlabel || getDefaultString("nolayerLabel");
+					submitLabel = configXML.labels.submitlabel || getDefaultString("searchSubmitLabel");
+					pointLabel = configXML.labels.pointlabel || getDefaultString("drawPointLabel");
+					lineLabel = configXML.labels.linelabel || getDefaultString("drawLineLabel");
+					freehandLineLabel = configXML.labels.freehandlinelabel || getDefaultString("drawFreehandLineLabel");
+					rectangleLabel = configXML.labels.rectanglelabel || getDefaultString("drawRectangleLabel");
+					circleLabel = configXML.labels.circlelabel || getDefaultString("drawCircleLabel");
+					polygonLabel = configXML.labels.polygonlabel || getDefaultString("drawPolygonLabel");
+					freehandPolygonLabel = configXML.labels.freehandpolygonlabel || getDefaultString("drawFreehandPolygonLabel");
+					
+					clearLabel = configXML.labels.clearlabel || getDefaultString("clearLabel");
+					loadingLabel = configXML.labels.loadinglabel || getDefaultString("loadingLabel");
+					selectionLabel = configXML.labels.selectionlabel || getDefaultString("selectionLabel");
+					noResultLabel = configXML.labels.noresultlabel || getDefaultString("noFeatures");
+					
+					shareResults = configXML.shareresults[0] && configXML.shareresults == "true";
+					
+					configSearchGraphical = [];
+					configSearchText = [];
+					var lyrList:XMLList = configXML..layer;
+					for (var i:int = 0; i < lyrList.length(); i++)
+					{
+						var lyrURL:String = lyrList[i].url;
+						var lyrLabel:String = lyrList[i].name;
+						var lyrGraphicalLabel:String = lyrList[i].graphicalsearchlabel || getDefaultString("graphicalsearchLabel");
+						var lyrTextLabel:String = lyrList[i].textsearchlabel || getDefaultString("textsearchLabel");
+						var lyrExpr:String = lyrList[i].expression;
+						var lyrFields:XMLList = lyrList[i].fields;
+						var lyrTitleField:String = lyrList[i].titlefield;
+						var lyrLinkField:String = lyrList[i].linkfield;
+						var linkAlias:String = lyrList[i].linkfield.@alias[0];
+						var useAMF:String = lyrList[i].useamf;
+						var useProxy:Boolean = lyrList[i].useproxy[0] && lyrList[i].useproxy == "true";
+						
+						const orderByFieldsText:String = lyrList[i].orderbyfields[0];
+						var lyrOrderByFields:Array;
+						if (orderByFieldsText)
+						{
+							lyrOrderByFields = orderByFieldsText.split(',');
+						}
+						
+						var layer:FeatureLayer = new FeatureLayer();
+						layer.addEventListener(LayerEvent.LOAD, searchLayer_loadHandler);
+						layer.addEventListener(LayerEvent.LOAD_ERROR, searchLayer_faultHandler);
+						layer.url = lyrURL;
+						
+						if (useProxy && configData.proxyUrl)
+						{
+							layer.proxyURL = configData.proxyUrl;
+						}
+						if (useAMF)
+						{
+							layer.useAMF = useAMF == "true";
+						}
+						if (lyrFields && lyrFields[0].@all[0] == "true")
+						{
+							layer.outFields = [ "*" ];
+						}
+						else if (lyrFields)
+						{
+							var fields:XMLList = lyrFields.field;
+							layer.outFields = [];
+							for each (var fieldXML:XML in fields)
+							{
+								if (fieldXML.@name[0])
+								{
+									layer.outFields.push(fieldXML.@name[0]);
+								}
+							}
+						}
+						
+						var searchLayer:Object =
+							{
+								layer: layer,
+								label: lyrLabel,
+								textlabel: lyrTextLabel,
+								graphicallabel: lyrGraphicalLabel,
+								expr: lyrExpr,
+								fields: lyrFields,
+								orderbyfields: lyrOrderByFields,
+								titlefield: lyrTitleField,
+								linkfield: lyrLinkField,
+								linkalias: linkAlias
+							};
+						configSearchGraphical.push(searchLayer);
+						if (lyrExpr)
+						{
+							configSearchText.push(searchLayer);
+						}
+					}
+					
+					const resultMarkerSymbolURL:String = configXML.symbols.picturemarkersymbol.@url || widgetIcon;
+					const parsedResultMarkerSymbolHeight:Number = parseFloat(configXML.symbols.picturemarkersymbol.@height[0]);
+					const resultMarkerSymbolHeight:Number = isNaN(parsedResultMarkerSymbolHeight) ? 0 : parsedResultMarkerSymbolHeight;
+					const parsedResultMarkerSymbolWidth:Number = parseFloat(configXML.symbols.picturemarkersymbol.@width[0]);
+					const resultMarkerSymbolWidth:Number = isNaN(parsedResultMarkerSymbolWidth) ? 0 : parsedResultMarkerSymbolWidth;
+					const resultMarkerSymbolXOffset:Number = (configXML.symbols.picturemarkersymbol.@xoffset != null) ? configXML.symbols.picturemarkersymbol.@xoffset : 0;
+					const resultMarkerSymbolYOffset:Number = (configXML.symbols.picturemarkersymbol.@yoffset != null) ? configXML.symbols.picturemarkersymbol.@yoffset : 0;
+					resultMarkerSymbol = new PictureMarkerSymbol(resultMarkerSymbolURL, resultMarkerSymbolWidth, resultMarkerSymbolHeight, resultMarkerSymbolXOffset, resultMarkerSymbolYOffset);
+					
+					const resultLineSymbolColor:uint = configXML.symbols.simplelinesymbol.@color || 0xFF0000;
+					const resultLineSymbolAlpha:Number = (configXML.symbols.simplelinesymbol.@alpha[0] != null) ? configXML.symbols.simplelinesymbol.@alpha : 0.8;
+					const resultLineSymbolWidth:Number = (configXML.symbols.simplelinesymbol.@width[0] != null) ? configXML.symbols.simplelinesymbol.@width : 2;
+					resultLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, resultLineSymbolColor, resultLineSymbolAlpha, resultLineSymbolWidth);
+					
+					const resultFillSymbolColor:uint = configXML.symbols.simplefillsymbol.@color || 0xFF0000;
+					const resultFillSymbolAlpha:Number = (configXML.symbols.simplefillsymbol.@alpha[0] != null) ? configXML.symbols.simplefillsymbol.@alpha : 0.5;
+					const resultFillSymbolOutlineColor:uint = configXML.symbols.simplefillsymbol.outline.@color || 0xFF0000;
+					const resultFillSymbolOutlineAlpha:Number = (configXML.symbols.simplefillsymbol.outline.@alpha[0] != null) ? configXML.symbols.simplefillsymbol.outline.@alpha : 0.8;
+					const resultFillSymbolOutlineWidth:Number = (configXML.symbols.simplefillsymbol.outline.@width[0] != null) ? configXML.symbols.simplefillsymbol.outline.@width : 2;
+					resultFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, resultFillSymbolColor, resultFillSymbolAlpha, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, resultFillSymbolOutlineColor, resultFillSymbolOutlineAlpha, resultFillSymbolOutlineWidth));
+					
+					resultFeatureLayer = new FeatureLayer();
+					resultFeatureLayer.visible = false;
+					resultFeatureLayer.isEditable = false;
+					
+					var layerName:String = configXML.layername || widgetTitle;
+					resultFeatureLayer.name = shareResults ? layerName : "hiddenLayer_" + layerName;
+					
+					var clustererParser:ClustererParser = new ClustererParser();
+					var clusterer:IClusterer = clustererParser.parseClusterer(configXML.clustering[0]);
+					if (clusterer)
+					{
+						resultFeatureLayer.clusterer = clusterer;
+					}
+					
+					resultFeatureLayer.addEventListener(FlexEvent.HIDE, resultFeatureLayer_hideHandler);
+					map.addLayer(resultFeatureLayer);
+					
+					var userTolerance:Number = configXML.tolerance;
+					if (userTolerance > 0)
+					{
+						pointSearchTolerance = userTolerance;
+					}
+					
+					if (Number(configXML.zoomscale) > 0)
+					{
+						zoomScale = Number(configXML.zoomscale);
+					}
+				}
+				wTemplate.addTitlebarButton(ICON_URL + "i_searchgraphical.png", graphicalsearchLabel, showStateGraphicalSearch);
+				if (configSearchText.length)
+				{
+					wTemplate.addTitlebarButton(ICON_URL + "i_searchtext.png", textsearchLabel, showStateTextSearch);
+				}
+				wTemplate.addTitlebarButton(ICON_URL + "i_table.png", resultsLabel, showStateResults);
+				
+				setInitialView(configXML.initialview[0]);
+				fade.targets = [ graphicalInput, textInput, resultsList ];
+				wTemplate.visible = true;
+				
+				setupTextSearch();
+				setupGraphicalSearch();
+				AppEvent.addListener(AppEvent.DATA_PUBLISH, sharedDataUpdated);
+			}
+			
+			private function searchLayer_loadHandler(event:LayerEvent):void
+			{
+				var layer:FeatureLayer = event.layer as FeatureLayer;
+				layer.removeEventListener(LayerEvent.LOAD, searchLayer_loadHandler);
+				layer.removeEventListener(LayerEvent.LOAD_ERROR, searchLayer_faultHandler);
+				
+				layer.layerDetails.minScale = 0; // removing scale dependency
+				layer.layerDetails.maxScale = 0;
+			}
+			
+			private function searchLayer_faultHandler(event:LayerEvent):void
+			{
+				var layer:FeatureLayer = event.currentTarget as FeatureLayer;
+				
+				layer.removeEventListener(LayerEvent.LOAD, searchLayer_loadHandler);
+				layer.removeEventListener(LayerEvent.LOAD_ERROR, searchLayer_faultHandler);
+				
+				showLoadErrorMessage(event);
+			}
+			
+			private function showLoadErrorMessage(event:LayerEvent):void
+			{
+				var errorMessage:String = getDefaultString("layerFailedToLoad",
+					event.layer.name,
+					ErrorMessageUtil.makeHTMLSafe(ErrorMessageUtil.buildFaultMessage(event.fault)));
+				
+				showError(errorMessage);
+			}
+			
+			private function setInitialView(view:String):void
+			{
+				if (view == "graphical")
+				{
+					showStateGraphicalSearch();
+				}
+				else if (view == "text")
+				{
+					showStateTextSearch();
+				}
+			}
+			
+			private function setupTextSearch():void
+			{
+				if (configSearchText.length)
+				{
+					cboLayerText.dataProvider = new ArrayList(configSearchText);
+					txtLabelText.text = configSearchText[0].textlabel;
+					if (configSearchText.length == 1)
+					{
+						boxText.visible = false;
+						boxText.includeInLayout = false;
+					}
+					else
+					{
+						cboLayerText.typicalItem = LabelUtil.findLongestLabelItem(configSearchText, "label");
+					}
+				}
+				else
+				{
+					boxText.visible = false;
+					txtLabelText.text = nolayerLabel;
+				}
+			}
+			
+			private function setupGraphicalSearch():void
+			{
+				if (configSearchGraphical.length)
+				{
+					cboLayerGraphical.dataProvider = new ArrayList(configSearchGraphical);
+					txtLabelGraphical.text = configSearchGraphical[0].graphicallabel;
+					if (configSearchGraphical.length == 1)
+					{
+						boxGraphical.visible = false;
+						boxGraphical.includeInLayout = false;
+					}
+					else
+					{
+						cboLayerGraphical.typicalItem = LabelUtil.findLongestLabelItem(configSearchGraphical, "label");
+					}
+				}
+				else
+				{
+					boxGraphical.visible = false;
+					imageGroup.visible = false;
+					clearGroup.visible = false;
+					txtLabelGraphical.text = nolayerLabel;
+				}
+			}
+			
+			private function resultFeatureLayer_hideHandler(event:FlexEvent):void
+			{
+				hideInfoWindow();
+			}
+			
+			private function searchLayerChangedText():void
+			{
+				txtLabelText.text = cboLayerText.selectedItem.textlabel;
+			}
+			
+			private function searchLayerChangedGraphical():void
+			{
+				txtLabelGraphical.text = cboLayerGraphical.selectedItem.graphicallabel;
+			}
+			
+			private function activateDrawTool(event:MouseEvent):void
+			{
+				addSharedData("Deactivate_DrawTool", null); // to be able to deactivate drawTool on other widgets
+				
+				// apply glow
+				selectedDrawingIcon = FocusableImage(event.currentTarget);
+				clearSelectionFilter();
+				selectedDrawingIcon.filters = [ glowFilter ];
+				
+				finishDrawing = false;
+				
+				var status:String;
+				var value:String = selectedDrawingIcon.name;
+				switch (value)
+				{
+					case DrawTool.MAPPOINT:
+					{
+						status = pointLabel;
+						drawSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 15, 0x3FAFDC, 1);
+						break;
+					}
+					case DrawTool.POLYLINE:
+					{
+						status = lineLabel;
+						drawSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, 0x3FAFDC, 1, 1);
+						break;
+					}
+					case DrawTool.EXTENT:
+					{
+						status = rectangleLabel;
+						drawSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 0x3FAFDC, 0.5, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, 0x3FAFDC, 1, 1));
+						break;
+					}
+					case DrawTool.POLYGON:
+					{
+						status = polygonLabel;
+						drawSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, 0x3FAFDC, 0.5, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, 0x3FAFDC, 1, 1));
+						break;
+					}
+				}
+				setMapAction(value, status, drawSymbol, searchDrawEnd);
+			}
+			
+			private function searchDrawEnd(event:DrawEvent):void
+			{
+				// deactivate the draw tool
+				finishDrawing = true;
+				
+				selectedDrawingIcon = null;
+				clearSelectionFilter();
+				
+				event.target.deactivate();
+				var geom:Geometry = event.graphic.geometry;
+				
+				if (geom is Polygon && GeometryUtil.polygonSelfIntersecting(geom as Polygon))
+				{
+					geometryService.simplify([ geom ]);
+				}
+				else
+				{
+					//to improve search results
+					if (geom.type == Geometry.MAPPOINT)
+					{
+						geom = createExtentAroundMapPoint(geom as MapPoint, pointSearchTolerance);
+					}
+					
+					queryFeaturesGraphical(geom);
+				}
+			}
+			
+			private function createExtentAroundMapPoint(centerPoint:MapPoint, tolerance:Number):Extent
+			{
+				var screenPoint:Point = map.toScreen(centerPoint as MapPoint);
+				
+				var upperLeftScreenPoint:Point = new Point(screenPoint.x - tolerance, screenPoint.y - tolerance);
+				var lowerRightScreenPoint:Point = new Point(screenPoint.x + tolerance, screenPoint.y + tolerance);
+				
+				var upperLeftMapPoint:MapPoint = map.toMap(upperLeftScreenPoint);
+				var lowerRightMapPoint:MapPoint = map.toMap(lowerRightScreenPoint);
+				
+				return new Extent(upperLeftMapPoint.x, upperLeftMapPoint.y, lowerRightMapPoint.x, lowerRightMapPoint.y, map.spatialReference);
+			}
+			
+			private function queryFeaturesText():void
+			{
+				hideInfoWindow();
+				
+				var searchLayer:Object = cboLayerText.selectedItem;
+				
+				queryLayer = searchLayer.layer;
+				
+				if (queryLayer && !queryLayer.loaded)
+				{
+					queryLayer.addEventListener(LayerEvent.LOAD, queryLayer_loadHandler);
+					queryLayer.addEventListener(LayerEvent.LOAD_ERROR, queryLayer_loadErrorHandler);
+					
+					function queryLayer_loadHandler(event:LayerEvent):void
+					{
+						queryLayer.removeEventListener(LayerEvent.LOAD, queryLayer_loadHandler);
+						queryLayer.removeEventListener(LayerEvent.LOAD_ERROR, queryLayer_loadErrorHandler);
+						
+						queryFeaturesText();
+					}
+					
+					function queryLayer_loadErrorHandler(event:LayerEvent):void
+					{
+						queryLayer.removeEventListener(LayerEvent.LOAD, queryLayer_loadHandler);
+						queryLayer.removeEventListener(LayerEvent.LOAD_ERROR, queryLayer_loadErrorHandler);
+						
+						showLoadErrorMessage(event);
+					}
+					return;
+				}
+				
+				queryExpr = searchLayer.expr;
+				queryFields = searchLayer.fields;
+				queryTitleField = searchLayer.titlefield;
+				queryLinkField = searchLayer.linkfield;
+				queryLinkAlias = searchLayer.linkalias;
+				
+				if (queryLayer && txtSearch.text)
+				{
+					var query:Query = new Query();
+					var expr:String = queryExpr.replace(/\[value\]/g, txtSearch.text);
+					
+					query.where = expr;
+					query.outSpatialReference = map.spatialReference;
+					
+					const supportsServerSideSorting:Boolean = queryLayer.layerDetails
+						&& queryLayer.layerDetails.version >= 10.1
+						&& queryLayer.layerDetails.supportsAdvancedQueries;
+					const orderByFields:Array = searchLayer.orderbyfields;
+					if (supportsServerSideSorting && orderByFields)
+					{
+						query.orderByFields = orderByFields;
+					}
+					
+					queryLayer.queryFeatures(query, new AsyncResponder(onResult, onFault, queryFields));
+					showMessage(loadingLabel, true);
+					showStateResults();
+					
+					function onResult(featureSet:FeatureSet, token:XMLList = null):void
+					{
+						try
+						{
+							if (!supportsServerSideSorting && orderByFields)
+							{
+								FeatureSetUtil.sortFeaturesByFieldName(featureSet, orderByFields);
+							}
                    xmlns:s="library://ns.adobe.com/flex/spark"
                    xmlns:mx="library://ns.adobe.com/flex/mx"
                    xmlns:Search="widgets.Search.*"
