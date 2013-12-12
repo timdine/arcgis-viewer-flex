@@ -26,7 +26,7 @@
 				<field name="PLUSDTASKTYPE"/>
 				<field name="NS_CSO_ORIGINATE_DATE"/>
 				<field name="NS_CSONUMBER"/>
-				<field name="NS_CUSTADDRESS"/>
+				<field name="NS_SERV_ADDRESS"/>
 				<field name="NS_CUSTCITY"/>
 				<field name="NS_CUSTNAME"/>
 				<field name="NS_CUSTPOSTAL"/>
@@ -58,7 +58,7 @@
 				<field name="PLUSDTASKTYPE"/>
 				<field name="NS_CSO_ORIGINATE_DATE"/>
 				<field name="NS_CSONUMBER"/>
-				<field name="NS_CUSTADDRESS"/>
+				<field name="NS_SERV_ADDRESS"/>
 				<field name="NS_CUSTCITY"/>
 				<field name="NS_CUSTNAME"/>
 				<field name="NS_CUSTPOSTAL"/>
@@ -71,7 +71,7 @@
 		</layer>
 	    
 		<layer>
-			<name>AS BUILT Developer Drawing</name>
+			<name>Developer Drawing</name>
 			<url>http://EMAGISRR01/ArcGIS/rest/services/WorkManagementSystem/MapServer/4</url>
 			<expression>DRAWINGNAME LIKE '%[value]%'</expression>
 			<textsearchlabel>Search by Drawing Name  [ Example: Caribou ]:</textsearchlabel>
@@ -86,7 +86,7 @@
 		</layer>
 		
 		<layer>
-            <name>Property</name>
+            <name>Property (By PID)</name>
             <url>http://emagisrr01/ArcGIS/rest/services/NSPIBasemap/MapServer/3</url>
             <expression>PID = '[value]'</expression>
             <textsearchlabel>PID Search:</textsearchlabel>
@@ -101,7 +101,7 @@
         </layer>
         
 		<layer>
-            <name>General Service Area</name>
+            <name>General Service Area (Community)</name>
             <url>http://emagisrr01/ArcGIS/rest/services/NSPIBasePolygons/MapServer/0</url>
             <expression>GSA_NAME = '[value]'</expression>
             <textsearchlabel>Search by General Service Area Name:</textsearchlabel>

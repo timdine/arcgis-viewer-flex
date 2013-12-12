@@ -75,29 +75,29 @@
 			 
 			 <layer label="Nokia Normal" type="webtiled" visible="true" 
 	                 alpha="1.0" 
-	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/14ca0f23ba/normal.day/{level}/{col}/{row}/256/png8?lg=ENG&token=R9fIRsxwRXAFpV3i8DjTwQ&requestid=ema18021_FlexViewer&app_id=YTZCWnGuw5yX7leO5Ndc"
+	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/newest/normal.day/{level}/{col}/{row}/256/png8?lg=ENG&token=kMdQI9U0KU_OszxB8DZHoA&app_id=oPWEwjDmOc6AEYUPEjVI"
 	                 subdomains="1,2,3,4"
 	                 icon="assets/images/BasemapNokiaNormalThumb.JPG"/>   
 	                 
 			 <layer label="Nokia Hybrid" type="webtiled" visible="false" 
 	                 alpha="1.0" 
-	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/14ca0f23ba/hybrid.day/{level}/{col}/{row}/256/png8?lg=ENG&token=R9fIRsxwRXAFpV3i8DjTwQ&requestid=ema18021_FlexViewer&app_id=YTZCWnGuw5yX7leO5Ndc"
+	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/newest/hybrid.day/{level}/{col}/{row}/256/png8?lg=ENG&app_id=oPWEwjDmOc6AEYUPEjVI&token=kMdQI9U0KU_OszxB8DZHoA&xnlp=CL_JSMv2.2.4,SID_40159F64-826F-48B6-B47C-B11C2AF70951"
 	                 subdomains="1,2,3,4"
 	                 icon="assets/images/BasemapNokiaHybridThumb.JPG"/>   
 	                 
 			 <layer label="Nokia Satellite" type="webtiled" visible="false" 
 	                 alpha="1.0" 
-	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/14ca0f23ba/satellite.day/{level}/{col}/{row}/256/png8?lg=ENG&token=R9fIRsxwRXAFpV3i8DjTwQ&requestid=ema18021_FlexViewer&app_id=YTZCWnGuw5yX7leO5Ndc"
+	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/newest/satellite.day/{level}/{col}/{row}/256/png8?lg=ENG&token=kMdQI9U0KU_OszxB8DZHoA&requestid=ema18021_FlexViewer&app_id=oPWEwjDmOc6AEYUPEjVI"
 	                 subdomains="1,2,3,4"
 	                 icon="assets/images/BasemapNokiaSatelliteThumb.JPG"/>
 	                 
 			 <layer label="Nokia Terrain" type="webtiled" visible="false" 
 	                 alpha="1.0" 
-	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/14ca0f23ba/terrain.day/{level}/{col}/{row}/256/png8?lg=ENG&token=R9fIRsxwRXAFpV3i8DjTwQ&requestid=ema18021_FlexViewer&app_id=YTZCWnGuw5yX7leO5Ndc"
+	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/newest/terrain.day/{level}/{col}/{row}/256/png8?lg=ENG&token=kMdQI9U0KU_OszxB8DZHoA&requestid=ema18021_FlexViewer&app_id=oPWEwjDmOc6AEYUPEjVI"
 	                 subdomains="1,2,3,4"
 	                 icon="assets/images/BasemapNokiaTerrainThumb.JPG"/>   
 
-			 <!--http://2.maps.nlp.nokia.com/maptile/2.1/maptile/14ca0f23ba/normal.day/15/10609/11832/256/png8?lg=ENG&token=R9fIRsxwRXAFpV3i8DjTwQ&requestid=ema18021_FlexViewer&app_id=YTZCWnGuw5yX7leO5Ndc -->
+			 <!--http://2.maps.nlp.nokia.com/maptile/2.1/maptile/newest/normal.day/15/10609/11832/256/png8?lg=ENG&token=kMdQI9U0KU_OszxB8DZHoA&requestid=ema18021_FlexViewer&app_id=oPWEwjDmOc6AEYUPEjVI  -->
 
 	        <layer label="Mapquest WebTiled" type="webtiled" visible="false" 
 	                 alpha="1.0" 
@@ -136,6 +136,12 @@
 	                 subdomains="tile"
 					icon="assets/images/BasemapStamenWatercolorThumb.jpg"/>
 	                 />   
+
+		<layer label="Google Map v3" type="webtiled" visible="false" 
+	                 alpha="1.0" 
+	                 url="http://{subDomain}.googleapis.com/vt?lyrs=m@230037600&src=apiv3&hl=en-US&x={col}&y={row}&z={level}&style=47,37%7Csmartmaps"
+	                 subdomains="mt0,mt1"
+	                 icon="assets/images/BasemapGoogleMapsThumb.jpg"/>  
 
 		<layer label="Google Map" type="webtiled" visible="false" 
 	                 alpha="1.0" 
@@ -179,7 +185,8 @@
 	                 url="http://{subDomain}.tiles.mapbox.com/v3/examples.map-vyofok3q/{level}/{col}/{row}.png"
 	                 subdomains="a,b,c,d"
 	                 icon="assets/images/BasemapMapboxStreetsThumb.jpg"/>  
-	                 
+		<layer label="Open Street Map Layer" type="osm" visible="false"
+                    />
 	                 
 		<!--<layer label="CanVec Version 7 (1:50000) Basemap" type="dynamic" visible="false" alpha="1"
 			url="http://emagisrr01/ArcGIS/rest/services/CanVec7/MapServer"
@@ -190,6 +197,19 @@
 
     	
         <operationallayers>
+			 <layer label="Nokia Hybrid Op Layer" type="webtiled" visible="false" 
+	                 alpha="1.0" 
+	                 url="http://{subDomain}.maps.nlp.nokia.com/maptile/2.1/maptile/newest/hybrid.day/{level}/{col}/{row}/256/png8?lg=ENG&app_id=oPWEwjDmOc6AEYUPEjVI&token=kMdQI9U0KU_OszxB8DZHoA&xnlp=CL_JSMv2.2.4,SID_40159F64-826F-48B6-B47C-B11C2AF70951"
+	                 subdomains="1,2,3,4"
+	                 icon="assets/images/BasemapNokiaHybridThumb.JPG"/>  
+
+
+			<layer label="Open Street Map Layer Op Layer" type="osm" visible="true" alpha="0.75" 
+                    />
+                    
+			<layer label="CanVec Version 7 (1:50000) Basemap" type="dynamic" visible="false" alpha="1"
+			url="http://emagisrr01/ArcGIS/rest/services/CanVec7/MapServer"
+			/>
 
 			<layer label="NSPI Imagery" type="dynamic" visible="false" alpha="1" imageformat="png24"
                     url="http://emagisrr01/ArcGIS/rest/services/NSPI_Imagery/MapServer"/>
@@ -228,14 +248,14 @@
 			       skipgetcapabilities="true"
 			       version="1.1.0"/>-->
 
-			<!--<layer label="ConnectivityInspections" type="feature" visible="true" alpha="1"
+			<layer label="ConnectivityInspections" type="feature" visible="true" alpha="1"
 			                url="http://emagisdev3:6080/arcgis/rest/services/ConnectivityInspections/FeatureServer/0">
-			</layer>-->
+			</layer>
 
-			<!--
+			
 			<layer label="Streetlights" type="feature" visible="false" alpha="1"
 			                url="http://emagisfm01:6080/arcgis/rest/services/TestStreetlightEdit/FeatureServer/0">
-			</layer>-->
+			</layer>
 
 
         	<layer label="Google Streetview Coverage" type="webtiled" visible="false" 
@@ -340,6 +360,16 @@
 			<layer label="NSPI Environment" type="dynamic" visible="false" alpha="1"
                     url="http://emagisrr01/ArcGIS/rest/services/OneGIS_Environment/MapServer"/>
 			
+			<layer label="NOAA Storm Swaths" type="dynamic" visible="true" alpha="0.75" visiblelayers="9,10,11,12,13,14,15,16"
+                    url="http://gis.srh.noaa.gov/ArcGIS/rest/services/AtStormViewer/MapServer"/>
+			
+			<layer label="GOES East Latest" type="dynamic" visible="true" alpha="0.60"
+                    url="http://emagisrr01/ArcGIS/rest/services/GOESEastClouds/MapServer" autorefresh="600" />
+
+			<layer label="Pacific Disaster Center - Storm Tracking" type="dynamic" visible="true" alpha="1"
+		                    url="http://ags.pdc.org/ArcGIS/rest/services/emops/emops/MapServer" autorefresh="600" visiblelayers="1,2,3,4,5" >
+			</layer>
+			
         	<layer label="Truck Tracking" type="dynamic" visible="false" alpha="1" autorefresh="120" imageformat="png24"
                 url="http://emagisrr01/ArcGIS/rest/services/KerrGlobalCurrentTrucksProd/MapServer">
 				<sublayer id="0" popupconfig="popups/PopUp_KerrGlobal.xml" />
@@ -351,6 +381,29 @@
 				<sublayer id="0" popupconfig="popups/PopUp_Outages.xml" />
 				<sublayer id="1" popupconfig="popups/PopUp_AbnormalList.xml" />
             </layer>
+            
+			<layer label="Bell 2G/3G Coverage" type="webtiled" visible="false" useproxy="true" autorefresh="600"
+	                 alpha="0.7" disableclientcaching="true" 
+	                 url="http://tiles-day.cdn.sensorly.net/tile/any/gsm_302610/{level}/{col}/{col}/{row}/{row}.png"
+	                 subdomains=""/>  
+            
+			<layer label="Telus 2G/3G Coverage" type="webtiled" visible="false" useproxy="true" autorefresh="600"
+	                 alpha="0.7" disableclientcaching="true" 
+	                 url="http://tiles-day.cdn.sensorly.net/tile/any/gsm_302220/{level}/{col}/{col}/{row}/{row}.png"
+	                 subdomains=""/>  
+            
+            <!--http://tiles-day.cdn.sensorly.net/tile/any/gsm_302220/10/166/166/183/183.png?s=512-->
+            
+			<layer label="Transportation_Roads" type="wms" visible="true" alpha="1"
+			   url="http://webservices.nationalatlas.gov/wms/transportation"
+			   visiblelayers="reference:roads:roads7m,reference:roads:roads1m,reference:placenames:placenames10m,reference:placenames:placenames1m,reference:placenames:capitals10m,reference:placenames:capitals1m"
+			   imageFormat="png"
+			   skipgetcapabilities="true"
+			   version="1.1.1"/>
+            
+            <layer label="NSPI Public Outages" type="dynamic" visible="false" alpha="1" autorefresh="180"
+                    url="http://maps.nspower.ca/arcgis/rest/services/PublicOutages/MapServer"/>
+            
             
         </operationallayers>
     </map>
@@ -386,10 +439,10 @@
                 config="widgets/Identify/IdentifyWidget.xml"
                 url="widgets/Identify/IdentifyWidget.swf"/>
                 
-        <!--<widget label="Edit" left="330" top="80"
+        <widget label="Edit" left="330" top="80"
                 icon="assets/images/i_edit.png"
                 config="widgets/Edit/EditWidget.xml"
-                url="widgets/Edit/EditWidget.swf"/>-->
+                url="widgets/Edit/EditWidget.swf"/>
                 
 		<widget label="Google Street View" left="60" top="400"
 				icon="assets/images/i_Streetview.png"

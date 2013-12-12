@@ -248,7 +248,7 @@
 		<esri:GeometryService id="geometryService"
 							  concurrency="last"
 							  fault="onFault(event)"
-							  url="http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer"/>	
+							  url="http://emagisrr01/arcgis/rest/services/Utilities/Geometry/GeometryServer"/>	
 		
 	</fx:Declarations>
     <viewer:WidgetTemplate id="wTemplate"
